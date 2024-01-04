@@ -8,47 +8,43 @@
 
 int main(void)
 {
-    // int fallInterval = 1000; // 1 seg
-    // time_t startTime = time(NULL);
-    srand((unsigned int)time(NULL)); // seed para rand()
-
-    player_t player;
-    initGame(&player);
-
-    int c;
+    int fallInterval = 1000; // 1 seg
+    time_t startTime = time(NULL);
+    
+	srand((unsigned int)time(NULL)); // seed para rand()
+    
+	player_t player;
+    initGame(&player);    
 
     clearScene();
     updateScene(&player);
     drawScene();
 
-    while ((c = getchar()) != 'x')
+    while (true)
     {
-        // time_t currentTime = time(NULL);
-        // double elapsedTime = difftime(currentTime, startTime) * 1000;
+        time_t currentTime = time(NULL);
+        double elapsedTime = difftime(currentTime, startTime) * 1000;
 
-        /*if (elapsedTime >= fallInterval)
+        if (elapsedTime >= fallInterval) //caida libre
         {
             startTime = currentTime;
 
             player.y++;
-        }*/
 
-        while ((c = getchar()) != '\n')
-            ;
-
-        player.y++; // caida libre
-        if (!isMovementLegal(&player))
-        {
-            player.y--;
-            storePieceInBoard(&player);
-            createNewTetramino(&player);
-        }
+		    if (!isMovementLegal(&player))
+		    {
+		        player.y--;
+		        storePieceInBoard(&player);
+		        createNewTetramino(&player);
+		    }
+		}
 
         clearScene();
         updateScene(&player);
         drawScene();
+		printf("\n");
 
-        usleep(1000);
+        usleep(1000); // = 1 seg. no bajar de 1000 pq no renderea bn
     }
     return 0;
 }
