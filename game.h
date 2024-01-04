@@ -1,3 +1,10 @@
+/**************************************************************************
+ * @file game.h
+ * @authors
+ * @brief archivo de cabecera que se encarga de la inicializacion del juego
+ * y la creacion de las pizas
+ **************************************************************************/
+
 #ifndef GAME_H
 #define GAME_H
 
@@ -17,21 +24,19 @@ typedef struct player_t
 /***********************************
  *	        funciones
  ***********************************/
-
+/**
+ * @brief genera una pieza inicial y la siguiente aleatoriamente con su respectiva
+ * posicion inicial
+ * @param player_t struct con los datos del jugador
+ */
 void initGame(player_t *);
 
-void createNewTetramino(player_t *);
-
 /**
-*@brief: updates mScene with the dead pieces on the board and the falling one
-*/
-void updateScene(player_t*);
-
-void drawScene();
-
-void clearScene();
-
-// void fallingTetramino();
+ * @brief actualiza la pieza actual con la proxima y genera altetoriamente otra
+ * proxima
+ * @param player_t struct con los datos del jugador
+ */
+void createNewTetramino(player_t *);
 
 int getRandInBetween(int a, int b);
 

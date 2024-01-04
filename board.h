@@ -1,7 +1,8 @@
 /**************************************************************************
- * @file board.h                                                    
- * @authors 
- * @brief                                                              
+ * @file board.h
+ * @authors
+ * @brief archivo de cabecera que se encarga del manejo del tablero y la 
+ * logica/reglas del juego
  **************************************************************************/
 
 #ifndef BOARD_H
@@ -11,30 +12,34 @@
 #include "game.h"
 
 /***********************************
-*	const, enums, defines
-***********************************/
+ *	const, enums, defines
+ ***********************************/
 
-#define BOARD_WIDTH 8 // ancho en bloques
-#define BOARD_HEIGHT 16 // alto en bloques
+#define BOARD_WIDTH 8      // ancho en bloques
+#define BOARD_HEIGHT 16    // alto en bloques
 #define BLOCKS_PER_PIECE 5 // dimension de la matriz de los tetraminos
 
-enum {FREE, OCCUPIED}; // estados posibles del tablero para cada bloque
+enum
+{
+  FREE,
+  OCCUPIED
+}; // estados posibles del tablero para cada bloque
 
 /***********************************
-*	        funciones
-***********************************/
-
-
+ *	        funciones
+ ***********************************/
+/**
+ * @brief indica si en el estado actual de mScene hay
+ * una colision (mov ilegal) o no (legal)
+ * @param player_t struct con los datos del jugador
+ * @return un booleano que responde a la funcion
+ */
 bool isMovementLegal(player_t *);
 
 /**
-* @brief guarda un tetramino en la matriz de juego (board)
-* @param x posicion horizontal del elemento [0][0] de la matriz de tetramino en 
-  bloques,
-  @param y idem pero vertical
-  @param tipo de tetramino (0-7),
-* @param rotacion de este (0-3),
-*/
+ * @brief guarda un tetramino en la matriz de juego (board)
+ * @param player_t struct con los datos del jugador
+ */
 void storePieceInBoard(player_t *);
 
 // void eraseLineIfFull();
@@ -42,13 +47,20 @@ void storePieceInBoard(player_t *);
 // bool isGameOver();
 
 /**
- * @brief pone todos los bloques de la mScene en FREE=0 */
+ * @brief pone todos los bloques de la mScene en FREE=0
+ * */
 void clearScene();
 
+/**
+ * @brief actualiza el contenido de mScene con los tetraminos muertos y con el
+ * tetramino en juego
+ * @param player_t struct con los datos del jugador
+ */
 void updateScene(player_t *);
 
+/**
+ * @brief printea mScene a la terminal
+ * */
 void drawScene();
 
-
-
-#endif //BOARD_H
+#endif // BOARD_H

@@ -8,23 +8,23 @@
 
 int main(void)
 {
-    //int fallInterval = 1000; // 1 seg
-    //time_t startTime = time(NULL);
-	srand((unsigned int)time(NULL)); // seed para rand() 
+    // int fallInterval = 1000; // 1 seg
+    // time_t startTime = time(NULL);
+    srand((unsigned int)time(NULL)); // seed para rand()
 
     player_t player;
     initGame(&player);
 
-	int c;
-	
-	clearScene();
-	updateScene(&player);
-	drawScene();
+    int c;
 
-    while ((c=getchar()) != 'x')
+    clearScene();
+    updateScene(&player);
+    drawScene();
+
+    while ((c = getchar()) != 'x')
     {
-        //time_t currentTime = time(NULL);
-        //double elapsedTime = difftime(currentTime, startTime) * 1000;
+        // time_t currentTime = time(NULL);
+        // double elapsedTime = difftime(currentTime, startTime) * 1000;
 
         /*if (elapsedTime >= fallInterval)
         {
@@ -33,22 +33,22 @@ int main(void)
             player.y++;
         }*/
 
-		while((c=getchar()) != '\n');
+        while ((c = getchar()) != '\n')
+            ;
 
-		player.y++; // caida libre
-		if (!isMovementLegal(&player))
-		{
-			player.y--;			
-			storePieceInBoard(&player);
-			createNewTetramino(&player);
-		}
-			
-		clearScene();
-		updateScene(&player);
-		drawScene();
+        player.y++; // caida libre
+        if (!isMovementLegal(&player))
+        {
+            player.y--;
+            storePieceInBoard(&player);
+            createNewTetramino(&player);
+        }
+
+        clearScene();
+        updateScene(&player);
+        drawScene();
 
         usleep(1000);
     }
     return 0;
 }
-

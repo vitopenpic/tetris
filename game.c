@@ -3,7 +3,6 @@
 #include <time.h>
 #include <stdlib.h>
 
-
 void initGame(player_t *player)
 {
     // primer tetramino
@@ -39,8 +38,8 @@ void createNewTetramino(player_t *player)
 // }
 
 int getRandInBetween(int a, int b)
-{  
-	if (a > b)
+{
+    if (a > b)
     {
         int aux = a;
         a = b;
