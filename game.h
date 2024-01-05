@@ -38,6 +38,4 @@ void initGame(player_t *);
  */
 void createNewTetramino(player_t *);
 
-int getRandInBetween(int a, int b);
-
 #endif // GAME_H

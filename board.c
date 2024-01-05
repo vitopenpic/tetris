@@ -101,3 +101,38 @@ void clearScene()
             mScene[j][i] = FREE;
     }
 }
+
+static void eraseLine(int y)
+{
+	for (int j = y; j > 0; j--)
+	{
+		for (int i = 0; i < BOARD_WIDTH; i++)
+		{
+			mBoard[j][i] = mBoard[j-1][i];
+		}
+	}
+}
+
+void eraseLineIfFull()
+{
+	for (int j = 0; j < BOARD_HEIGHT; j++)
+	{
+		int i = 0;
+		while (i < BOARD_WIDTH)
+		{
+			if (mBoard[j][i] != OCCUPIED)
+				break;
+			i++;
+		}
+		if (i == BOARD_WIDTH) 
+			eraseLine(j);
+	}
+}
+
+bool isGameOver()
+{
+	for (int i = 0; i < BOARD_WIDTH; i++)
+	{
+		if (mBoard[0][i]) return true;
+	}
+}

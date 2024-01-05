@@ -42,18 +42,14 @@ bool isMovementLegal(player_t *);
  */
 void storePieceInBoard(player_t *);
 
-// void eraseLineIfFull();
-
-// bool isGameOver();
-
 /**
  * @brief pone todos los bloques de la mScene en FREE=0
  * */
 void clearScene();
 
 /**
- * @brief actualiza el contenido de mScene con los tetraminos muertos y con el
- * tetramino en juego
+ * @brief actualiza el contenido de mScene con los tetraminos muertos y 
+ * con el tetramino en juego
  * @param player_t struct con los datos del jugador
  */
 void updateScene(player_t *);
@@ -62,5 +58,15 @@ void updateScene(player_t *);
  * @brief printea mScene a la terminal
  * */
 void drawScene();
+
+/**
+ * @brief si una linea esta completa mueve todas una hacia abajo
+ * */
+void eraseLineIfFull();
+
+/**
+ * @brief devuelve un booleano respondiendo si el juego termino o no
+ * */
+bool isGameOver();
 
 #endif // BOARD_H

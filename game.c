@@ -3,10 +3,21 @@
 #include <time.h>
 #include <stdlib.h>
 
+static int getRandInBetween(int a, int b)
+{
+    if (a > b)
+    {
+        int aux = a;
+        a = b;
+        b = aux;
+    }
+    return rand() % (b - a + 1) + a;
+}
+
 void initGame(player_t *player)
 {
     // primer tetramino
-    player->tipo = getRandInBetween(0, 6);
+    player->tipo = 1;//getRandInBetween(0, 6);
     player->rotacion = getRandInBetween(0, 3);
     player->x = (BOARD_WIDTH / 2) + getInitPosX(player->tipo,
                                                 player->rotacion);
@@ -15,7 +26,6 @@ void initGame(player_t *player)
     // proximo tetramino
     player->new_tipo = getRandInBetween(0, 6);
     player->new_rotacion = getRandInBetween(0, 3);
-    // next position...
 }
 
 void createNewTetramino(player_t *player)
@@ -28,22 +38,7 @@ void createNewTetramino(player_t *player)
     player->y = getInitPosY(player->tipo, player->rotacion);
 
     // nuevo proximo tetramino
-    player->new_tipo = getRandInBetween(0, 6);
+    player->new_tipo = 1;//getRandInBetween(0, 6);
     player->new_rotacion = getRandInBetween(0, 3);
 }
 
-// void fallingTetramino(player_t *player)
-// {
-//     player->y++;
-// }
-
-int getRandInBetween(int a, int b)
-{
-    if (a > b)
-    {
-        int aux = a;
-        a = b;
-        b = aux;
-    }
-    return rand() % (b - a + 1) + a;
-}

@@ -33,19 +33,22 @@ int main(void)
 			{
                 case 'a':
                     player.x--;
-                    if (!isMovementLegal(&player)) {
+                    if (!isMovementLegal(&player)) 
+					{
                         player.x++;
                     }
                     break;
 				case 'd':
                     player.x++;
-                    if (!isMovementLegal(&player)) {
+                    if (!isMovementLegal(&player)) 
+					{
                         player.x--;
                     }
                     break;
 				case 's':
                     player.y++;
-                    if (!isMovementLegal(&player)) {
+                    if (!isMovementLegal(&player)) 
+					{
                         player.y--;
 						storePieceInBoard(&player);
 						createNewTetramino(&player);
@@ -53,9 +56,10 @@ int main(void)
                     break;
 				case 'w':
                     player.rotacion = (player.rotacion + 1) % 4;
-                    if (!isMovementLegal(&player)) {
+                    if (!isMovementLegal(&player)) 
+					{
                         player.rotacion = (player.rotacion - 1) % 4;
-                        }
+                    }
                     break;
             }
         }
@@ -79,13 +83,20 @@ int main(void)
 		}
 
 		// rendering
-        clearScene();
+        
         updateScene(&player);
         drawScene();
 		printf("\n");
 
-        usleep(1000); // = 1 seg. no bajar de 1000 pq no renderea bn
-    }
+        usleep(2000); // = 2 seg. no bajar de 2000 pq no renderea bn
+
+		eraseLineIfFull();
+		if (isGameOver())
+		{
+			puts("This is your end, cowboy...");
+			break;
+		}
+	}
 
 	restoreBlockingInput(); /* el codigo no suele llegar hasta aca
 	por esto escribir 'stty sane' en la terminal para reestablecer
