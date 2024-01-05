@@ -11,7 +11,7 @@
 /*definicion tetraminos. hay de 7 tipos (O, I, L, J, Z, S, T), cada uno
 con 4 rotaciones y cada uno es representado como una matriz de 5x5
 bloques. el pivot de rotacion es siempre el bloque [2][2] salvo para O*/
-const bool mTetramino[7][4][5][5] = /* la matriz se ordena por
+static const bool mTetramino[7][4][5][5] = /* la matriz se ordena por
 [tipo][rotacion][bloques verticales][bloques horizontales]*/
     {
         // O
@@ -173,7 +173,7 @@ const bool mTetramino[7][4][5][5] = /* la matriz se ordena por
 
 /*definicion de la matriz de traslaciones iniciales para cada
 tetramino*/
-const int mPosInit[7][4][2] = //[tipo][rotacion][x_0, y_0]
+static const int mPosInit[7][4][2] = //[tipo][rotacion][x_0, y_0]
     {
         // O
         {

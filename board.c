@@ -58,16 +58,21 @@ void updateScene(player_t *plr)
 {
     // copia mBoard a mScene
     for (int i = 0; i < BOARD_WIDTH; i++)
-        for (int j = 0; j < BOARD_HEIGHT; j++)
-            mScene[j][i] = mBoard[j][i];
+    {
+	    for (int j = 0; j < BOARD_HEIGHT; j++)
+		{            
+			mScene[j][i] = mBoard[j][i];
+		}
+	}
 
     // copia el tetramino que cae a mScene
     // i1, j1 iteran por mScene; i2, j2 iteran por mTetramino
     for (int i1 = plr->x, i2 = 0; i2 < BLOCKS_PER_PIECE; i1++, i2++)
-    {
+ 	{
         for (int j1 = plr->y, j2 = 0; j2 < BLOCKS_PER_PIECE; j1++, j2++)
         {
-            if (getBlockType(plr->tipo, plr->rotacion, i2, j2) == OCCUPIED)
+            if ((getBlockType(plr->tipo, plr->rotacion, i2, j2) == OCCUPIED)
+				&& j1 >= 0 && i1 >= 0)
                 mScene[j1][i1] = OCCUPIED;
         }
     }
@@ -80,9 +85,9 @@ void drawScene()
         for (int i = 0; i < BOARD_WIDTH; i++)
         {
             if (mScene[j][i] == FREE)
-                printf(" - ");
+                printf(" . ");
             else
-                printf(" * ");
+                printf(" O ");
         }
         printf("\n");
     }
