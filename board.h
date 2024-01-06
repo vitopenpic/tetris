@@ -34,7 +34,7 @@ enum
  * @param player_t struct con los datos del jugador
  * @return un booleano que responde a la funcion
  */
-bool isMovementLegal(player_t *);
+bool isMovementLegal(int tipo, int rotacion, int x, int y);
 
 /**
  * @brief guarda un tetramino en la matriz de juego (board)

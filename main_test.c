@@ -32,33 +32,32 @@ int main(void)
             switch (key) 
 			{
                 case 'a':
-                    player.x--;
-                    if (!isMovementLegal(&player)) 
-					{
-                        player.x++;
-                    }
-                    break;
-				case 'd':
-                    player.x++;
-                    if (!isMovementLegal(&player)) 
+                    if (isMovementLegal(player.tipo, player.rotacion, player.x-1, player.y)) 
 					{
                         player.x--;
                     }
                     break;
-				case 's':
-                    player.y++;
-                    if (!isMovementLegal(&player)) 
+				case 'd':
+                    if (isMovementLegal(player.tipo, player.rotacion, player.x+1, player.y)) 
 					{
-                        player.y--;
+                        player.x++;
+                    }
+                    break;
+				case 's':
+                    if (isMovementLegal(player.tipo, player.rotacion, player.x, player.y+1)) 
+					{
+                        player.y++;
+					}
+					else
+					{
 						storePieceInBoard(&player);
 						createNewTetramino(&player);
 					}
                     break;
 				case 'w':
-                    player.rotacion = (player.rotacion + 1) % 4;
-                    if (!isMovementLegal(&player)) 
+                    if (isMovementLegal(player.tipo, (player.rotacion + 1) % 4, player.x, player.y))  
 					{
-                        player.rotacion = (player.rotacion - 1) % 4;
+                        player.rotacion = (player.rotacion + 1) % 4;
                     }
                     break;
             }
@@ -72,18 +71,18 @@ int main(void)
         {
             startTime = currentTime;
 
-            player.y++;
-
-		    if (!isMovementLegal(&player))
-		    {
-		        player.y--;
-		        storePieceInBoard(&player);
-		        createNewTetramino(&player);
-		    }
+            if (isMovementLegal(player.tipo, player.rotacion, player.x, player.y+1)) 
+			{
+                player.y++;
+			}
+			else
+			{
+				storePieceInBoard(&player);
+				createNewTetramino(&player);
+			}
 		}
 
 		// rendering
-        
         updateScene(&player);
         drawScene();
 		printf("\n");
