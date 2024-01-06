@@ -18,13 +18,9 @@ int main(void)
 	player_t player;
 	initGame(&player);
 
-	clearScene();
-	updateScene(&player);
-	drawScene();
-
 	enableNonBlockingInput(); // desactiva ICANON mode
 
-	while (true)
+	while (!isGameOver())
 	{
 		// control
 		if (kbhit())
@@ -96,13 +92,9 @@ int main(void)
 		usleep(2000); // = 2 seg. no bajar de 2000 pq no renderea bn
 
 		eraseLineIfFull();
-		if (isGameOver())
-		{
-			puts("This is your end, cowboy...");
-			break;
-		}
 	}
-
+	
+	puts("This is your end, cowboy...");
 	restoreBlockingInput(); /* si al correr el codigo no se llega
 	hasta aca, escribir 'stty sane' en la terminal para reestablecer
 	la configuracion inicial luego de haber ejecutado main_test*/
