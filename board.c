@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-static bool mBoard[BOARD_HEIGHT][BOARD_WIDTH]; /* tablero con los tetraminos 
+static bool mBoard[BOARD_HEIGHT][BOARD_WIDTH]; /* tablero con los tetraminos
 muertos (donde se chequean las colisiones)*/
 
 static bool mScene[BOARD_HEIGHT][BOARD_WIDTH]; /* matriz con los
@@ -60,20 +60,20 @@ void updateScene(player_t *plr)
     // copia mBoard a mScene
     for (int i = 0; i < BOARD_WIDTH; i++)
     {
-	    for (int j = 0; j < BOARD_HEIGHT; j++)
-		{            
-			mScene[j][i] = mBoard[j][i];
-		}
-	}
+        for (int j = 0; j < BOARD_HEIGHT; j++)
+        {
+            mScene[j][i] = mBoard[j][i];
+        }
+    }
 
     // copia el tetramino que cae a mScene
     // i1, j1 iteran por mScene; i2, j2 iteran por mTetramino
     for (int i1 = plr->x, i2 = 0; i2 < BLOCKS_PER_PIECE; i1++, i2++)
- 	{
+    {
         for (int j1 = plr->y, j2 = 0; j2 < BLOCKS_PER_PIECE; j1++, j2++)
         {
             if ((getBlockType(plr->tipo, plr->rotacion, i2, j2) == OCCUPIED)
-				&& j1 >= 0 && i1 >= 0)
+                && j1 >= 0 && i1 >= 0)
                 mScene[j1][i1] = OCCUPIED;
         }
     }
@@ -105,35 +105,36 @@ void clearScene()
 
 static void eraseLine(int y)
 {
-	for (int j = y; j > 0; j--)
-	{
-		for (int i = 0; i < BOARD_WIDTH; i++)
-		{
-			mBoard[j][i] = mBoard[j-1][i];
-		}
-	}
+    for (int j = y; j > 0; j--)
+    {
+        for (int i = 0; i < BOARD_WIDTH; i++)
+        {
+            mBoard[j][i] = mBoard[j - 1][i];
+        }
+    }
 }
 
 void eraseLineIfFull()
 {
-	for (int j = 0; j < BOARD_HEIGHT; j++)
-	{
-		int i = 0;
-		while (i < BOARD_WIDTH)
-		{
-			if (mBoard[j][i] != OCCUPIED)
-				break;
-			i++;
-		}
-		if (i == BOARD_WIDTH) 
-			eraseLine(j);
-	}
+    for (int j = 0; j < BOARD_HEIGHT; j++)
+    {
+        int i = 0;
+        while (i < BOARD_WIDTH)
+        {
+            if (mBoard[j][i] != OCCUPIED)
+                break;
+            i++;
+        }
+        if (i == BOARD_WIDTH)
+            eraseLine(j);
+    }
 }
 
 bool isGameOver()
 {
-	for (int i = 0; i < BOARD_WIDTH; i++)
-	{
-		if (mBoard[0][i]) return true;
-	}
+    for (int i = 0; i < BOARD_WIDTH; i++)
+    {
+        if (mBoard[0][i])
+            return true;
+    }
 }
