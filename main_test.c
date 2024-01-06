@@ -103,8 +103,8 @@ int main(void)
 		}
 	}
 
-	restoreBlockingInput(); /* el codigo no suele llegar hasta aca
-	por esto escribir 'stty sane' en la terminal para reestablecer
+	restoreBlockingInput(); /* si al correr el codigo no se llega
+	hasta aca, escribir 'stty sane' en la terminal para reestablecer
 	la configuracion inicial luego de haber ejecutado main_test*/
 	return 0;
 }
