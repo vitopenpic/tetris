@@ -106,14 +106,16 @@ void clearScene()
 
 void drawInDisplay()
 {
-	for (int j = 0; j < BOARD_HEIGHT; j++)
+	dcoord_t p;
+	for (int y = 0; y < BOARD_HEIGHT; y++)
 	{	
-		for (int i = 0; i < BOARD_WIDTH, i++)
+		for (int x = 0; x < BOARD_WIDTH; x++)
 		{
-			if (mScene[j][i] == OCCUPIED) 
-				disp_write({i, j}, D_ON);
+			p.x = x; p.y = y;
+			if (mScene[y][x] == OCCUPIED) 
+				disp_write(p, D_ON);
 			else 
-				disp_write({i, j}, D_OFF); 
+				disp_write(p, D_OFF); 
 		}	
 	}		   
 	disp_update();
@@ -154,3 +156,4 @@ bool isGameOver()
             return true;
     }
 }
+

@@ -2,7 +2,7 @@
 #include "board.h"
 #include "game.h"
 #include "joydrv.h"
-#include "disdrv.h"
+#include "raspi.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -21,15 +21,13 @@ int main(void)
         joyinfo_t joystick = {0, 0, J_NOPRESS};
         joy_init();
 
-		disp_init();
-		disp_clear();
-
         do
         {
                 // control
                 joystick = joy_read();
                 char key = whichKeyWasPressed(&joystick);
-
+                usleep(200000);
+                printf("%c\n", key);
                 switch (key)
                 {
                 case 'a':
@@ -87,10 +85,11 @@ int main(void)
                         }
                 }
 
-                // rendering
+              // rendering
                 updateScene(&player);
-				drawInDisplay();
-				usleep(200000);
+                
+
+                usleep(2000); // = 2 seg. no bajar de 2000 pq no renderea bn
 
                 eraseLineIfFull();
 
@@ -99,4 +98,6 @@ int main(void)
         puts("This is your end, cowboy...");
         return 0;
 }
+
+
 

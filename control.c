@@ -43,8 +43,10 @@ int kbhit(void)
         ungetc(ch, stdin);
         return 1;
     }
+return 0;
+}
 
-#define THRESHOLD 50
+#define THRESHOLD 0
 
 char whichKeyWasPressed(joyinfo_t *coord)
 {
@@ -67,5 +69,3 @@ char whichKeyWasPressed(joyinfo_t *coord)
 }
 
 
-    return 0;
-}

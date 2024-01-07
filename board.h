@@ -76,3 +76,4 @@ void eraseLineIfFull();
 bool isGameOver();
 
 #endif // BOARD_H
+
