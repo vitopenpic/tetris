@@ -6,6 +6,7 @@
 
 #include "tetramino.h"
 #include "board.h"
+#include "disdrv.h"
 #include <stdio.h>
 #include <stdbool.h>
 
@@ -101,6 +102,21 @@ void clearScene()
         for (int j = 0; j < BOARD_HEIGHT; j++)
             mScene[j][i] = FREE;
     }
+}
+
+void drawInDisplay()
+{
+	for (int j = 0; j < BOARD_HEIGHT; j++)
+	{	
+		for (int i = 0; i < BOARD_WIDTH, i++)
+		{
+			if (mScene[j][i] == OCCUPIED) 
+				disp_write({i, j}, D_ON);
+			else 
+				disp_write({i, j}, D_OFF); 
+		}	
+	}		   
+	disp_update();
 }
 
 static void eraseLine(int y)

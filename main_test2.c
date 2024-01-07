@@ -2,27 +2,11 @@
 #include "board.h"
 #include "game.h"
 #include "joydrv.h"
-#include "raspi.h"
+#include "disdrv.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <unistd.h>
-
-#define SENSITIVITY 50
-/**************************************************************************/
-
-#include "tetramino.h"
-#include "board.h"
-#include "game.h"
-#include "joydrv.h"
-#include "raspi.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include <unistd.h>
-
-#define SENSITIVITY 50
-/**************************************************************************/
 
 int main(void)
 {
@@ -37,13 +21,15 @@ int main(void)
         joyinfo_t joystick = {0, 0, J_NOPRESS};
         joy_init();
 
+		disp_init();
+		disp_clear();
+
         do
         {
                 // control
                 joystick = joy_read();
                 char key = whichKeyWasPressed(&joystick);
-                usleep(200000);
-                printf("%c\n", key);
+
                 switch (key)
                 {
                 case 'a':
@@ -101,12 +87,10 @@ int main(void)
                         }
                 }
 
-        /*      // rendering
+                // rendering
                 updateScene(&player);
-                drawScene();
-                printf("\n"); */
-
-                usleep(2000); // = 2 seg. no bajar de 2000 pq no renderea bn
+				drawInDisplay();
+				usleep(200000);
 
                 eraseLineIfFull();
 
