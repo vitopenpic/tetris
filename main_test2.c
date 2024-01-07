@@ -26,7 +26,7 @@ int main(void)
                 // control
                 joystick = joy_read();
                 char key = whichKeyWasPressed(&joystick);
-                usleep();
+                usleep(75000);
 
                 switch (key)
                 {
