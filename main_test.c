@@ -20,7 +20,7 @@ int main(void)
 
 	enableNonBlockingInput(); // desactiva ICANON mode
 
-	while (!isGameOver())
+	do
 	{
 		// control
 		if (kbhit())
@@ -92,7 +92,7 @@ int main(void)
 		usleep(2000); // = 2 seg. no bajar de 2000 pq no renderea bn
 
 		eraseLineIfFull();
-	}
+	} while (!isGameOver());
 	
 	puts("This is your end, cowboy...");
 	restoreBlockingInput(); /* si al correr el codigo no se llega

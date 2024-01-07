@@ -9,7 +9,7 @@ void enableNonBlockingInput();
 /* reestablece el ICANON mode*/
 void restoreBlockingInput();
 
-/* lee el input del usuario*/
+/* returns 1 si se presiono una tecla*/
 int kbhit(void);
 
 #endif // CONTROL_H
