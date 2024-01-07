@@ -2,7 +2,7 @@
 #include "board.h"
 #include "game.h"
 #include "joydrv.h"
-#include "raspi.h"
+#include "control.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -26,27 +26,27 @@ int main(void)
                 // control
                 joystick = joy_read();
                 char key = whichKeyWasPressed(&joystick);
-                usleep(200000);
-                printf("%c\n", key);
+                usleep();
+
                 switch (key)
                 {
                 case 'a':
                         if (isMovementLegal(player.tipo, player.rotacion,
-                                                                player.x - 1, player.y))
+                                            player.x - 1, player.y))
                         {
                                 player.x--;
                         }
                         break;
                 case 'd':
                         if (isMovementLegal(player.tipo, player.rotacion,
-                                                                player.x + 1, player.y))
+                                            player.x + 1, player.y))
                         {
                                 player.x++;
                         }
                         break;
                 case 's':
                         if (isMovementLegal(player.tipo, player.rotacion,
-                                                                player.x, player.y + 1))
+                                            player.x, player.y + 1))
                         {
                                 player.y++;
                         }
@@ -58,7 +58,7 @@ int main(void)
                         break;
                 case 'w':
                         if (isMovementLegal(player.tipo, (player.rotacion + 1) % 4,
-                                                                player.x, player.y))
+                                            player.x, player.y))
                         {
                                 player.rotacion = (player.rotacion + 1) % 4;
                         }
@@ -74,7 +74,7 @@ int main(void)
                         startTime = currentTime;
 
                         if (isMovementLegal(player.tipo, player.rotacion,
-                                                                player.x, player.y + 1))
+                                            player.x, player.y + 1))
                         {
                                 player.y++;
                         }
@@ -85,11 +85,9 @@ int main(void)
                         }
                 }
 
-              // rendering
+                // rendering
                 updateScene(&player);
-                
-
-                usleep(2000); // = 2 seg. no bajar de 2000 pq no renderea bn
+                drawInDisplay();
 
                 eraseLineIfFull();
 
@@ -98,6 +96,3 @@ int main(void)
         puts("This is your end, cowboy...");
         return 0;
 }
-
-
-

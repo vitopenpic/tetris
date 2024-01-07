@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-void enableNonBlockingInput() 
+void enableNonBlockingInput()
 {
     struct termios oldt, newt;
     tcgetattr(STDIN_FILENO, &oldt);
@@ -13,7 +13,7 @@ void enableNonBlockingInput()
     tcsetattr(STDIN_FILENO, TCSANOW, &newt);
 }
 
-void restoreBlockingInput() 
+void restoreBlockingInput()
 {
     struct termios oldt;
     tcgetattr(STDIN_FILENO, &oldt);
@@ -21,7 +21,7 @@ void restoreBlockingInput()
     tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
 }
 
-int kbhit(void) 
+int kbhit(void)
 {
     struct termios oldt, newt;
     int ch;
@@ -39,33 +39,38 @@ int kbhit(void)
     tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
     fcntl(STDIN_FILENO, F_SETFL, oldf);
 
-    if (ch != EOF) {
+    if (ch != EOF)
+    {
         ungetc(ch, stdin);
         return 1;
     }
-return 0;
+    return 0;
 }
 
-#define THRESHOLD 0
+#define THRESHOLD 75
 
 char whichKeyWasPressed(joyinfo_t *coord)
 {
-                if (coord->x > THRESHOLD)
-                {
-                        return 'd';
-                }
-                if (coord->x < -THRESHOLD)
-                {
-                        return 'a';
-                }
-                if (coord->y < -THRESHOLD)
-                {
-                        return 's';
-                }
-                if (coord->sw == J_PRESS)
-                {
-                        return 'w';
-                }
+    static bool sw_released; // para no mantener apretado el sw
+    if (coord->sw == J_NOPRESS)
+    {
+        sw_released = true;
+    }
+    if (coord->x > THRESHOLD)
+    {
+        return 'd';
+    }
+    if (coord->x < -THRESHOLD)
+    {
+        return 'a';
+    }
+    if (coord->y < -THRESHOLD)
+    {
+        return 's';
+    }
+    if (coord->sw == J_PRESS && sw_released)
+    {
+        sw_released = false;
+        return 'w';
+    }
 }
-
-
