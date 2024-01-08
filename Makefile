@@ -6,7 +6,7 @@ HEADERS = tetramino.h board.h game.h control.h
 OBJ = main_test.o tetramino.o board.o game.o  control.o
 
 main_test: ${OBJ}
-	   -gcc ${OPTIONS} ${OBJ} -o main_test
+	-gcc ${OPTIONS} ${OBJ} -o main_test
 
 ${OBJS}: ${SRC} ${HEADERS}
 	-gcc ${OPTIONS} -c ${SRC}

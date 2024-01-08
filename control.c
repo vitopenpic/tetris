@@ -46,3 +46,11 @@ int kbhit(void)
 
     return 0;
 }
+
+double getTime() 
+{
+    struct timespec now;
+    clock_gettime(CLOCK_MONOTONIC, &now);
+    return now.tv_sec + now.tv_nsec / 1.0e9;
+}
+

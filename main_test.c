@@ -4,14 +4,14 @@
 #include "control.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
 #include <unistd.h>
 /**************************************************************************/
 
 int main(void)
 {
-	int fallInterval = 1000; // 1 seg
-	time_t startTime = time(NULL);
+	double fallInterval = 0.5; // en seg
+	double startTime, currentTime;
+	startTime = getTime();
 
 	srand((unsigned int)time(NULL)); // seed para rand()
 
@@ -65,8 +65,9 @@ int main(void)
 		}
 
 		// caida libre
-		time_t currentTime = time(NULL);
-		double elapsedTime = difftime(currentTime, startTime) * 1000;
+		//time_t currentTime = time(NULL);
+		currentTime = getTime();
+		double elapsedTime = currentTime - startTime;
 
 		if (elapsedTime >= fallInterval)
 		{
@@ -89,7 +90,7 @@ int main(void)
 		drawScene();
 		printf("\n");
 
-		usleep(2000); // = 2 seg. no bajar de 2000 pq no renderea bn
+		usleep(10000); // = 2 seg. no bajar de 2000 pq no renderea bn
 
 		eraseLineIfFull();
 	}
