@@ -5,6 +5,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <time.h>
+
 /**************************************************************************/
 
 int main(void)
@@ -89,9 +91,9 @@ int main(void)
 		// rendering
 		updateScene(&player);
 		drawScene();
-		printf("\n\033[2J\033[H"); // limpia la pantalla
+		clearScreen();
 
-		usleep(5000); // = 0.01 seg. para que renderee suavemente
+		usleep(5000); // = 0.005 seg. para que renderee suavemente
 
 		eraseLineIfFull();
 	} while (!isGameOver() && key != 'x'); 

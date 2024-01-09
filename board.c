@@ -147,3 +147,9 @@ bool isGameOver()
             return true;
     }
 }
+
+void clearScreen()
+{
+	printf("\n\033[2J\033[H"); // limpia la pantalla
+	//https://stackoverflow.com/questions/55672661/what-this-character-sequence-033h-033j-does-in-c
+}

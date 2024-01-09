@@ -69,4 +69,9 @@ void eraseLineIfFull();
  * */
 bool isGameOver();
 
+/**
+ * @brief limpia la terminal
+ * */
+void clearScreen();
+
 #endif // BOARD_H

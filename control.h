@@ -1,7 +1,6 @@
 #ifndef CONTROL_H
 #define CONTROL_H
 
-#include <time.h>
 
 /* desactiva el ICANON mode para que se pueda
 leer user input sin bloquear el codigo.
