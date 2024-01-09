@@ -15,8 +15,6 @@ int main(void)
 	double startTime, currentTime;
 	startTime = getTime();
 
-	srand((unsigned int)time(NULL)); // seed para rand()
-
 	initSettings();
 
 	player_t player;
@@ -46,7 +44,7 @@ int main(void)
 		if (elapsedTime >= fallInterval)
 		{
 			startTime = currentTime;
-			performMove(&player, 's');
+			performMove(&player, DOWN);
 		}
 
 		// rendering
@@ -62,9 +60,9 @@ int main(void)
 
 		eraseLineIfFull();
 
-	} while (!isGameOver() && key != 'x');
+	} while (!isGameOver() && key != EXIT);
 
-	if (key == 'x')
+	if (key == EXIT)
 		puts("I guess 'tis our goodbye then. Godspeed to you, traveler...");
 	else
 		puts("This is your end, cowboy...");

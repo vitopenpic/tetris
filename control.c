@@ -1,5 +1,6 @@
 #include "control.h"
 #include "board.h"
+#include <stdlib.h>
 #include <stdio.h>
 #include <termios.h>
 #include <unistd.h>
@@ -68,20 +69,20 @@ char whichKeyWasPressed(joyinfo_t *coord)
     }
     if (coord->x > THRESHOLD)
     {
-        return 'd';
+        return RIGHT;
     }
     if (coord->x < -THRESHOLD)
     {
-        return 'a';
+        return LEFT;
     }
     if (coord->y < -THRESHOLD)
     {
-        return 's';
+        return DOWN;
     }
     if (coord->sw == J_PRESS && sw_released)
     {
         sw_released = false;
-        return 'w';
+        return ROTATE;
     }
     else
         return -1;
@@ -89,6 +90,7 @@ char whichKeyWasPressed(joyinfo_t *coord)
 
 void initSettings()
 {
+    srand((unsigned int)time(NULL)); // seed para rand()
 #ifdef RASPI
     joyinfo_t joystick = {0, 0, J_NOPRESS};
     joy_init();
@@ -103,21 +105,21 @@ void performMove(player_t *player, char key)
 {
     switch (key)
     {
-    case 'a':
+    case LEFT:
         if (isMovementLegal(player->tipo, player->rotacion,
                             player->x - 1, player->y))
         {
             player->x--;
         }
         break;
-    case 'd':
+    case RIGHT:
         if (isMovementLegal(player->tipo, player->rotacion,
                             player->x + 1, player->y))
         {
             player->x++;
         }
         break;
-    case 's':
+    case DOWN:
         if (isMovementLegal(player->tipo, player->rotacion,
                             player->x, player->y + 1))
         {
@@ -129,7 +131,7 @@ void performMove(player_t *player, char key)
             createNewTetramino(player);
         }
         break;
-    case 'w':
+    case ROTATE:
         if (isMovementLegal(player->tipo, (player->rotacion + 1) % 4,
                             player->x, player->y))
         {

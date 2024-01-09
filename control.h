@@ -10,6 +10,18 @@
 #include "joydrv.h"
 #include "game.h"
 
+/***********************************
+ *	        defines
+ ***********************************/
+#define EXIT 'x'
+#define LEFT 'a'
+#define RIGHT 'd'
+#define DOWN 's'
+#define ROTATE 'w'
+
+/***********************************
+ *	        funciones
+ ***********************************/
 /* desactiva el ICANON mode para que se pueda leer user input sin bloquear
 el codigo con el getchar().
 https://www.gnu.org/software/libc/manual/html_node/Canonical-or-Not.html*/
