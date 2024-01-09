@@ -9,7 +9,7 @@
 
 int main(void)
 {
-	double fallInterval = 0.5; // en seg
+	double fallInterval = 1; // en seg
 	double startTime, currentTime;
 	startTime = getTime();
 
@@ -20,12 +20,14 @@ int main(void)
 
 	enableNonBlockingInput(); // desactiva ICANON mode
 
-	while (!isGameOver())
+	char key;
+	
+	do
 	{
 		// control
-		if (kbhit())
+		if (kbhit()) // se pregunta si se presiono una tecla
 		{
-			int key = getchar();
+			key = getchar();
 			switch (key)
 			{
 			case 'a':
@@ -65,7 +67,6 @@ int main(void)
 		}
 
 		// caida libre
-		//time_t currentTime = time(NULL);
 		currentTime = getTime();
 		double elapsedTime = currentTime - startTime;
 
@@ -88,14 +89,18 @@ int main(void)
 		// rendering
 		updateScene(&player);
 		drawScene();
-		printf("\n");
+		printf("\n\033[2J\033[H"); // limpia la pantalla
 
-		usleep(10000); // = 2 seg. no bajar de 2000 pq no renderea bn
+		usleep(5000); // = 0.01 seg. para que renderee suavemente
 
 		eraseLineIfFull();
-	}
+	} while (!isGameOver() && key != 'x'); 
 	
-	puts("This is your end, cowboy...");
+	if (key == 'x')
+		puts("I guess 'tis our goodbye then. Godspeed to you, traveler...");
+	else
+		puts("This is your end, cowboy...");
+
 	restoreBlockingInput(); /* si al correr el codigo no se llega
 	hasta aca, escribir 'stty sane' en la terminal para reestablecer
 	la configuracion inicial luego de haber ejecutado main_test*/

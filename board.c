@@ -85,13 +85,22 @@ void drawScene()
     {
         for (int i = 0; i < BOARD_WIDTH; i++)
         {
-            if (mScene[j][i] == FREE)
+			// bordes            
+			if (i == 0)
+				printf("<!");		
+
+			if (mScene[j][i] == FREE)
                 printf(" . ");
             else
-                printf(" O ");
+                printf(" # ");
+
+			// bordes
+			if(i == BOARD_WIDTH - 1)
+				printf("!>");
         }
         printf("\n");
     }
+	printf("<!========================!>");
 }
 
 void clearScene()
