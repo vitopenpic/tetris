@@ -11,7 +11,7 @@
 
 int main(void)
 {
-	double fallInterval = 1; // en seg
+	double fallInterval = 1; // en seg (rapidez inicial)
 	double startTime, currentTime;
 	startTime = getTime();
 
