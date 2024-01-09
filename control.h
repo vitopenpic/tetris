@@ -8,6 +8,7 @@
 #define CONTROL_H
 
 #include "joydrv.h"
+#include "game.h"
 
 /* desactiva el ICANON mode para que se pueda leer user input sin bloquear 
 el codigo con el getchar().
@@ -23,6 +24,10 @@ int kbhit(void);
 double getTime(void);
 
 char whichKeyWasPressed(joyinfo_t *);
+
+void initSettings(void);
+
+void performMove(player_t *, char);
 
 #endif // CONTROL_H
 

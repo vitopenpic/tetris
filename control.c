@@ -1,9 +1,11 @@
 #include "control.h"
+#include "board.h"
 #include <stdio.h>
 #include <termios.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <time.h>
+#include <stdbool.h>
 
 void enableNonBlockingInput()
 {
@@ -82,4 +84,61 @@ char whichKeyWasPressed(joyinfo_t *coord)
         sw_released = false;
         return 'w';
     }
+	else return -1;
 }
+
+void initSettings()
+{
+	#ifdef RASPI
+	joyinfo_t joystick = {0, 0, J_NOPRESS};
+	joy_init();
+	return;
+	
+	#else
+	enableNonBlockingInput(); // desactiva ICANON mode
+	return;
+
+	#endif
+}
+
+void performMove(player_t *player, char key)
+{
+	switch (key)
+	{
+	case 'a':
+		if (isMovementLegal(player->tipo, player->rotacion,
+							player->x - 1, player->y))
+		{
+			player->x--;
+		}
+		break;
+	case 'd':
+		if (isMovementLegal(player->tipo, player->rotacion,
+							player->x + 1, player->y))
+		{
+			player->x++;
+		}
+		break;
+	case 's':
+		if (isMovementLegal(player->tipo, player->rotacion,
+							player->x, player->y + 1))
+		{
+			player->y++;
+		}
+		else
+		{
+			storePieceInBoard(player);
+			createNewTetramino(player);
+		}
+		break;
+	case 'w':
+		if (isMovementLegal(player->tipo, (player->rotacion + 1) % 4,
+							player->x, player->y))
+		{
+			player->rotacion = (player->rotacion + 1) % 4;
+		}
+		break;
+	}
+}
+
+

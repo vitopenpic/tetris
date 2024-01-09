@@ -113,6 +113,7 @@ void clearScene()
     }
 }
 
+#ifdef RASPI
 void drawInDisplay()
 {
 	dcoord_t p;
@@ -129,6 +130,7 @@ void drawInDisplay()
 	}		   
 	disp_update();
 }
+#endif
 
 static void eraseLine(int y)
 {
@@ -164,11 +166,12 @@ bool isGameOver()
         if (mBoard[0][i])
             return true;
     }
+	return false;
 }
 
 void clearScreen()
 {
 	printf("\n\033[2J\033[H"); // limpia la pantalla
-	//https://stackoverflow.com/questions/55672661/what-this-character-sequence-033h-033j-does-in-c
+//https://stackoverflow.com/questions/55672661/what-this-character-sequence-033h-033j-does-in-c
 }
 

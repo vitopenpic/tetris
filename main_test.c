@@ -17,56 +17,27 @@ int main(void)
 
 	srand((unsigned int)time(NULL)); // seed para rand()
 
+	initSettings();
+
 	player_t player;
 	initGame(&player);
-
-	enableNonBlockingInput(); // desactiva ICANON mode
 
 	char key;
 		
 	do
 	{
-		// control
+		// control input		
+		#ifdef RASPI
+		joystick = joy_read();
+		key = whichKeyWasPressed(&joystick);		
+		performMove(&player, key);
+		#else
 		if (kbhit()) // se pregunta si se presiono una tecla
 		{
-			getchar();
-			switch (key)
-			{
-			case 'a':
-				if (isMovementLegal(player.tipo, player.rotacion,
-									player.x - 1, player.y))
-				{
-					player.x--;
-				}
-				break;
-			case 'd':
-				if (isMovementLegal(player.tipo, player.rotacion,
-									player.x + 1, player.y))
-				{
-					player.x++;
-				}
-				break;
-			case 's':
-				if (isMovementLegal(player.tipo, player.rotacion,
-									player.x, player.y + 1))
-				{
-					player.y++;
-				}
-				else
-				{
-					storePieceInBoard(&player);
-					createNewTetramino(&player);
-				}
-				break;
-			case 'w':
-				if (isMovementLegal(player.tipo, (player.rotacion + 1) % 4,
-									player.x, player.y))
-				{
-					player.rotacion = (player.rotacion + 1) % 4;
-				}
-				break;
-			}
+			key = getchar();
+			performMove(&player, key);
 		}
+		#endif
 
 		// caida libre
 		currentTime = getTime();
@@ -75,25 +46,19 @@ int main(void)
 		if (elapsedTime >= fallInterval)
 		{
 			startTime = currentTime;
-
-			if (isMovementLegal(player.tipo, player.rotacion,
-								player.x, player.y + 1))
-			{
-				player.y++;
-			}
-			else
-			{
-				storePieceInBoard(&player);
-				createNewTetramino(&player);
-			}
+			performMove(&player, 's');
 		}
 
 		// rendering
 		updateScene(&player);
+		#ifdef RASPI
+		drawInDisplay();
+		#else
 		drawScene();
 		clearScreen();
+		#endif
 
-		usleep(5000); // = 0.005 seg. para que renderee suavemente
+		usleep(5000); // = 0.005 seg. para que renderize suavemente
 
 		eraseLineIfFull();
 
@@ -104,8 +69,10 @@ int main(void)
 	else
 		puts("This is your end, cowboy...");
 
+	#ifndef RASPI
 	restoreBlockingInput(); /* si al correr el codigo no se llega
 	hasta aca, escribir 'stty sane' en la terminal para reestablecer
 	la configuracion inicial luego de haber ejecutado main_test*/
+	#endif
 	return 0;
 }
