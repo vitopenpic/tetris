@@ -16,6 +16,9 @@ int main(void)
 	startTime = getTime();
 
 	initSettings();
+#ifdef RASPI
+    joyinfo_t joystick = {0, 0, J_NOPRESS};
+#endif
 
 	player_t player;
 	initGame(&player);
@@ -56,7 +59,7 @@ int main(void)
 		clearScreen();
 #endif
 
-		usleep(5000); // = 0.005 seg. para que renderize suavemente
+		usleep(20000); // = 0.02 seg. para que renderize suavemente
 
 		eraseLineIfFull();
 

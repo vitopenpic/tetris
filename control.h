@@ -8,6 +8,7 @@
 #define CONTROL_H
 
 #include "joydrv.h"
+#include "disdrv.h"
 #include "game.h"
 
 /***********************************

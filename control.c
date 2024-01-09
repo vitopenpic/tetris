@@ -58,7 +58,7 @@ double getTime()
     return now.tv_sec + now.tv_nsec / 1.0e9;
 }
 
-#define THRESHOLD 75
+#define THRESHOLD 80
 
 char whichKeyWasPressed(joyinfo_t *coord)
 {
@@ -92,8 +92,9 @@ void initSettings()
 {
     srand((unsigned int)time(NULL)); // seed para rand()
 #ifdef RASPI
-    joyinfo_t joystick = {0, 0, J_NOPRESS};
     joy_init();
+    disp_init();
+    disp_clear();
     return;
 #else
     enableNonBlockingInput(); // desactiva ICANON mode
