@@ -1,7 +1,7 @@
 /**************************************************************************
  * @file board.h
  * @authors
- * @brief archivo de cabecera que se encarga del manejo del tablero y la 
+ * @brief archivo de cabecera que se encarga del manejo del tablero y la
  * logica/reglas del juego
  **************************************************************************/
 
@@ -48,7 +48,7 @@ void storePieceInBoard(player_t *);
 void clearScene();
 
 /**
- * @brief actualiza el contenido de mScene con los tetraminos muertos y 
+ * @brief actualiza el contenido de mScene con los tetraminos muertos y
  * con el tetramino en juego
  * @param player_t struct con los datos del jugador
  */
@@ -60,8 +60,8 @@ void updateScene(player_t *);
 void drawScene();
 
 /**
- * @brief copia el contenido de mScene a el display matricial de la 
-* raspberry
+ * @brief copia el contenido de mScene a el display matricial de la
+ * raspberry
  */
 void drawInDisplay();
 
@@ -81,4 +81,3 @@ bool isGameOver();
 void clearScreen();
 
 #endif // BOARD_H
-
