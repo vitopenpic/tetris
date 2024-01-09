@@ -112,6 +112,7 @@ void clearScene()
     }
 }
 
+#ifdef RASPI
 void drawInDisplay()
 {
     dcoord_t p;
@@ -129,6 +130,7 @@ void drawInDisplay()
     }
     disp_update();
 }
+#endif
 
 static void eraseLine(int y)
 {
