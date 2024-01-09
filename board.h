@@ -60,6 +60,12 @@ void updateScene(player_t *);
 void drawScene();
 
 /**
+ * @brief copia el contenido de mScene a el display matricial de la 
+* raspberry
+ */
+void drawInDisplay();
+
+/**
  * @brief si una linea esta completa mueve todas una hacia abajo
  * */
 void eraseLineIfFull();
@@ -75,3 +81,4 @@ bool isGameOver();
 void clearScreen();
 
 #endif // BOARD_H
+

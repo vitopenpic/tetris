@@ -6,6 +6,7 @@
 
 #include "tetramino.h"
 #include "board.h"
+#include "disdrv.h"
 #include <stdio.h>
 #include <stdbool.h>
 
@@ -112,6 +113,23 @@ void clearScene()
     }
 }
 
+void drawInDisplay()
+{
+	dcoord_t p;
+	for (int y = 0; y < BOARD_HEIGHT; y++)
+	{	
+		for (int x = 0; x < BOARD_WIDTH; x++)
+		{
+			p.x = x; p.y = y;
+			if (mScene[y][x] == OCCUPIED) 
+				disp_write(p, D_ON);
+			else 
+				disp_write(p, D_OFF); 
+		}	
+	}		   
+	disp_update();
+}
+
 static void eraseLine(int y)
 {
     for (int j = y; j > 0; j--)
@@ -153,3 +171,4 @@ void clearScreen()
 	printf("\n\033[2J\033[H"); // limpia la pantalla
 	//https://stackoverflow.com/questions/55672661/what-this-character-sequence-033h-033j-does-in-c
 }
+

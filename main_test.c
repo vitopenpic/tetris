@@ -23,13 +23,13 @@ int main(void)
 	enableNonBlockingInput(); // desactiva ICANON mode
 
 	char key;
-	
+		
 	do
 	{
 		// control
 		if (kbhit()) // se pregunta si se presiono una tecla
 		{
-			key = getchar();
+			getchar();
 			switch (key)
 			{
 			case 'a':
@@ -96,6 +96,7 @@ int main(void)
 		usleep(5000); // = 0.005 seg. para que renderee suavemente
 
 		eraseLineIfFull();
+
 	} while (!isGameOver() && key != 'x'); 
 	
 	if (key == 'x')
