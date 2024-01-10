@@ -67,8 +67,9 @@ void drawInDisplay();
 
 /**
  * @brief si una linea esta completa mueve todas una hacia abajo
+ * @return cantidad de lineas eliminadas simultaneamente
  * */
-void eraseLineIfFull();
+int eraseLineIfFull();
 
 /**
  * @brief devuelve un booleano respondiendo si el juego termino o no

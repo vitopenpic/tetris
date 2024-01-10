@@ -22,6 +22,7 @@ int main(void)
 
 	player_t player;
 	initGame(&player);
+	player.lines_deleted = 0;
 
 	char key;
 
@@ -60,7 +61,7 @@ int main(void)
 #endif
 
 		usleep(20000); // = 0.02 seg. para que renderize suavemente
-
+	
 		eraseLineIfFull();
 
 	} while (!isGameOver() && key != EXIT);

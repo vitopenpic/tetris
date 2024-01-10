@@ -143,9 +143,10 @@ static void eraseLine(int y)
     }
 }
 
-void eraseLineIfFull()
+int eraseLineIfFull()
 {
-    for (int j = 0; j < BOARD_HEIGHT; j++)
+    int lines_erased = 0;
+	for (int j = 0; j < BOARD_HEIGHT; j++)
     {
         int i = 0;
         while (i < BOARD_WIDTH)
@@ -155,8 +156,12 @@ void eraseLineIfFull()
             i++;
         }
         if (i == BOARD_WIDTH)
+		{
             eraseLine(j);
+			lines_erased++;
+		}
     }
+	return lines_erased;
 }
 
 bool isGameOver()

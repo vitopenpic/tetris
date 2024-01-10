@@ -19,6 +19,8 @@ typedef struct player_t
 
     int new_x, new_y;           // coordenadas del proximo tetramino
     int new_tipo, new_rotacion; // del proximo tetramino
+
+	int level, score, lines_deleted;
 } player_t;
 
 /***********************************
