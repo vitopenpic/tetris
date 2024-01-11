@@ -11,6 +11,7 @@
 
 int main(void)
 {
+	// timer	
 	double fallInterval = 1; // en seg (rapidez inicial)
 	double startTime, currentTime;
 	startTime = getTime();
@@ -19,16 +20,13 @@ int main(void)
 #ifdef RASPI
     joyinfo_t joystick = {0, 0, J_NOPRESS};
 #endif
-
 	player_t player;
 	initGame(&player);
-	player.lines_deleted = 0;
-
 	char key;
 
 	do
 	{
-// control input
+		// control input
 #ifdef RASPI
 		joystick = joy_read();
 		key = whichKeyWasPressed(&joystick);
@@ -51,18 +49,31 @@ int main(void)
 			performMove(&player, DOWN);
 		}
 
+		// score/points & level
+		int linesCombo = eraseLineIfFull();
+		player.lines += linesCombo;
+		player.level = player.lines / 10;
+		player.score += howMuchScore(player.level, linesCombo);
+
 		// rendering
 		updateScene(&player);
 #ifdef RASPI
 		drawInDisplay();
 #else
+		printf("LVL: %d\nSCORE: %d\nLINES: %d\n\n", 
+			   player.level, player.score, player.lines);
+		printNextPiece(&player);
+		printf("\n");		
 		drawScene();
 		clearScreen();
 #endif
 
+		// updates speed	
+		if (player.level < MAX_LEVEL)
+			fallInterval = getSpeed(player.level);
+
+		// delay
 		usleep(20000); // = 0.02 seg. para que renderize suavemente
-	
-		eraseLineIfFull();
 
 	} while (!isGameOver() && key != EXIT);
 

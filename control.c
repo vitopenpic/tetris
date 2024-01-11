@@ -55,7 +55,7 @@ double getTime()
 {
     struct timespec now;
     clock_gettime(CLOCK_MONOTONIC, &now);
-    return now.tv_sec + now.tv_nsec / 1.0e9;
+    return now.tv_sec + now.tv_nsec / 1.0e9; // en segundos
 }
 
 #define THRESHOLD 80

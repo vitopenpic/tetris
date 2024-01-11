@@ -1,8 +1,8 @@
 /**************************************************************************
  * @file board.h
  * @authors
- * @brief archivo de cabecera que se encarga del manejo del tablero y la
- * logica/reglas del juego
+ * @brief archivo de cabecera que se encarga del manejo del tablero y las
+ * mecanicas del juego
  **************************************************************************/
 
 #ifndef BOARD_H
@@ -12,18 +12,29 @@
 #include "game.h"
 
 /***********************************
- *	const, enums, defines
+ *	     enums, defines
  ***********************************/
+#ifdef RASPI
 
 #define BOARD_WIDTH 8      // ancho en bloques
 #define BOARD_HEIGHT 16    // alto en bloques
-#define BLOCKS_PER_PIECE 5 // dimension de la matriz de los tetraminos
 
+#else
+
+#define BOARD_WIDTH 10     
+#define BOARD_HEIGHT 20 
+
+#endif 
+
+#define BLOCKS_PER_PIECE 5 // dimension de la matriz de los tetraminos
+#define MAX_LEVEL 29
+ 
 enum
 {
   FREE,
   OCCUPIED
 }; // estados posibles del tablero para cada bloque
+
 
 /***********************************
  *	        funciones
@@ -80,5 +91,16 @@ bool isGameOver();
  * @brief limpia la terminal
  * */
 void clearScreen();
+
+/**
+ * @brief imprime la proxima pieza a la terminal
+ * */
+void printNextPiece(player_t *);
+
+/**
+ * @brief devuelve la rapidez de la look up table aSpeed dependiendo
+ * del nivel actual
+ * */
+double getSpeed(int level);
 
 #endif // BOARD_H

@@ -27,6 +27,10 @@ void initGame(player_t *player)
     // proximo tetramino
     player->new_tipo = getRandInBetween(0, 6);
     player->new_rotacion = getRandInBetween(0, 3);
+
+	player->lines = 0;
+	player->score = 0;
+	player->level = 0;
 }
 
 void createNewTetramino(player_t *player)
@@ -42,4 +46,27 @@ void createNewTetramino(player_t *player)
     player->new_tipo = getRandInBetween(0, 6);
     player->new_rotacion = getRandInBetween(0, 3);
 }
+
+// https://harddrop.com/wiki/Scoring
+int howMuchScore(int level,  int lines)
+{
+	if (lines == 1)
+		return 4 * (level + 1);
+	
+	if (lines == 2)
+		return 10 * (level + 1);
+
+	if (lines == 3)
+		return 30 * (level + 1);
+
+	if (lines == 4)
+		return 120 * (level + 1);
+
+	else
+		return 0;
+}
+
+
+
+
 

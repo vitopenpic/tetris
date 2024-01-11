@@ -16,6 +16,16 @@ muertos (donde se chequean las colisiones)*/
 static bool mScene[BOARD_HEIGHT][BOARD_WIDTH]; /* matriz con los
 bloques muertos y el tetramino que cae (la que al fin y al cabo se grafica)*/
 
+/* info: https://meatfighter.com/nintendotetrisai/#Lines_and_Statistics ,
+seccion: "Dropping Tetrominos"
+
+look-up-table con las rapideces del tetramino dependiendo del nivel, luego
+del nivel 29, la rapidez no varia*/
+const double aSpeed[MAX_LEVEL] = 
+{0.8, 0.715, 0.632, 0.550, 0.466, 0.383, 0.300, 0.216, 0.133, 0.100, 0.083, 
+ 0.083, 0.083, 0.067, 0.067, 0.067, 0.050, 0.050, 0.050, 0.033, 0.033, 0.033,
+ 0.033, 0.033, 0.033, 0.033, 0.033, 0.033, 0.017}; 
+
 bool isMovementLegal(int tipo, int rotacion, int x, int y)
 {
     // i2, j2 iteran por mTertamino e i1, j1 iteran por mBoard
@@ -100,7 +110,7 @@ void drawScene()
         }
         printf("\n");
     }
-    printf("<!========================!>");
+    printf("<!==============================!>");
 }
 
 void clearScene()
@@ -178,4 +188,24 @@ void clearScreen()
 {
     printf("\n\033[2J\033[H"); // limpia la pantalla
     // https://stackoverflow.com/questions/55672661/what-this-character-sequence-033h-033j-does-in-c
+}
+
+void printNextPiece(player_t *plr)
+{
+	for (int j = 0; j < BLOCKS_PER_PIECE; j++)
+	{
+		for (int i = 0; i < BLOCKS_PER_PIECE; i++)
+		{
+			if (getBlockType(plr->new_tipo, plr->new_rotacion, i, j))
+				printf(" # ");
+			else
+				printf("   ");
+		}
+	printf("\n");	
+	}		
+}
+
+double getSpeed(int level)
+{
+	return aSpeed[level];
 }
