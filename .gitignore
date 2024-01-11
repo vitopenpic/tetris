@@ -1,3 +1,3 @@
 main_test
 vscode.json
-main_test2.o tetramino.o board.o game.o control.o
+main_test.o tetramino.o board.o game.o control.o

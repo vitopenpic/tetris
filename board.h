@@ -9,7 +9,7 @@
 #define BOARD_H
 
 #include "tetramino.h"
-#include "game.h"
+#include "player.h"
 
 /***********************************
  *	     enums, defines

@@ -1,6 +1,6 @@
 #include "tetramino.h"
 #include "board.h"
-#include "game.h"
+#include "player.h"
 #include "control.h"
 #include <stdio.h>
 #include <stdlib.h>

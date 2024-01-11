@@ -5,8 +5,8 @@
  * jugador, su puntaje, nivel y la creacion de las piezas
  **************************************************************************/
 
-#ifndef GAME_H
-#define GAME_H
+#ifndef PLAYER_H
+#define PLAYER_H
 
 /***********************************
  *	enums, defines, structs
@@ -47,4 +47,4 @@ void createNewTetramino(player_t *);
  */
 int howMuchScore(int level,  int lines);
 
-#endif // GAME_H
+#endif // PLAYER_H
