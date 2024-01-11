@@ -12,7 +12,7 @@
 int main(void)
 {
 	// timer	
-	double fallInterval = 1; // en seg (rapidez inicial)
+	double fallInterval = 0.8; // en seg (rapidez inicial)
 	double startTime, currentTime;
 	startTime = getTime();
 
