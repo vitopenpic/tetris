@@ -89,6 +89,7 @@ void updateScene(player_t *plr)
     }
 }
 
+// mover a terimnal.c
 void drawScene()
 {
     for (int j = 0; j < BOARD_HEIGHT; j++)
@@ -122,6 +123,7 @@ void clearScene()
     }
 }
 
+// mover a raspi.c
 #ifdef RASPI
 void drawInDisplay()
 {
@@ -184,12 +186,14 @@ bool isGameOver()
     return false;
 }
 
+// mover a terminal.c
 void clearScreen()
 {
     printf("\n\033[2J\033[H"); // limpia la pantalla
     // https://stackoverflow.com/questions/55672661/what-this-character-sequence-033h-033j-does-in-c
 }
 
+// mover a terminal.c
 void printNextPiece(player_t *plr)
 {
 	for (int j = 0; j < BLOCKS_PER_PIECE; j++)
