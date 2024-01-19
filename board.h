@@ -39,6 +39,15 @@ enum
 /***********************************
  *	        funciones
  ***********************************/
+
+/**
+ * @brief devuelve la rapidez de la look up table aSpeed dependiendo
+ * del nivel actual
+ * */
+double getSpeed(int level);
+
+bool getScene(int x, int y);
+
 /**
  * @brief indica si en el estado actual de mScene hay
  * una colision (mov ilegal) o no (legal)
@@ -66,17 +75,6 @@ void clearScene();
 void updateScene(player_t *);
 
 /**
- * @brief printea mScene a la terminal
- * */
-void drawScene();
-
-/**
- * @brief copia el contenido de mScene a el display matricial de la
- * raspberry
- */
-void drawInDisplay();
-
-/**
  * @brief si una linea esta completa mueve todas una hacia abajo
  * @return cantidad de lineas eliminadas simultaneamente
  * */
@@ -86,21 +84,5 @@ int eraseLineIfFull();
  * @brief devuelve un booleano respondiendo si el juego termino o no
  * */
 bool isGameOver();
-
-/**
- * @brief limpia la terminal
- * */
-void clearScreen();
-
-/**
- * @brief imprime la proxima pieza a la terminal
- * */
-void printNextPiece(player_t *);
-
-/**
- * @brief devuelve la rapidez de la look up table aSpeed dependiendo
- * del nivel actual
- * */
-double getSpeed(int level);
 
 #endif // BOARD_H

@@ -1,8 +1,8 @@
 # Makefile for TPF programacion 1 (tetris)
 
 OPTIONS = -g -Wall # debug and all warnings
-SRC = main_test.c tetramino.c board.c player.c control.c
-HEADERS = tetramino.h board.h player.h control.h disdrv.h joydrv.h
+SRC = main_test.c tetramino.c board.c player.c control.c display.c
+HEADERS = tetramino.h board.h player.h control.h disdrv.h joydrv.h display.h
 OBJ = $(SRC:.c=.o)
 
 main_test: ${OBJ}

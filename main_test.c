@@ -2,6 +2,7 @@
 #include "board.h"
 #include "player.h"
 #include "control.h"
+#include "display.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>

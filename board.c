@@ -6,7 +6,6 @@
 
 #include "tetramino.h"
 #include "board.h"
-#include "disdrv.h"
 #include <stdio.h>
 #include <stdbool.h>
 
@@ -51,6 +50,16 @@ bool isMovementLegal(int tipo, int rotacion, int x, int y)
     return true;
 }
 
+bool getScene(int x, int y)
+{
+	return mScene[y][x];
+}
+
+double getSpeed(int level)
+{
+	return aSpeed[level];
+}
+
 void storePieceInBoard(player_t *plr)
 {
     // guarda cada bloque del tetramino en el board
@@ -89,30 +98,6 @@ void updateScene(player_t *plr)
     }
 }
 
-// mover a terimnal.c
-void drawScene()
-{
-    for (int j = 0; j < BOARD_HEIGHT; j++)
-    {
-        for (int i = 0; i < BOARD_WIDTH; i++)
-        {
-            // bordes
-            if (i == 0)
-                printf("<!");
-
-            if (mScene[j][i] == FREE)
-                printf(" . ");
-            else
-                printf(" # ");
-
-            // bordes
-            if (i == BOARD_WIDTH - 1)
-                printf("!>");
-        }
-        printf("\n");
-    }
-    printf("<!==============================!>");
-}
 
 void clearScene()
 {
@@ -123,26 +108,6 @@ void clearScene()
     }
 }
 
-// mover a raspi.c
-#ifdef RASPI
-void drawInDisplay()
-{
-    dcoord_t p;
-    for (int y = 0; y < BOARD_HEIGHT; y++)
-    {
-        for (int x = 0; x < BOARD_WIDTH; x++)
-        {
-            p.x = x;
-            p.y = y;
-            if (mScene[y][x] == OCCUPIED)
-                disp_write(p, D_ON);
-            else
-                disp_write(p, D_OFF);
-        }
-    }
-    disp_update();
-}
-#endif
 
 static void eraseLine(int y)
 {
@@ -184,32 +149,4 @@ bool isGameOver()
             return true;
     }
     return false;
-}
-
-// mover a terminal.c
-void clearScreen()
-{
-    printf("\n\033[2J\033[H"); // limpia la pantalla
-    // https://stackoverflow.com/questions/55672661/what-this-character-sequence-033h-033j-does-in-c
-}
-
-// mover a terminal.c
-void printNextPiece(player_t *plr)
-{
-	for (int j = 0; j < BLOCKS_PER_PIECE; j++)
-	{
-		for (int i = 0; i < BLOCKS_PER_PIECE; i++)
-		{
-			if (getBlockType(plr->new_tipo, plr->new_rotacion, i, j))
-				printf(" # ");
-			else
-				printf("   ");
-		}
-	printf("\n");	
-	}		
-}
-
-double getSpeed(int level)
-{
-	return aSpeed[level];
 }
