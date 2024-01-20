@@ -2,7 +2,7 @@
 
 OPTIONS = -g -Wall # debug and all warnings
 SRC = main_test.c tetramino.c board.c player.c control.c display.c score.c
-HEADERS = tetramino.h board.h player.h control.h disdrv.h joydrv.h display.h score.h
+HEADERS = tetramino.h board.h player.h control.h display.h score.h disdrv.h joydrv.h
 OBJ = $(SRC:.c=.o)
 
 tetris: ${OBJ}
