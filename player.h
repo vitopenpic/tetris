@@ -21,6 +21,7 @@ typedef struct player_t
     int new_tipo, new_rotacion; // del proximo tetramino
 
 	int level, score, lines;
+	char name[4];
 } player_t;
 
 /***********************************
