@@ -1,5 +1,19 @@
 #include "score.h"
 
+static struct Score topTen[10] = 
+{
+	{" ", 0},
+	{" ", 0},
+	{" ", 0},
+	{" ", 0},
+	{" ", 0},
+	{" ", 0},
+	{" ", 0},
+	{" ", 0},
+	{" ", 0},
+	{" ", 0},
+}
+
 // https://harddrop.com/wiki/Scoring
 int howMuchScore(int level,  int lines)
 {

@@ -74,9 +74,12 @@ int main(void)
 	} while (!isGameOver() && key != EXIT);
 
 	if (key == EXIT)
-		puts("I guess 'tis our goodbye then. Godspeed to you, traveler...");
+		printf("I guess 'tis our goodbye then. Godspeed to you, %s the quitter...\n", 
+				player.name);
 	else
-		puts("This is your end, cowboy...");
+		printf("This is thy end, %s the truthseeker...\n", player.name);
+	
+	printTopScorers();
 
 #ifndef RASPI
 	restoreBlockingInput(); /* si al correr el codigo no se llega

@@ -12,6 +12,8 @@
  *	enums, defines, structs
  ***********************************/
 
+#define MAX_CHAR 5
+
 typedef struct player_t
 {
     int x, y;           // coordenadas del tetramino que cae (la posicion [0][0])
@@ -21,7 +23,7 @@ typedef struct player_t
     int new_tipo, new_rotacion; // del proximo tetramino
 
 	int level, score, lines;
-	char name[4];
+	char name[MAX_CHAR]; // cantidad de caracteres + EOL
 } player_t;
 
 /***********************************
