@@ -7,7 +7,6 @@
 #include "display.h"
 #include "board.h"
 #include <stdio.h>
-#include <stdbool.h>
 
 void drawScene()
 {
@@ -54,6 +53,15 @@ void drawInDisplay()
 }
 #endif
 
+void drawInTerminal(player_t *player)
+{
+	printf("LVL: %d\nSCORE: %d\nLINES: %d\n\n", 
+	player->level, player->score, player->lines);
+	printNextPiece(player);
+	printf("\n");		
+	drawScene();
+	clearScreen();
+}
 
 void clearScreen()
 {

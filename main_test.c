@@ -1,8 +1,8 @@
-#include "tetramino.h"
 #include "board.h"
 #include "player.h"
 #include "control.h"
 #include "display.h"
+#include "score.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -61,12 +61,7 @@ int main(void)
 #ifdef RASPI
 		drawInDisplay();
 #else
-		printf("LVL: %d\nSCORE: %d\nLINES: %d\n\n", 
-			   player.level, player.score, player.lines);
-		printNextPiece(&player);
-		printf("\n");		
-		drawScene();
-		clearScreen();
+		drawInTerminal(&player);
 #endif
 
 		// updates speed	

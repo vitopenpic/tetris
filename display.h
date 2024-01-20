@@ -19,6 +19,11 @@ void drawScene();
 void drawInDisplay();
 
 /**
+ * @brief imprime el juego a la terminal
+ */
+void drawInTerminal(player_t *);
+
+/**
  * @brief limpia la terminal
  * */
 void clearScreen();
