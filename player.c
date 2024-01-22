@@ -43,7 +43,7 @@ static bool enterName(player_t *player)
 
 static bool isThatThyName(player_t *player)
 {
-	printf("Outlandish it is! Thou really goes by the name of %s?\n(Y/N)\n", player->name);
+	printf("Outlandish it is! Thou really goes by the name of %s?\n[Y/N]\n", player->name);
 	char c = getchar();
 	while(getchar() != '\n');
 	if (c == 'Y' || c == 'y')
