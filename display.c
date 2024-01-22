@@ -55,7 +55,7 @@ void drawInDisplay()
 
 void drawInTerminal(player_t *player)
 {
-	printf("LVL: %d\nSCORE: %d\nLINES: %d\n\n", 
+	printf("LEVEL: %d\nSCORE: %d\nLINES: %d\n\n", 
 	player->level, player->score, player->lines);
 	printNextPiece(player);
 	printf("\n");		
