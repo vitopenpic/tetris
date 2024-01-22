@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <unistd.h>
 
 static int getRandInBetween(int a, int b)
 {
@@ -29,7 +30,7 @@ static bool enterName(player_t *player)
 	{
 		if (c < 'A' || c > 'z' || (c < 'a' && c > 'Z'))
 		{
-			puts("What is that sound!? Unspokeable! Please use enlgish letters...");
+			puts("What is that sound!? Unspokeable! Please use english letters...");
 			return false;
 		}		
 		player->name[i] = c;
@@ -43,22 +44,23 @@ static bool enterName(player_t *player)
 
 static bool isThatThyName(player_t *player)
 {
-	printf("Outlandish it is! Thou really goes by the name of %s?\n[Y/N]\n", player->name);
+	printf("Outlandish! Thou really goes by the name of %s?\n[Y/N]\n", player->name);
 	char c = getchar();
 	while(getchar() != '\n');
 	if (c == 'Y' || c == 'y')
 	{
-		printf("I hast never heard such name... cool\n");
+		puts("I hast never heard such name... cool");
+		usleep(3000000); // 3 sec delay
 		return true;
 	}
 	else if (c == 'N' || c == 'n') 	
 	{
-		printf("I beg yerr pardon. Tell me again, how thou art called?\n");
+		puts("I beg yerr pardon. Tell me again, how thou art called?");
 		return false;		
 	}
 	else
 	{
-		printf("Stop mumbling gibberish! Doth thou not speak english? Tell me how thou art called...\n");
+		puts("Stop mumbling gibberish! Doth thou not speak english? Tell me how thou art called...");
 		return false;
 	}
 }

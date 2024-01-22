@@ -107,7 +107,7 @@ void updateTopScore(const char *filename, int currentScore, char *currentName)
 
 void printTopScores(void)
 {
-	puts("\nThe legendary list of the best block stackers of all time:\n");	
+	puts("\nThe legendary scroll of the best block stackers of all time:\n");	
 	for (int i = 0; i < MAX_SCORERS; i++)
 	{
 		printf("%d - %s %d\n", i + 1,  topTen[i].name, topTen[i].score);		
