@@ -1,3 +1,5 @@
+#ifndef DISPLAY_H
+#define DISPLAY_H
 /**************************************************************************
  * @file display.h
  * @authors
@@ -32,3 +34,4 @@ void clearScreen();
  * @brief imprime la proxima pieza a la terminal
  * */
 void printNextPiece(player_t *);
+#endif // DISPLAY_H

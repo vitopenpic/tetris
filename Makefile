@@ -5,10 +5,10 @@ SRC = main.c tetramino.c board.c player.c control.c display.c score.c
 HEADERS = tetramino.h board.h player.h control.h display.h score.h disdrv.h joydrv.h
 OBJ = $(SRC:.c=.o)
 
-tetris: ${OBJ}
+tetris: ${OBJ}	# compile for terminal
 	-gcc ${OPTIONS} ${OBJ} -o tetris
 
-raspi: OPTIONS += -D RASPI
+raspi: OPTIONS += -D RASPI # compile for raspberry pi
 raspi: ${OBJ} disdrv.o joydrv.o
 	-gcc ${OPTIONS} ${OBJ} disdrv.o joydrv.o -o tetris
 

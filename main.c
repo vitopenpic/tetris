@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <time.h>
+#include <string.h>
 
 /**************************************************************************/
 
@@ -78,9 +79,9 @@ int main(void)
 				player.name);
 	else
 		printf("This is thy end, %s the truthseeker...\n", player.name);
-	
-	printTopScorers();
 
+	updateTopScore("top10Score.dat", player.score, player.name);
+	printTopScores();
 #ifndef RASPI
 	restoreBlockingInput(); /* si al correr el codigo no se llega
 	hasta aca, escribir 'stty sane' en la terminal para reestablecer

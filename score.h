@@ -1,3 +1,5 @@
+#ifndef SCORE_H
+#define SCORE_H
 /**************************************************************************
  * @file score.h
  * @authors
@@ -5,14 +7,17 @@
  **************************************************************************/
 
 #include <stdio.h>
+#include "player.h"
 
 /***********************************
- *	          structs
+*	      defines, structs
  ***********************************/
+
+#define MAX_SCORERS 10
 
 struct Score
 {
-	char name[4];
+	char name[MAX_CHAR];
 	int score;
 };
 
@@ -27,6 +32,17 @@ struct Score
  */
 int howMuchScore(int level,  int lines);
 
-void writeScores(const char *filename, struct Score *scores, size_t numScores);
+/**
+ * @brief lee y guarda la lista puntajes maximos a disco
+ * @param filename nombre del archivo local donde se guarda
+ * @param currentScore puntaje del jugador
+ * @param *currentName nombre del jugador
+ */
+void updateTopScore(const char *filename, int currentScore, char *currentName);
 
-void readScores(const char *filename, struct Score *scores, size_t numScores);
+/**
+ * @brief imprime la lista de los mejores puntajes a la terminal
+ */
+void printTopScores(void);
+
+#endif // SCORE_H
