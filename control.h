@@ -38,7 +38,7 @@ double getTime(void);
 
 char whichKeyWasPressed(joyinfo_t *);
 
-void initSettings(void);
+//void initSettings(void);
 
 void performMove(player_t *, char);
 

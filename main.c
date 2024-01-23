@@ -18,16 +18,22 @@ int main(void)
 	double startTime, currentTime;
 	startTime = getTime();
 
-	initSettings();
+	// inicializaciones
+    srand((unsigned int)time(NULL)); // seed para rand()
 #ifdef RASPI
+	joy_init();
+	disp_init();
+	disp_clear();
     joyinfo_t joystick = {0, 0, J_NOPRESS};
 	initSoundFX();
+#else
+	enableNonBlockingInput(); // desactiva ICANON mode
 #endif
 	player_t player;
-	initGame(&player);
+	initGame(&player); // espera input (nombre)
 	char key;
 
-	do
+	do // main loop
 	{
 		// control input
 #ifdef RASPI
@@ -81,17 +87,19 @@ int main(void)
 	else
 		printf("This is thy end, %s the truthseeker...\n", player.name);
 
+	// lista mejores puntajes
 	updateTopScore("top10Score.dat", player.score, player.name);
 	printTopScores();
-#ifndef RASPI
-	restoreBlockingInput(); /* si al correr el codigo no se llega
-	hasta aca, escribir 'stty sane' en la terminal para reestablecer
-	la configuracion inicial luego de haber ejecutado main_test*/
-#endif
+
+	// free's y finalizacioens
 #ifdef RASPI
 	endSoundFX();
 	disp_clear();
 	disp_update();
+#else
+	restoreBlockingInput(); /* si al correr el codigo no se llega
+	hasta aca, escribir 'stty sane' en la terminal para reestablecer
+	la configuracion inicial luego de haber ejecutado main_test*/
 #endif
 	return 0;
 }

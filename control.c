@@ -88,7 +88,7 @@ char whichKeyWasPressed(joyinfo_t *coord)
         return -1;
 }
 
-void initSettings()
+/*void initSettings()
 {
     srand((unsigned int)time(NULL)); // seed para rand()
 #ifdef RASPI
@@ -100,7 +100,7 @@ void initSettings()
     enableNonBlockingInput(); // desactiva ICANON mode
     return;
 #endif
-}
+}*/
 
 void performMove(player_t *player, char key)
 {
