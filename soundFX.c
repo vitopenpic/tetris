@@ -15,6 +15,9 @@ static Audio* music2;
 static Audio* music3;
 static Audio* music4;
 
+static Audio* lock_sound;
+static Audio* level_up_sound;
+
 static Audio* aMusic[4];
 
 // random index for the first song to be always random
@@ -27,7 +30,8 @@ void initSoundFX()
 	music3 = createAudio(TRACK3, 0, SDL_MIX_MAXVOLUME);
 	music4 = createAudio(TRACK4, 0, SDL_MIX_MAXVOLUME);
 
-	// add soundFX...
+	lock_sound = createAudio(CLICK_FX, 0, SDL_MIX_MAXVOLUME);
+	level_up_sound = createAudio(LEVEL_UP_FX, 0, SDL_MIX_MAXVOLUME);
 
 	aMusic[0] = music1;
     aMusic[1] = music2;
@@ -61,6 +65,18 @@ void endSoundFX()
 	freeAudio(music2);
 	freeAudio(music3);
 	freeAudio(music4);
+	freeAudio(lock_sound);
+	freeAudio(level_up_sound);
+}
+
+void playLockSound()
+{
+	playSoundFromMemory(lock_sound, SDL_MIX_MAXVOLUME);
+}
+
+void playLevelUpSound()
+{
+	playSoundFromMemory(level_up_sound, SDL_MIX_MAXVOLUME);
 }
 
 #endif

@@ -61,7 +61,13 @@ int main(void)
 		// score/points & level
 		int linesCombo = eraseLineIfFull();
 		player.lines += linesCombo;
+
+		int previousLevel = player.level;
 		player.level = player.lines / 10;
+#ifdef RASPI
+		if (previousLevel != player.level)
+			playLevelUpSound();		
+#endif
 		player.score += howMuchScore(player.level, linesCombo);
 
 		// rendering

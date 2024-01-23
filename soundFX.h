@@ -10,4 +10,8 @@ void refreshMusic();
 
 void endSoundFX();
 
+void playLockSound();
+
+void playLevelUpSound();
+
 #endif // SOUNDFX_H

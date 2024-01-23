@@ -18,7 +18,7 @@ bloques muertos y el tetramino que cae (la que al fin y al cabo se grafica)*/
 /* info: https://meatfighter.com/nintendotetrisai/#Lines_and_Statistics ,
 seccion: "Dropping Tetrominos"
 
-look-up-table con las rapideces del tetramino dependiendo del nivel, luego
+look-up-table con las rapideces del tetramino dependiendo del nivel. luego
 del nivel 29, la rapidez no varia*/
 const double aSpeed[MAX_LEVEL] = 
 {0.8, 0.715, 0.632, 0.550, 0.466, 0.383, 0.300, 0.216, 0.133, 0.100, 0.083, 

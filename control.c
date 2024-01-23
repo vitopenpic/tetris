@@ -1,5 +1,6 @@
 #include "control.h"
 #include "board.h"
+#include "soundFX.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <termios.h>
@@ -130,6 +131,9 @@ void performMove(player_t *player, char key)
         {
             storePieceInBoard(player);
             createNewTetramino(player);
+#ifdef RASPI
+			playLockSound();
+#endif
         }
         break;
     case ROTATE:
