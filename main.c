@@ -68,6 +68,7 @@ int main(void)
 		updateScene(&player);
 #ifdef RASPI
 		drawInDisplay();
+		refreshMusic(); // change music if finished
 #else
 		drawInTerminal(&player);
 #endif
@@ -75,9 +76,6 @@ int main(void)
 		// updates speed	
 		if (player.level < MAX_LEVEL)
 			fallInterval = getSpeed(player.level);
-
-		// change music if finished
-		refreshMusic();
 	
 		// delay
 		usleep(20000); // = 0.02 seg. para que renderize suavemente

@@ -1,5 +1,5 @@
 #include "soundFX.h"
-#include "stdlib.h"
+#include <stdlib.h>
 #include <stdio.h>
 
 #define TRACK1 "music/AnalogueBubblebath.wav"
