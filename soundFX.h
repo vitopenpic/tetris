@@ -14,4 +14,6 @@ void playLockSound();
 
 void playLevelUpSound();
 
+void playLineClearSound();
+
 #endif // SOUNDFX_H

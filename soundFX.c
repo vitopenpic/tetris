@@ -14,6 +14,7 @@
 
 static Audio *lock_sound;
 static Audio *level_up_sound;
+static Audio *line_cleared_sound;
 
 static const char *aMusic[] = {TRACK1, TRACK2, TRACK3, TRACK4};
 /*no guardo en memoria la musica pq es muy pesada, y si no se corre el codigo

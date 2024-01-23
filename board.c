@@ -136,7 +136,9 @@ int eraseLineIfFull()
         if (i == BOARD_WIDTH)
 		{
             eraseLine(j);	
-			playLineClearSound();
+#ifdef RASPI 
+			playLineClearSound(); 
+#endif
 			lines_erased++;
 		}
     }
