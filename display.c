@@ -6,6 +6,7 @@
 
 #include "display.h"
 #include "board.h"
+#include "disdrv.h"
 #include <stdio.h>
 
 void drawScene()

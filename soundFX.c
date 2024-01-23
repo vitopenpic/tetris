@@ -2,12 +2,12 @@
 #include "stdlib.h"
 #include <stdio.h>
 
-#define TRACK1 "/music/AnalogueBubblebath.wav"
-#define TRACK2 "/music/Fingerbib.wav"
-#define TRACK3 "/music/Mookid.wav"
-#define TRACK4 "/music/PolynomialC.wav"
-#define CLICK_FX "/sounds/click.wav"
-#define	LEVEL_UP_FX "/sounds/levelUp.wav"
+#define TRACK1 "music/AnalogueBubblebath.wav"
+#define TRACK2 "music/Fingerbib.wav"
+#define TRACK3 "music/Mookid.wav"
+#define TRACK4 "music/PolynomialC.wav"
+#define CLICK_FX "sounds/click.wav"
+#define	LEVEL_UP_FX "sounds/levelUp.wav"
 
 #ifdef RASPI
 #define
@@ -56,7 +56,7 @@ void refreshMusic()
 
 void endSoundFX()
 {
-	endAUdio();	
+	endAudio();	
 		
 	freeAudio(music1);
 	freeAudio(music2);

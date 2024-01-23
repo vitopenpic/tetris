@@ -8,4 +8,6 @@ void initSoundFX();
 
 void refreshMusic();
 
+void endSoundFX();
+
 #endif // SOUNDFX_H

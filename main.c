@@ -3,6 +3,7 @@
 #include "control.h"
 #include "display.h"
 #include "score.h"
+#include "soundFX.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -20,6 +21,7 @@ int main(void)
 	initSettings();
 #ifdef RASPI
     joyinfo_t joystick = {0, 0, J_NOPRESS};
+	initSoundFX();
 #endif
 	player_t player;
 	initGame(&player);
@@ -85,6 +87,11 @@ int main(void)
 	restoreBlockingInput(); /* si al correr el codigo no se llega
 	hasta aca, escribir 'stty sane' en la terminal para reestablecer
 	la configuracion inicial luego de haber ejecutado main_test*/
+#endif
+#ifdef RASPI
+	endSoundFX();
+	disp_clear();
+	disp_update();
 #endif
 	return 0;
 }
