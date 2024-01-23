@@ -6,39 +6,31 @@
 #define TRACK2 "music/Fingerbib.wav"
 #define TRACK3 "music/Mookid.wav"
 #define TRACK4 "music/PolynomialC.wav"
-#define CLICK_FX "sounds/click.wav"
-#define	LEVEL_UP_FX "sounds/levelUp.wav"
+#define CLICK_FX "sounds/click1.wav"
+#define	LEVEL_UP_FX "sounds/levelUp1.wav"
+#define CLEAR_LINE_FX "sounds/lineClear1.wav"
 
 #ifdef RASPI
-static Audio* music1; 
-static Audio* music2;
-static Audio* music3;
-static Audio* music4;
 
-static Audio* lock_sound;
-static Audio* level_up_sound;
+static Audio *lock_sound;
+static Audio *level_up_sound;
 
-static Audio* aMusic[4];
+static const char *aMusic[] = {TRACK1, TRACK2, TRACK3, TRACK4};
+/*no guardo en memoria la musica pq es muy pesada, y si no se corre el codigo
+hasta el final hay memory leaks grandes. en cambio, los sonidos si los guardo en 
+memoria ya que se leen constantemente*/
 
-// random index for the first song to be always random
+// random index para que la primera cancion sea siempre random
 static int indx;
 
 void initSoundFX()
 {
-	music1 = createAudio(TRACK1, 0, SDL_MIX_MAXVOLUME);
-	music2 = createAudio(TRACK2, 0, SDL_MIX_MAXVOLUME);
-	music3 = createAudio(TRACK3, 0, SDL_MIX_MAXVOLUME);
-	music4 = createAudio(TRACK4, 0, SDL_MIX_MAXVOLUME);
-
+	// guardo en memoria los efectos de sonido	
 	lock_sound = createAudio(CLICK_FX, 0, SDL_MIX_MAXVOLUME);
 	level_up_sound = createAudio(LEVEL_UP_FX, 0, SDL_MIX_MAXVOLUME);
+	line_cleared_sound = createAudio(CLEAR_LINE_FX, 0, SDL_MIX_MAXVOLUME);	
 
-	aMusic[0] = music1;
-    aMusic[1] = music2;
-    aMusic[2] = music3;
-    aMusic[3] = music4;
-	
-	indx = rand() % 4; // given that srad is already initialized
+	indx = rand() % 4; // dado que srand ya se inicializo
 	
 	if (initAudio() == NO_INIT)
     {
@@ -46,27 +38,24 @@ void initSoundFX()
 		endAudio();
     }
 	
-	playMusicFromMemory(aMusic[indx], SDL_MIX_MAXVOLUME);
+	playMusic(aMusic[indx], SDL_MIX_MAXVOLUME);
 }
 
 void refreshMusic()
 {
-	if (playerStatus() == READY && musicStatus() == FINISHED) // (try only putting finished)
+	if (playerStatus() == READY && musicStatus() == FINISHED)
 	{
-		playMusicFromMemory(aMusic[(indx + 1) % 4], SDL_MIX_MAXVOLUME);
+		playMusic(aMusic[(indx + 1) % 4], SDL_MIX_MAXVOLUME);
 	}
 }
 
 void endSoundFX()
 {
 	endAudio();	
-		
-	freeAudio(music1);
-	freeAudio(music2);
-	freeAudio(music3);
-	freeAudio(music4);
+
 	freeAudio(lock_sound);
 	freeAudio(level_up_sound);
+	freeAudio(line_cleared_sound);
 }
 
 void playLockSound()
@@ -77,6 +66,11 @@ void playLockSound()
 void playLevelUpSound()
 {
 	playSoundFromMemory(level_up_sound, SDL_MIX_MAXVOLUME);
+}
+
+void playLineClearSound()
+{
+	playSoundFromMemory(line_cleared_sound, SDL_MIX_MAXVOLUME);
 }
 
 #endif

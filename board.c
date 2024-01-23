@@ -6,6 +6,7 @@
 
 #include "tetramino.h"
 #include "board.h"
+#include "soundFX.h"
 #include <stdio.h>
 #include <stdbool.h>
 
@@ -134,7 +135,8 @@ int eraseLineIfFull()
         }
         if (i == BOARD_WIDTH)
 		{
-            eraseLine(j);
+            eraseLine(j);	
+			playLineClearSound();
 			lines_erased++;
 		}
     }

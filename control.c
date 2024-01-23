@@ -59,11 +59,12 @@ double getTime()
     return now.tv_sec + now.tv_nsec / 1.0e9; // en segundos
 }
 
-#define THRESHOLD 80
+#define THRESHOLD 75
 
 char whichKeyWasPressed(joyinfo_t *coord)
 {
-    static bool sw_released; // para no mantener apretado el sw
+	usleep(70000); // un poco de delay pq si no responde mal
+	static bool sw_released; // para no mantener apretado el sw
     if (coord->sw == J_NOPRESS)
     {
         sw_released = true;

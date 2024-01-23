@@ -64,9 +64,10 @@ int main(void)
 
 		int previousLevel = player.level;
 		player.level = player.lines / 10;
-#ifdef RASPI
+
 		if (previousLevel != player.level)
-			playLevelUpSound();		
+#ifdef RASPI
+			{playLevelUpSound();}		
 #endif
 		player.score += howMuchScore(player.level, linesCombo);
 
