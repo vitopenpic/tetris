@@ -76,6 +76,9 @@ int main(void)
 		if (player.level < MAX_LEVEL)
 			fallInterval = getSpeed(player.level);
 
+		// change music if finished
+		refreshMusic();
+	
 		// delay
 		usleep(20000); // = 0.02 seg. para que renderize suavemente
 

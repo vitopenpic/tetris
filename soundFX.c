@@ -10,7 +10,6 @@
 #define	LEVEL_UP_FX "sounds/levelUp.wav"
 
 #ifdef RASPI
-#define
 static Audio* music1; 
 static Audio* music2;
 static Audio* music3;
