@@ -73,7 +73,7 @@ int main(void)
 			;		
 #endif
 		player.score += howMuchScore(player.level, linesCombo);
-		printf("score: %d\n\n", player.score);
+	
 		// rendering
 		updateScene(&player);
 #ifdef RASPI
