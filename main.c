@@ -74,7 +74,7 @@ int main(void)
 		// rendering
 		updateScene(&player);
 #ifdef RASPI
-		drawInRaspberry();
+		drawInRaspberry(&player);
 		refreshMusic(); // change music if finished
 #else
 		drawInTerminal(&player);
