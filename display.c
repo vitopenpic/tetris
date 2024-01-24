@@ -35,7 +35,7 @@ void drawScene()
 
 
 #ifdef RASPI
-void drawInDisplay()
+void drawInRaspberry()
 {
     dcoord_t p;
     for (int y = 0; y < BOARD_HEIGHT; y++)

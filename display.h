@@ -18,7 +18,7 @@ void drawScene();
  * @brief copia el contenido de mScene al display matricial de la
  * raspberry
  */
-void drawInDisplay();
+void drawInRaspberry();
 
 /**
  * @brief imprime el juego a la terminal
