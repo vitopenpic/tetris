@@ -24,6 +24,7 @@ int main(void)
 	joy_init();
 	disp_init();
 	disp_clear();
+	disp_update();
     joyinfo_t joystick = {0, 0, J_NOPRESS};
 	initSoundFX();
 #else
@@ -67,7 +68,7 @@ int main(void)
 
 		if (previousLevel != player.level)
 #ifdef RASPI
-			{playLevelUpSound();}
+			playLevelUpSound();
 #else 	
 			;		
 #endif
@@ -101,7 +102,7 @@ int main(void)
 	updateTopScore("top10Score.dat", player.score, player.name);
 	printTopScores();
 
-	// free's y finalizacioens
+	// frees y finalizacioens
 #ifdef RASPI
 	endSoundFX();
 	disp_clear();

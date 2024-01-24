@@ -9,6 +9,7 @@
 #include "../backend/board.h"
 #include <stdio.h>
 #include <stdbool.h>
+#include <unistd.h>
 
 #ifdef RASPI
 
@@ -17,6 +18,9 @@
 
 #define DISPLAY_NUMX 3
 #define DISPLAY_NUMY 5
+
+#define DISP_MAX_X 16
+#define DISP_MAX_Y 16
 
 // arreglo de las piezas a mostrar
 // en orden de: O, I, L, J, Z, S, T.
@@ -106,6 +110,24 @@ static const bool aDisplayNum[10][DISPLAY_NUMY][DISPLAY_NUMX] =
 	 {0,0,1},
 	 {0,0,1}},
 };
+
+const static bool mTitleScreen[DISP_MAX_X][DISP_MAX_Y] = 
+{{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+ {0,1,1,1,1,1,1,0,0,1,1,1,1,1,1,0},
+ {0,1,0,1,0,0,0,0,0,0,0,1,0,0,1,0},
+ {0,0,0,1,0,1,1,1,1,1,0,1,0,0,0,0},
+ {0,1,0,1,0,1,0,0,0,1,0,1,0,0,1,0},
+ {0,1,0,1,0,1,1,1,0,0,0,1,0,1,1,0},
+ {0,1,0,0,0,1,0,0,0,0,0,0,0,1,1,0},
+ {0,1,1,1,0,1,1,1,1,1,0,1,1,0,1,0},
+ {0,1,0,1,0,0,0,1,0,0,0,1,0,0,1,0}
+ {0,1,0,0,1,0,0,0,0,0,1,0,0,0,0,0},
+ {0,1,0,0,1,0,1,1,1,0,1,1,1,1,0,0},
+ {0,1,0,1,0,0,0,1,0,0,0,0,0,1,1,0},
+ {0,1,1,0,0,0,0,1,0,0,0,0,0,0,1,0},
+ {0,1,0,1,0,0,0,1,0,0,0,0,0,1,1,0},
+ {0,1,0,0,1,0,1,1,1,0,1,1,1,1,0,0},
+ {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
 #endif 
 
 static void drawScene()
@@ -262,6 +284,39 @@ void drawInRaspberry(player_t *player)
 	// muestra el puntaje, abajo a la derecha 
 	drawScoreRaspberry(player);
 }	
+
+void drawTitleScreen()
+{
+	dcoord_t p;	// hago esto pq no me deja pasar tipo 'disp_write({x, y}, ...)'	
+	for (int y = 0; y < DISP_MAX_Y; y++)
+    {
+        for (int x = 0; x < DISP_MAX_X; x++)
+        {
+			p.x = x; p.y = y;            
+			if (mTitleScreen[y][x] == OCCUPIED)
+                disp_write(p, D_ON);
+            else
+                disp_write(p, D_OFF);
+			disp_update();
+			usleep(5000);
+        }
+    }
+}
+
+void reverseClearDelay()
+{
+	dcoord_t p;	// hago esto pq no me deja pasar tipo 'disp_write({x, y}, ...)'	
+	for (int y = DISP_MAX_Y; y < 0; y--)
+    {
+        for (int x = DISP_MAX_X; x < 0; x--)
+        {
+			p.x = x; p.y = y;            
+			disp_write(p, D_OFF);
+			disp_update();
+			usleep(5000);
+        }
+    }
+}
 #endif
 
 

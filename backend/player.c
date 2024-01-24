@@ -1,10 +1,10 @@
 #include "player.h"
 #include "board.h"
+#include "../frontend/display.h"
 #include <time.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdio.h>
-#include <unistd.h>
 
 static int getRandInBetween(int a, int b)
 {
@@ -50,7 +50,6 @@ static bool isThatThyName(player_t *player)
 	if (c == 'Y' || c == 'y')
 	{
 		puts("I hast never heard such name... cool");
-		usleep(3000000); // 3 sec delay
 		return true;
 	}
 	else if (c == 'N' || c == 'n') 	
@@ -82,11 +81,19 @@ void initGame(player_t *player)
 	player->score = 0;
 	player->level = 0;
 
+#ifdef RASPI
+	drawTitleScreen();
+#endif 
+
 	printf("Heigh ho! Enter thy four character name...\n");
 	do
 	{
 		while(!enterName(player));
 	} while (!isThatThyName(player));
+
+#ifdef RASPI
+	reverseClearDelay();
+#endif
 }
 
 void createNewTetramino(player_t *player)
