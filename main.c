@@ -1,9 +1,9 @@
-#include "board.h"
-#include "player.h"
-#include "control.h"
-#include "display.h"
-#include "score.h"
-#include "soundFX.h"
+#include "backend/board.h"
+#include "backend/player.h"
+#include "backend/score.h"
+#include "frontend/control.h"
+#include "frontend/display.h"
+#include "frontend/soundFX.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -67,10 +67,12 @@ int main(void)
 
 		if (previousLevel != player.level)
 #ifdef RASPI
-			{playLevelUpSound();}		
+			{playLevelUpSound();}
+#else 	
+			;		
 #endif
 		player.score += howMuchScore(player.level, linesCombo);
-
+		printf("score: %d\n\n", player.score);
 		// rendering
 		updateScene(&player);
 #ifdef RASPI

@@ -1,6 +1,6 @@
 #include "control.h"
-#include "board.h"
 #include "soundFX.h"
+#include "../backend/board.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <termios.h>

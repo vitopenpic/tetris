@@ -7,7 +7,7 @@
  * tanto como para raspi, allegro y terminal
  **************************************************************************/
 
-#include "player.h"
+#include "../backend/player.h"
 
 /**
  * @brief imprime el juego al display matricial de la

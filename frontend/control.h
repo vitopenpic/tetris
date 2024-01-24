@@ -9,7 +9,7 @@
 
 #include "joydrv.h"
 #include "disdrv.h"
-#include "player.h"
+#include "../backend/player.h"
 
 /***********************************
  *	        defines

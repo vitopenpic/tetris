@@ -6,7 +6,7 @@
 
 #include "tetramino.h"
 #include "board.h"
-#include "soundFX.h"
+#include "../frontend/soundFX.h"
 #include <stdio.h>
 #include <stdbool.h>
 

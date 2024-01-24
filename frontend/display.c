@@ -5,8 +5,8 @@
  **************************************************************************/
 
 #include "display.h"
-#include "board.h"
 #include "disdrv.h"
+#include "../backend/board.h"
 #include <stdio.h>
 #include <stdbool.h>
 
