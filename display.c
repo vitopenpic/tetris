@@ -218,12 +218,12 @@ static void drawNextPieceRaspberry(player_t *player)
 static void drawNumberToDisp(int x0, int y0, int num)
 {
 	dcoord_t p;	// hago esto pq no me deja pasar tipo 'disp_write({x, y}, ...)'	
-	for (int y1 = y0, y2 = 0; y2 < DISPLAY_NUM_Y; y1++, y2++)
+	for (int y1 = y0, y2 = 0; y2 < DISPLAY_NUMY; y1++, y2++)
 	{
-		for (int x1 = x0, x2 = 0; x2 < DISPLAY_NUM_X; x1++, x2++)
+		for (int x1 = x0, x2 = 0; x2 < DISPLAY_NUMX; x1++, x2++)
 		{
 			p.x = x1; p.y = y1;
-			if (aDispNum[num][y2][x2] == OCCUPIED)
+			if (aDisplayNum[num][y2][x2] == OCCUPIED)
 				disp_write(p, D_ON);
 			else 	
 				disp_write(p, D_OFF);			
