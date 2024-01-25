@@ -27,8 +27,8 @@ int main(void)
 	disp_update();
     joyinfo_t joystick = {0, 0, J_NOPRESS};
 	initSoundFX();
+	playTitleScreenMusic();	
 	drawTitleScreen();
-	playTitleScreenMusic();
 #else
 	enableNonBlockingInput(); // desactiva ICANON mode
 #endif
@@ -38,14 +38,15 @@ int main(void)
 
 #ifdef RASPI
 	reverseClearDelay();
-	pauseAudio();
+	startMusic();
+	double musicTimer = getTime();
 #endif
 	char key;
 
 	do // main loop
 	{
 		// musica
-		refreshMusic();
+		musicTimer = refreshMusic(musicTimer, musicStatus());
 		
 		// control input
 #ifdef RASPI
@@ -89,7 +90,7 @@ int main(void)
 		updateScene(&player);
 #ifdef RASPI
 		drawInRaspberry(&player);
-		refreshMusic(); // change music if finished
+		// change music if finished
 #else
 		drawInTerminal(&player);
 #endif

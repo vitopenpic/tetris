@@ -6,7 +6,9 @@
 // call after srand is initiliazed
 void initSoundFX();
 
-void refreshMusic();
+void startMusic();
+
+double refreshMusic(double, int);
 
 void endSoundFX();
 

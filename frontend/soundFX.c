@@ -53,10 +53,20 @@ void initSoundFX()
     }
 }
 
-void refreshMusic()
+void startMusic()
 {
-	// tengo q hacer esta ranciedad pq SDL2 solo deja loopear infmente la musica
-	static double startTime = getTime(); 
+	endAudio()
+	if (initAudio() == NO_INIT)
+    {
+        fprintf(stderr, "Audio not initilized.\n");
+		endAudio();
+    }	
+	playMusic(aMusic[indx], SDL_MIX_MAXVOLUME);
+}
+
+double refreshMusic(double startTime, int musicStatus)
+{
+	// tengo q hacer esta ranciedad pq SDL2 solo deja loopear infmente la musica 
 	double currentTime = getTime();
 	double elapsedTime = currentTime - startTime; // en segundos
 
@@ -92,6 +102,7 @@ void refreshMusic()
 		}
 		break;
 	}
+	return startTime;
 }
 
 void endSoundFX()
