@@ -27,11 +27,15 @@ int main(void)
 	disp_update();
     joyinfo_t joystick = {0, 0, J_NOPRESS};
 	initSoundFX();
+	drawTitleScreen();
 #else
 	enableNonBlockingInput(); // desactiva ICANON mode
 #endif
 	player_t player;
 	initGame(&player); // espera input (nombre)
+#ifdef RASPI
+	reverseClearDelay();
+#endif
 	char key;
 
 	do // main loop
