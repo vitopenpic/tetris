@@ -46,7 +46,7 @@ int main(void)
 	do // main loop
 	{
 		// musica
-		musicTimer = refreshMusic(musicTimer, musicStatus());
+		musicTimer = refreshMusic(musicTimer);
 		
 		// control input
 #ifdef RASPI

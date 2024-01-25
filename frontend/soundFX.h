@@ -8,7 +8,7 @@ void initSoundFX();
 
 void startMusic();
 
-double refreshMusic(double, int);
+double refreshMusic(double);
 
 void endSoundFX();
 

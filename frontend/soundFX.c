@@ -64,7 +64,7 @@ void startMusic()
 	playMusic(aMusic[indx], SDL_MIX_MAXVOLUME);
 }
 
-double refreshMusic(double startTime, int musicStatus)
+double refreshMusic(double startTime)
 {
 	// tengo q hacer esta ranciedad pq SDL2 solo deja loopear infmente la musica 
 	double currentTime = getTime();
