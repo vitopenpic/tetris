@@ -10,6 +10,8 @@ void refreshMusic();
 
 void endSoundFX();
 
+void playTitleScreenMusic();
+
 void playLockSound();
 
 void playLevelUpSound();

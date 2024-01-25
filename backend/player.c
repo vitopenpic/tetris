@@ -1,6 +1,7 @@
 #include "player.h"
 #include "board.h"
 #include "../frontend/display.h"
+#include "../frontend/soundFX.h"
 #include <time.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -83,6 +84,7 @@ void initGame(player_t *player)
 
 #ifdef RASPI
 	drawTitleScreen();
+	playTtileScreenMusic();
 #endif 
 
 	printf("Heigh ho! Enter thy four character name...\n");

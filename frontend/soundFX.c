@@ -2,9 +2,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#define TRACK0 "music/Mookid.wav"
 #define TRACK1 "music/AnalogueBubblebath.wav"
 #define TRACK2 "music/Fingerbib.wav"
-#define TRACK3 "music/Mookid.wav"
+#define TRACK3 "music/Flim.wav"
 #define TRACK4 "music/PolynomialC.wav"
 #define CLICK_FX "sounds/click1.wav"
 #define	LEVEL_UP_FX "sounds/levelUp1.wav"
@@ -28,8 +29,14 @@ void initSoundFX()
 {
 	// guardo en memoria los efectos de sonido	
 	lock_sound = createAudio(CLICK_FX, 0, SDL_MIX_MAXVOLUME);
+	if (lock_sound == NULL)
+		fprintf(stderr, "Lock sound not initialized");
 	level_up_sound = createAudio(LEVEL_UP_FX, 0, SDL_MIX_MAXVOLUME);
+	if (level_up_sound == NULL)
+		fprintf(stderr, "LvlUp sound not initialized");
 	line_cleared_sound = createAudio(CLEAR_LINE_FX, 0, SDL_MIX_MAXVOLUME);	
+	if (line_cleared_sound == NULL)
+		fprintf(stderr, "Cleared line sound not initialized");
 
 	indx = rand() % 4; // dado que srand ya se inicializo
 	
@@ -46,7 +53,9 @@ void refreshMusic()
 {
 	if (playerStatus() == READY && musicStatus() == FINISHED)
 	{
-		playMusic(aMusic[(indx + 1) % 4], SDL_MIX_MAXVOLUME);
+		indx++;
+		playMusic(aMusic[indx % 4], SDL_MIX_MAXVOLUME);
+		printf("Music index: %d", indx);
 	}
 }
 
@@ -57,6 +66,11 @@ void endSoundFX()
 	freeAudio(lock_sound);
 	freeAudio(level_up_sound);
 	freeAudio(line_cleared_sound);
+}
+
+void playTitleScreenMusic()
+{
+	playMusic(TRACK0, SDL_MIX_MAXVOLUME);
 }
 
 void playLockSound()
