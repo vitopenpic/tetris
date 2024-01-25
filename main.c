@@ -28,18 +28,25 @@ int main(void)
     joyinfo_t joystick = {0, 0, J_NOPRESS};
 	initSoundFX();
 	drawTitleScreen();
+	playTitleScreenMusic();
 #else
 	enableNonBlockingInput(); // desactiva ICANON mode
 #endif
+
 	player_t player;
 	initGame(&player); // espera input (nombre)
+
 #ifdef RASPI
 	reverseClearDelay();
+	pauseAudio();
 #endif
 	char key;
 
 	do // main loop
 	{
+		// musica
+		refreshMusic();
+		
 		// control input
 #ifdef RASPI
 		joystick = joy_read();

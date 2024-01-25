@@ -1,15 +1,21 @@
 #include "soundFX.h"
+#include "control"
 #include <stdlib.h>
 #include <stdio.h>
 
-#define TRACK0 "music/Mookid.wav"
-#define TRACK1 "music/AnalogueBubblebath.wav"
-#define TRACK2 "music/Fingerbib.wav"
-#define TRACK3 "music/Flim.wav"
-#define TRACK4 "music/PolynomialC.wav"
+#define TRACK5 "music/Mookid.wav"
+#define TRACK0 "music/AnalogueBubblebath.wav"
+#define TRACK1 "music/Fingerbib.wav"
+#define TRACK2 "music/Flim.wav"
+#define TRACK3 "music/PolynomialC.wav"
 #define CLICK_FX "sounds/click1.wav"
 #define	LEVEL_UP_FX "sounds/levelUp1.wav"
 #define CLEAR_LINE_FX "sounds/lineClear1.wav"
+
+#define T0_DURATION 286 // duracion del tema en segundos
+#define T1_DURATION 229
+#define T2_DURATION 117
+#define T3_DURATION 287
 
 #ifdef RASPI
 
@@ -17,7 +23,7 @@ static Audio *lock_sound;
 static Audio *level_up_sound;
 static Audio *line_cleared_sound;
 
-static const char *aMusic[] = {TRACK1, TRACK2, TRACK3, TRACK4};
+static const char *aMusic[] = {TRACK0, TRACK1, TRACK2, TRACK3};
 /*no guardo en memoria la musica pq es muy pesada, y si no se corre el codigo
 hasta el final hay memory leaks grandes. en cambio, los sonidos si los guardo en 
 memoria ya que se leen constantemente*/
@@ -45,17 +51,46 @@ void initSoundFX()
         fprintf(stderr, "Audio not initilized.\n");
 		endAudio();
     }
-	
-	playMusic(aMusic[indx], SDL_MIX_MAXVOLUME);
 }
 
 void refreshMusic()
 {
-	if (playerStatus() == READY && musicStatus() == FINISHED)
+	// tengo q hacer esta ranciedad pq SDL2 solo deja loopear infmente la musica
+	static double startTime = getTime(); 
+	double currentTime = getTime();
+	double elapsedTime = currentTime - startTime; // en segundos
+
+	// duracion para cada tema
+	switch (indx)
 	{
-		indx++;
-		playMusic(aMusic[indx % 4], SDL_MIX_MAXVOLUME);
-		printf("Music index: %d", indx);
+	case 0: // track 0 = analogue bubblebath
+		if (elapsedTime >= T0_DURATION)
+		{
+			playMusic(aMusic[++indx % 4], SDL_MIX_MAXVOLUME);
+			startTime = currentTime;
+		}		
+		break;
+	case 1: // track 1 = fingerbib
+		if (elapsedTime >= T1_DURATION)
+		{
+			playMusic(aMusic[++indx % 4], SDL_MIX_MAXVOLUME);
+			startTime = currentTime;
+		}
+		break;
+	case 2: // track 2 = flim
+		if (elapsedTime >= T2_DURATION)
+		{
+			playMusic(aMusic[++indx % 4], SDL_MIX_MAXVOLUME);
+			startTime = currentTime;
+		}
+		break;
+	case 3: // track 3 = polynomial-c
+		if (elapsedTime >= T3_DURATION)
+		{
+			playMusic(aMusic[++indx % 4], SDL_MIX_MAXVOLUME);
+			startTime = currentTime;
+		}
+		break;
 	}
 }
 
@@ -70,7 +105,7 @@ void endSoundFX()
 
 void playTitleScreenMusic()
 {
-	playMusic(TRACK0, SDL_MIX_MAXVOLUME);
+	playMusic(TRACK5, SDL_MIX_MAXVOLUME);
 }
 
 void playLockSound()
