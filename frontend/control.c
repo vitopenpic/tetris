@@ -1,6 +1,5 @@
 #include "control.h"
-#include "soundFX.h"
-#include "../backend/board.h"
+#include "../backend/player.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <termios.h>
@@ -88,61 +87,4 @@ char whichKeyWasPressed(joyinfo_t *coord)
     }
     else
         return -1;
-}
-
-/*void initSettings()
-{
-    srand((unsigned int)time(NULL)); // seed para rand()
-#ifdef RASPI
-    joy_init();
-    disp_init();
-    disp_clear();
-    return;
-#else
-    enableNonBlockingInput(); // desactiva ICANON mode
-    return;
-#endif
-}*/
-
-void performMove(player_t *player, char key)
-{
-    switch (key)
-    {
-    case LEFT:
-        if (isMovementLegal(player->tipo, player->rotacion,
-                            player->x - 1, player->y))
-        {
-            player->x--;
-        }
-        break;
-    case RIGHT:
-        if (isMovementLegal(player->tipo, player->rotacion,
-                            player->x + 1, player->y))
-        {
-            player->x++;
-        }
-        break;
-    case DOWN:
-        if (isMovementLegal(player->tipo, player->rotacion,
-                            player->x, player->y + 1))
-        {
-            player->y++;
-        }
-        else
-        {
-            storePieceInBoard(player);
-            createNewTetramino(player);
-#ifdef RASPI
-			playLockSound();
-#endif
-        }
-        break;
-    case ROTATE:
-        if (isMovementLegal(player->tipo, (player->rotacion + 1) % 4,
-                            player->x, player->y))
-        {
-            player->rotacion = (player->rotacion + 1) % 4;
-        }
-        break;
-    }
 }

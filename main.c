@@ -1,6 +1,7 @@
 #include "backend/board.h"
 #include "backend/player.h"
 #include "backend/score.h"
+#include "backend/menu.h"
 #include "frontend/control.h"
 #include "frontend/display.h"
 #include "frontend/soundFX.h"
@@ -13,105 +14,118 @@
 
 int main(void)
 {
-	// timer	
-	double fallInterval = getSpeed(0); // en seg (rapidez inicial nivel 0)
-	double startTime, currentTime;
-	startTime = getTime();
-
 	// inicializaciones
     srand((unsigned int)time(NULL)); // seed para rand()
+	player_t player;
+	char key;
 #ifdef RASPI
 	joy_init();
 	disp_init();
-	disp_clear();
-	disp_update();
     joyinfo_t joystick = {0, 0, J_NOPRESS};
-	initSoundFX();
-	playTitleScreenMusic();	
-	drawTitleScreen();
+	initSoundFX(); 
 #else
 	enableNonBlockingInput(); // desactiva ICANON mode
 #endif
 
-	player_t player;
-	initGame(&player); // espera input (nombre)
-
 #ifdef RASPI
+	playTitleScreenMusic();	
+	drawTitleScreen();
 	reverseClearDelay();
-	startMusic();
-	double musicTimer = getTime();
 #endif
-	char key;
+	askForName(&player);
 
-	do // main loop
+	do // outer loop
 	{
-		// musica
-		musicTimer = refreshMusic(musicTimer);
-		
-		// control input
+		initGame(&player);
+		initMenu();		
+
+		// timer	
+		double fallInterval = getSpeed(0); // en seg (rapidez inicial nivel 0)
+		double startTime, currentTime;
+		startTime = getTime();
+
 #ifdef RASPI
-		joystick = joy_read();
-		key = whichKeyWasPressed(&joystick);
-		performMove(&player, key);
-#else
-		if (kbhit()) // se pregunta si se presiono una tecla
+		double musicTimer = getTime();		
+		startMusic();
+#endif 
+
+		do // inner loop
 		{
-			key = getchar();
+
+#ifdef RASPI
+			// musica			
+			musicTimer = refreshMusic(musicTimer);
+
+
+			// control input
+			joystick = joy_read();
+			key = whichKeyWasPressed(&joystick);
 			performMove(&player, key);
-		}
-#endif
-
-		// caida libre
-		currentTime = getTime();
-		double elapsedTime = currentTime - startTime;
-
-		if (elapsedTime >= fallInterval)
-		{
-			startTime = currentTime;
-			performMove(&player, DOWN);
-		}
-
-		// score/points & level
-		int linesCombo = eraseLineIfFull();
-		player.lines += linesCombo;
-
-		int previousLevel = player.level;
-		player.level = player.lines / 10;
-
-		if (previousLevel != player.level)
-#ifdef RASPI
-			playLevelUpSound();
-#else 	
-			;		
-#endif
-		player.score += howMuchScore(player.level, linesCombo);
-	
-		// rendering
-		updateScene(&player);
-#ifdef RASPI
-		drawInRaspberry(&player);
-		// change music if finished
 #else
-		drawInTerminal(&player);
+			if (kbhit()) // se pregunta si se presiono una tecla
+			{
+				key = getchar();
+				performMove(&player, key); // puede cambiar el menuStatus a OPEN
+			}
+#endif
+			// menu
+			while (menuStatus() == OPEN) 
+			{
+#ifdef RASPI
+				joystick = joy_read();
+				key = whichKeyWasPressed(&joystick);
+#else							
+				key = getchar();
+#endif				
+				navigateMenu(key);
+				printMenu();
+			}		
+
+			// caida libre
+			currentTime = getTime();
+			double elapsedTime = currentTime - startTime;
+
+			if (elapsedTime >= fallInterval)
+			{
+				startTime = currentTime;
+				performMove(&player, DOWN);
+			}
+
+			// score/points & level
+			int linesCombo = eraseLineIfFull();
+			player.lines += linesCombo;
+
+			int previousLevel = player.level;
+			player.level = player.lines / 10;
+
+			if (previousLevel != player.level)
+#ifdef RASPI
+				playLevelUpSound();
+#else 	
+				;		
+#endif
+			player.score += howMuchScore(player.level, linesCombo);
+
+			// rendering
+			updateScene(&player);
+#ifdef RASPI
+			drawInRaspberry(&player);
+#else
+			drawInTerminal(&player);
 #endif
 
-		// updates speed	
-		if (player.level < MAX_LEVEL)
-			fallInterval = getSpeed(player.level);
-	
-		// delay
-		usleep(20000); // = 0.02 seg. para que renderize suavemente
+			// updates speed	
+			if (player.level < MAX_LEVEL)
+				fallInterval = getSpeed(player.level);
+		
+			// delay
+			usleep(20000); // = 0.02 seg. para que renderize suavemente
 
-	} while (!isGameOver() && key != EXIT);
-
-	if (key == EXIT)
-		printf("I guess 'tis our goodbye then. Godspeed to you, %s the quitter...\n", 
-				player.name);
-	else
-		printf("This is thy end, %s the truthseeker...\n", player.name);
+		} while (!isGameOver() && menuStatus() == RESUME);
+	} while (menuStatus() != EXIT);
 
 	// lista mejores puntajes
-	updateTopScore("top10Score.dat", player.score, player.name);
+	updateTopScore("leaderboard.dat", player.score, player.name);
 	printTopScores();
 
 	// frees y finalizacioens

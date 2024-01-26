@@ -9,16 +9,6 @@
 
 #include "joydrv.h"
 #include "disdrv.h"
-#include "../backend/player.h"
-
-/***********************************
- *	        defines
- ***********************************/
-#define EXIT 'x'
-#define LEFT 'a'
-#define RIGHT 'd'
-#define DOWN 's'
-#define ROTATE 'w'
 
 /***********************************
  *	        funciones
@@ -37,9 +27,5 @@ int kbhit(void);
 double getTime(void);
 
 char whichKeyWasPressed(joyinfo_t *);
-
-//void initSettings(void);
-
-void performMove(player_t *, char);
 
 #endif // CONTROL_H

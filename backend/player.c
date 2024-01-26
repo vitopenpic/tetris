@@ -1,5 +1,7 @@
 #include "player.h"
 #include "board.h"
+#include "menu.h"
+#include "../frontend/soundFX.h"
 #include <time.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -80,6 +82,12 @@ void initGame(player_t *player)
 	player->score = 0;
 	player->level = 0;
 
+	clearBoard();
+	clearScene();
+}
+
+void askForName(player_t *player)
+{
 	printf("Heigh ho! Enter thy four character name...\n");
 	do
 	{
@@ -101,7 +109,51 @@ void createNewTetramino(player_t *player)
     player->new_rotacion = getRandInBetween(0, 3);
 }
 
-
+void performMove(player_t *player, char key)
+{   
+	switch (key)
+    {
+    case LEFT:
+        if (isMovementLegal(player->tipo, player->rotacion,
+                            player->x - 1, player->y))
+        {
+            player->x--;
+        }
+        break;
+    case RIGHT:
+        if (isMovementLegal(player->tipo, player->rotacion,
+                            player->x + 1, player->y))
+        {
+            player->x++;
+        }
+        break;
+    case DOWN:
+        if (isMovementLegal(player->tipo, player->rotacion,
+                            player->x, player->y + 1))
+        {
+            player->y++;
+        }
+        else
+        {
+            storePieceInBoard(player);
+            createNewTetramino(player);
+#ifdef RASPI
+			playLockSound();
+#endif
+        }
+        break;
+    case ROTATE:
+        if (isMovementLegal(player->tipo, (player->rotacion + 1) % 4,
+                            player->x, player->y))
+        {
+            player->rotacion = (player->rotacion + 1) % 4;
+        }
+        break;
+	case MENU: 
+		setMenuStatusOpen();
+		break;
+    }
+}
 
 
 

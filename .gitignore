@@ -1,4 +1,4 @@
 tetris
 vscode.json
-top10Score.dat
-main.o tetramino.o board.o player.o control.o display.o score.o soundFX.o
+leaderboard.dat
+main.o tetramino.o board.o player.o control.o display.o score.o soundFX.o menu.o

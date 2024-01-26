@@ -185,6 +185,12 @@ void drawInTerminal(player_t *player)
 	clearScreen();
 }
 
+void printMenu()
+{
+	puts("             MENU\n");
+	printf("index: %d\n", menuStatus());
+}
+
 #ifdef RASPI
 
 /* posicion con respecto al display de la raspi donde se mostrara 

@@ -63,9 +63,14 @@ bool isMovementLegal(int tipo, int rotacion, int x, int y);
 void storePieceInBoard(player_t *);
 
 /**
- * @brief pone todos los bloques de la mScene en FREE=0
+ * @brief pone todos los bloques de mScene en FREE=0
  * */
 void clearScene();
+
+/**
+ * @brief pone todos los bloques de mBoard en FREE=0
+ * */
+void clearBoard();
 
 /**
  * @brief actualiza el contenido de mScene con los tetraminos muertos y

@@ -1,5 +1,5 @@
 #include "soundFX.h"
-#include "control"
+#include "control.h"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -66,7 +66,6 @@ void startMusic()
 
 double refreshMusic(double startTime)
 {
-	// tengo q hacer esta ranciedad pq SDL2 solo deja loopear infmente la musica 
 	double currentTime = getTime();
 	double elapsedTime = currentTime - startTime; // en segundos
 

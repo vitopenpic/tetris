@@ -109,6 +109,14 @@ void clearScene()
     }
 }
 
+void clearBoard()
+{
+    for (int i = 0; i < BOARD_WIDTH; i++)
+    {
+        for (int j = 0; j < BOARD_HEIGHT; j++)
+            mBoard[j][i] = FREE;
+    }
+}
 
 static void eraseLine(int y)
 {

@@ -8,6 +8,7 @@
  **************************************************************************/
 
 #include "../backend/player.h"
+#include "../backend/menu.h"
 
 /**
  * @brief imprime el juego al display matricial de la
@@ -21,6 +22,11 @@ void drawInRaspberry(player_t *);
 void drawTitleScreen();
 
 /**
+ * @brief imprime el contenido del menu a la terminal
+ */
+void printMenu();
+
+/**
  * @brief borra desde abajo hacia arriba el display matricial de la
  * raspberry con efecto de delay
  */
@@ -30,5 +36,6 @@ void reverseClearDelay();
  * @brief imprime el juego a la terminal
  */
 void drawInTerminal(player_t *);
+
 
 #endif // DISPLAY_H

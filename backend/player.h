@@ -12,6 +12,12 @@
  *	enums, defines, structs
  ***********************************/
 
+#define MENU 'x'
+#define LEFT 'a'
+#define RIGHT 'd'
+#define DOWN 's'
+#define ROTATE 'w'
+
 #define MAX_CHAR 5
 
 typedef struct player_t
@@ -37,10 +43,18 @@ typedef struct player_t
 void initGame(player_t *);
 
 /**
+ * @brief espera input del usuario con lo que sera el nombre del jugador
+ * @param player_t struct con los datos del jugador
+ */
+void askForName(player_t *);
+
+/**
  * @brief actualiza la pieza actual con la proxima y genera altetoriamente otra
  * proxima
  * @param player_t struct con los datos del jugador
  */
 void createNewTetramino(player_t *);
+
+void performMove(player_t *, char);
 
 #endif // PLAYER_H
