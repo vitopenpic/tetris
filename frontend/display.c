@@ -8,6 +8,7 @@
 #include "disdrv.h"
 #include "../backend/board.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
 #include <unistd.h>
 
@@ -187,8 +188,19 @@ void drawInTerminal(player_t *player)
 
 void printMenu()
 {
-	puts("             MENU\n");
-	printf("index: %d\n", menuStatus());
+	clearScreen();	
+	switch (abs(menuIndex()))
+	{
+		case RESUME:
+			puts(">RESUME\n RESTART\n EXIT");
+		break;
+		case RESTART:
+			puts(" RESUME\n>RESTART\n EXIT");
+		break;
+		case EXIT:
+			puts(" RESUME\n RESTART\n>EXIT");
+		break;
+	}
 }
 
 #ifdef RASPI

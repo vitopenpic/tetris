@@ -23,10 +23,14 @@ typedef enum menu_status_t
 
 menu_status_t menuStatus();
 
+int menuIndex();
+
 void initMenu();
 
 void setMenuStatusOpen();
 
 void navigateMenu(char key);
+
+void wantToRetry(char key);
 
 #endif // MENU_H

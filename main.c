@@ -122,6 +122,12 @@ int main(void)
 			usleep(20000); // = 0.02 seg. para que renderize suavemente
 
 		} while (!isGameOver() && menuStatus() == RESUME);
+		if (isGameOver() && menuStatus() == RESUME)
+		{
+			puts("\nWant to retry?\n[Y/N]");		// cambiar
+			while ((key = getchar()) != 'y' && key != 'n');
+			wantToRetry(key);
+		}
 	} while (menuStatus() != EXIT);
 
 	// lista mejores puntajes

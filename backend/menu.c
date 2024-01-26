@@ -12,6 +12,11 @@ menu_status_t menuStatus()
 	return status;
 }
 
+int menuIndex()
+{
+	return status_index;
+}
+
 void initMenu()
 {
 	status = RESUME;
@@ -38,4 +43,10 @@ void navigateMenu(char key)
 		status = abs(status_index); // status deja de valer OPEN
 		break;    
 	}
+}
+
+void wantToRetry(char key)
+{
+	if (key == 'n')
+		status = EXIT;
 }
