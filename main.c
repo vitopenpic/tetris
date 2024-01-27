@@ -125,15 +125,15 @@ int main(void)
 		{
 			do
 			{
-#ifdef RASPI
-				joystick = joy_read();
-				key = whichKeyWasPressed(&joystick);
-#else							
+//#ifdef RASPI
+//				joystick = joy_read();
+//				key = whichKeyWasPressed(&joystick);
+//#else							
 				puts("\nWant to retry? [Y/N]");	
 				key = getchar();		
 				printf("%c\n", key);	
 				while(getchar() != '\n');
-#endif				
+//#endif				
 			} while (key != 'Y' && key != 'y' && key != 'N' && key != 'n'); 
 			wantToRetry(key);
 		}
