@@ -7,6 +7,7 @@
 #include <fcntl.h>
 #include <time.h>
 #include <stdbool.h>
+#include <ctype.h>
 
 void enableNonBlockingInput()
 {
@@ -88,3 +89,46 @@ char whichKeyWasPressed(joyinfo_t *coord)
     else
         return -1;
 }
+
+void *enterName(char *name)
+{	
+//#ifdef RASPI
+
+//#else
+	char c;
+ 	for (int i = 0; i < MAX_CHAR - 1; i++) 
+	{
+        while (!isalpha(c = getchar())); 
+        name[i] = c;
+    }
+	name[MAX_CHAR-1] = '\0';
+	while (getchar() != '\n');
+//#endif
+	return name;
+}
+
+bool confirmName(char name[])
+{
+//#ifdef RASPI
+//#else
+	printf("- Outlandish! Thou really goes by the name of %s? - [Y/N]\n", name);
+	char c = getchar();
+	while(getchar() != '\n');
+	if (c == 'Y' || c == 'y')
+	{
+		puts("- I hast never heard such name... cool -");
+		return true;
+	}
+	else if (c == 'N' || c == 'n') 	
+	{
+		puts("- I beg yerr pardon. Tell me again, how thou art called? -");
+		return false;		
+	}
+	else
+	{
+		puts("- Stop mumbling gibberish! Doth thou not speak english? Tell me how thou art called... -");
+		return false;
+	}
+//#endif
+}
+

@@ -9,6 +9,7 @@
 
 #include "joydrv.h"
 #include "disdrv.h"
+#include <stdbool.h>
 
 /***********************************
  *	        funciones
@@ -27,5 +28,18 @@ int kbhit(void);
 double getTime(void);
 
 char whichKeyWasPressed(joyinfo_t *);
+
+/**
+ * @brief recibe y escribe input del usuario para el nombre del jugador
+ * @param name, puntero a un string
+ */
+void *enterName(char *name);
+
+/**
+ * @brief revalida el nombre recibido
+ * @param string con el nombre recibido
+ * @return afirmativo o negativo
+ */
+bool confirmName(char *name);
 
 #endif // CONTROL_H

@@ -32,7 +32,7 @@ int main(void)
 	drawTitleScreen();
 	reverseClearDelay();
 #endif
-	askForName(&player);
+	askForName(&player); // espera input del usuario
 
 	do // outer loop
 	{
@@ -56,16 +56,15 @@ int main(void)
 			// musica			
 			musicTimer = refreshMusic(musicTimer);
 
-
-			// control input
+			// input control
 			joystick = joy_read();
 			key = whichKeyWasPressed(&joystick);
-			performMove(&player, key);
+			performMove(&player, key); // puede cambiar el menuStatus a OPEN
 #else
 			if (kbhit()) // se pregunta si se presiono una tecla
 			{
 				key = getchar();
-				performMove(&player, key); // puede cambiar el menuStatus a OPEN
+				performMove(&player, key);
 			}
 #endif
 			// menu
@@ -94,15 +93,14 @@ int main(void)
 			// score/points & level
 			int linesCombo = eraseLineIfFull();
 			player.lines += linesCombo;
-
+#ifdef RASPI
 			int previousLevel = player.level;
+#endif 
 			player.level = player.lines / 10;
 
-			if (previousLevel != player.level)
 #ifdef RASPI
+			if (previousLevel != player.level)
 				playLevelUpSound();
-#else 	
-				;		
 #endif
 			player.score += howMuchScore(player.level, linesCombo);
 
@@ -121,14 +119,25 @@ int main(void)
 			// delay
 			usleep(20000); // = 0.02 seg. para que renderize suavemente
 
-		} while (!isGameOver() && menuStatus() == RESUME);
+		} while (!isGameOver() && menuStatus() == RESUME); // end of inner loop
+		// retry menu
 		if (isGameOver() && menuStatus() == RESUME)
 		{
-			puts("\nWant to retry?\n[Y/N]");		// cambiar
-			while ((key = getchar()) != 'y' && key != 'n');
+			do
+			{
+#ifdef RASPI
+				joystick = joy_read();
+				key = whichKeyWasPressed(&joystick);
+#else							
+				puts("\nWant to retry? [Y/N]");	
+				key = getchar();		
+				printf("%c\n", key);	
+				while(getchar() != '\n');
+#endif				
+			} while (key != 'Y' && key != 'y' && key != 'N' && key != 'n'); 
 			wantToRetry(key);
 		}
-	} while (menuStatus() != EXIT);
+	} while (menuStatus() != EXIT); // end of outer loop
 
 	// lista mejores puntajes
 	updateTopScore("leaderboard.dat", player.score, player.name);

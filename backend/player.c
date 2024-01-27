@@ -2,10 +2,12 @@
 #include "board.h"
 #include "menu.h"
 #include "../frontend/soundFX.h"
+#include "../frontend/control.h"
 #include <time.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <string.h>
 
 static int getRandInBetween(int a, int b)
 {
@@ -16,53 +18,6 @@ static int getRandInBetween(int a, int b)
         b = aux;
     }
     return rand() % (b - a + 1) + a;
-}
-
-static void clearInputBuffer() 
-{
-    fflush(stdin); 
-}
-
-static bool enterName(player_t *player)
-{
-	char c;
-	int i = 0;
-	while ((c = getchar()) != '\n' && i < MAX_CHAR - 1)
-	{
-		if (c < 'A' || c > 'z' || (c < 'a' && c > 'Z'))
-		{
-			puts("What is that sound!? Unspokeable! Please use english letters...");
-			return false;
-		}		
-		player->name[i] = c;
-		i++;		
-	}	
-	player->name[i] = '\0';
-	
-	clearInputBuffer();
-	return true;
-}
-
-static bool isThatThyName(player_t *player)
-{
-	printf("Outlandish! Thou really goes by the name of %s?\n[Y/N]\n", player->name);
-	char c = getchar();
-	while(getchar() != '\n');
-	if (c == 'Y' || c == 'y')
-	{
-		puts("I hast never heard such name... cool");
-		return true;
-	}
-	else if (c == 'N' || c == 'n') 	
-	{
-		puts("I beg yerr pardon. Tell me again, how thou art called?");
-		return false;		
-	}
-	else
-	{
-		puts("Stop mumbling gibberish! Doth thou not speak english? Tell me how thou art called...");
-		return false;
-	}
 }
 
 void initGame(player_t *player)
@@ -88,11 +43,13 @@ void initGame(player_t *player)
 
 void askForName(player_t *player)
 {
-	printf("Heigh ho! Enter thy four character name...\n");
-	do
+	puts("- Heigh ho! Enter thy four character name... -");	 // cambiar
+	char name[MAX_CHAR];		
+	do 
 	{
-		while(!enterName(player));
-	} while (!isThatThyName(player));
+		enterName(name);			// from control.h (espera input)
+	} while (!confirmName(name)); 	// from control.h
+	strcpy(player->name, name);
 }
 
 void createNewTetramino(player_t *player)
