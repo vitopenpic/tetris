@@ -86,6 +86,10 @@ char whichKeyWasPressed(joyinfo_t *coord)
         sw_released = false;
         return ROTATE;
     }
+	if (coord->y < THRESHOLD)
+    {
+        return MENU;
+    }
     else
         return -1;
 }

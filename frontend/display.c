@@ -7,6 +7,7 @@
 #include "display.h"
 #include "disdrv.h"
 #include "../backend/board.h"
+#include "../backend/menu.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -128,7 +129,70 @@ const static bool mTitleScreen[DISP_MAX_X+1][DISP_MAX_Y+1] =
 	{0,1,0,0,1,0,1,1,1,0,1,1,1,1,0,0},
 	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
 };
+
+const static bool mMenuScreens[3][DISP_MAX_X+1][DISP_MAX_Y+1] =
+{
+	{ // RESUME (RSME)
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		{0,1,1,1,0,1,1,1,0,1,1,1,0,1,1,1},
+		{0,1,0,1,0,1,0,0,0,1,1,1,0,1,0,0},
+		{0,1,1,0,0,1,1,1,0,1,0,1,0,1,1,0},
+		{0,1,0,1,0,0,0,1,0,1,0,1,0,1,0,0},
+		{0,1,0,1,0,1,1,1,0,1,0,1,0,1,1,1},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0},
+		{0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	},
+	{ // RESTART (RSTT)
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0},
+		{0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		{0,1,1,1,0,1,1,1,0,1,1,1,0,1,1,1},
+		{0,1,0,1,0,1,0,0,0,0,1,0,0,0,1,0},
+		{0,1,1,0,0,1,1,1,0,0,1,0,0,0,1,0},
+		{0,1,0,1,0,0,0,1,0,0,1,0,0,0,1,0},
+		{0,1,0,1,0,1,1,1,0,0,1,0,0,0,1,0},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0},
+		{0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	},
+	{ // EXIT	
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0},
+		{0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		{0,1,1,1,0,1,0,1,0,0,1,0,0,1,1,1},
+		{0,1,0,0,0,1,0,1,0,0,1,0,0,0,1,0},
+		{0,1,1,0,0,0,1,0,0,0,1,0,0,0,1,0},
+		{0,1,0,0,0,1,0,1,0,0,1,0,0,0,1,0},
+		{0,1,1,1,0,1,0,1,0,0,1,0,0,0,1,0},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	},
+};
+
 #endif 
+
+/*================================
+	FUNCIONES AUXILIARES TERMINAL
+  ================================*/
 
 static void drawScene()
 {
@@ -176,32 +240,9 @@ static void printNextPiece(player_t *plr)
 	}		
 }
 
-void drawInTerminal(player_t *player)
-{
-	printf("LEVEL: %d\nSCORE: %d\nLINES: %d\n\n", 
-	player->level, player->score, player->lines);
-	printNextPiece(player);
-	printf("\n");		
-	drawScene();
-	clearScreen();
-}
-
-void printMenu()
-{
-	clearScreen();	
-	switch (abs(menuIndex()))
-	{
-		case RESUME:
-			puts(">RESUME\n RESTART\n EXIT");
-		break;
-		case RESTART:
-			puts(" RESUME\n>RESTART\n EXIT");
-		break;
-		case EXIT:
-			puts(" RESUME\n RESTART\n>EXIT");
-		break;
-	}
-}
+/*================================
+	FUNCIONES AUXILIARES RASPi
+  ================================*/
 
 #ifdef RASPI
 
@@ -270,6 +311,23 @@ static void drawNumberToDisp(int x0, int y0, int num)
 	}
 }
 
+static void drawMenuStatus(menu_status_t status)
+{
+	dcoord_t p;	// hago esto pq no me deja pasar tipo 'disp_write({x, y}, ...)'	
+	for (int y = 0; y <= DISP_MAX_Y; y++)
+    {
+        for (int x = 0; x <= DISP_MAX_X; x++)
+        {
+			p.x = x; p.y = y;            
+			if (mMenuScreens[status][y][x] == OCCUPIED)
+                disp_write(p, D_ON);
+            else
+                disp_write(p, D_OFF);
+        }
+    }
+	disp_update();
+}
+
 static void	drawScoreRaspberry(player_t *player)
 {
 	if (player->score > 9999)
@@ -304,7 +362,22 @@ static void reverseClearDelay()
         }
     }
 }
+#endif
+/*=======================
+	FUNCIONES PUBLICAS
+  =======================*/
 
+void drawInTerminal(player_t *player)
+{
+	printf("LEVEL: %d\nSCORE: %d\nLINES: %d\n\n", 
+	player->level, player->score, player->lines);
+	printNextPiece(player);
+	printf("\n");		
+	drawScene();
+	clearScreen();
+}
+
+#ifdef RASPI
 void drawInRaspberry(player_t *player)
 {
 	// tablero, en la mitad izquierda del display 
@@ -316,7 +389,30 @@ void drawInRaspberry(player_t *player)
 	// muestra el puntaje, abajo a la derecha 
 	drawScoreRaspberry(player);
 }	
+#endif
 
+void printMenu()
+{
+#ifdef RASPI
+	drawMenuStatus(abs(menuIndex());
+#else
+	clearScreen();	
+	switch (abs(menuIndex()))
+	{
+		case RESUME:
+			puts(">RESUME\n RESTART\n EXIT");
+		break;
+		case RESTART:
+			puts(" RESUME\n>RESTART\n EXIT");
+		break;
+		case EXIT:
+			puts(" RESUME\n RESTART\n>EXIT");
+		break;
+	}
+#endif
+}
+
+#ifdef RASPI
 void drawTitleScreen()
 {
 	dcoord_t p;	// hago esto pq no me deja pasar tipo 'disp_write({x, y}, ...)'	
