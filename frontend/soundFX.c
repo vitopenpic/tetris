@@ -61,7 +61,7 @@ void startMusic()
         fprintf(stderr, "Audio not initilized.\n");
 		endAudio();
     }	
-	playMusic(aMusic[indx], SDL_MIX_MAXVOLUME);
+	playMusic(aMusic[++indx % 4], SDL_MIX_MAXVOLUME);
 }
 
 double refreshMusic(double startTime)

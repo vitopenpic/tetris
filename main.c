@@ -43,6 +43,7 @@ int main(void)
 		double startTime, currentTime;
 		startTime = getTime();
 #ifdef RASPI
+		disp_clear();
 		double musicTimer = getTime();		
 		startMusic();
 #endif 
@@ -67,14 +68,22 @@ int main(void)
 			// menu ---------------------------------------------------------
 			while (menuStatus() == OPEN) 
 			{
+				char prev_key = key;
 #ifdef RASPI
+				musicTimer = refreshMusic(musicTimer);
 				joystick = joy_read();
 				key = whichKeyWasPressed(&joystick);
 #else							
 				key = getchar();
 #endif				
+				if (prev_key == key)
+					continue;
 				navigateMenu(key);
 				printMenu();
+#ifdef RASPI
+				if (key == ENTER)
+					disp_clear();
+#endif
 			}		
 
 			// caida libre ---------------------------------------------------
@@ -122,6 +131,7 @@ int main(void)
 		{
 			do
 			{
+				musicTimer = refreshMusic(musicTimer);
 //#ifdef RASPI
 //				joystick = joy_read();
 //				key = whichKeyWasPressed(&joystick);

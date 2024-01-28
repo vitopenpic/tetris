@@ -9,9 +9,9 @@
 
 #include <stdbool.h>
 
-#define ENTER 'x'
+#define ENTER 'w'
 #define DOWN 's'
-#define UP 'w'
+#define UP 'x'
 
 typedef enum menu_status_t
 {
