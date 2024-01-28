@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#ifdef RASPI
+
 #define TRACK5 "music/Mookid.wav"
 #define TRACK0 "music/AnalogueBubblebath.wav"
 #define TRACK1 "music/Fingerbib.wav"
@@ -16,8 +18,6 @@
 #define T1_DURATION 229
 #define T2_DURATION 117
 #define T3_DURATION 287
-
-#ifdef RASPI
 
 static Audio *lock_sound;
 static Audio *level_up_sound;
@@ -55,7 +55,7 @@ void initSoundFX()
 
 void startMusic()
 {
-	endAudio()
+	endAudio();
 	if (initAudio() == NO_INIT)
     {
         fprintf(stderr, "Audio not initilized.\n");
