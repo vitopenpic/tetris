@@ -290,6 +290,21 @@ static void	drawScoreRaspberry(player_t *player)
 	drawNumberToDisp(SCORE_THOUSAND_X, SCORE_THOUSAND_Y, player->score % 10000 / 1000);	
 }
 
+static void reverseClearDelay()
+{
+	dcoord_t p;	// hago esto pq no me deja pasar tipo 'disp_write({x, y}, ...)'	
+	for (int y = 0; y <= DISP_MAX_Y; y++)
+    {
+        for (int x = 0; x <= DISP_MAX_X; x++)
+        {
+			p.x = x; p.y = y;            
+			disp_write(p, D_OFF);
+			disp_update();
+			usleep(5000);
+        }
+    }
+}
+
 void drawInRaspberry(player_t *player)
 {
 	// tablero, en la mitad izquierda del display 
@@ -318,21 +333,7 @@ void drawTitleScreen()
 			usleep(5000);
         }
     }
-}
-
-void reverseClearDelay()
-{
-	dcoord_t p;	// hago esto pq no me deja pasar tipo 'disp_write({x, y}, ...)'	
-	for (int y = 0; y <= DISP_MAX_Y; y++)
-    {
-        for (int x = 0; x <= DISP_MAX_X; x++)
-        {
-			p.x = x; p.y = y;            
-			disp_write(p, D_OFF);
-			disp_update();
-			usleep(10000);
-        }
-    }
+	reverseClearDelay();
 }
 #endif
 

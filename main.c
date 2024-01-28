@@ -14,7 +14,7 @@
 
 int main(void)
 {
-	// inicializaciones
+	// inicializaciones ---------------------------------------------------
     srand((unsigned int)time(NULL)); // seed para rand()
 	player_t player;
 	char key;
@@ -30,33 +30,30 @@ int main(void)
 #ifdef RASPI
 	playTitleScreenMusic();	
 	drawTitleScreen();
-	reverseClearDelay();
 #endif
 	askForName(&player); // espera input del usuario
 
-	do // outer loop
+	do // outer loop -------------------------------------------------------
 	{
 		initGame(&player);
 		initMenu();		
 
-		// timer	
+		// timer -----------------------------------------------------------
 		double fallInterval = getSpeed(0); // en seg (rapidez inicial nivel 0)
 		double startTime, currentTime;
 		startTime = getTime();
-
 #ifdef RASPI
 		double musicTimer = getTime();		
 		startMusic();
 #endif 
 
-		do // inner loop
+		do // inner loop ---------------------------------------------------
 		{
-
 #ifdef RASPI
-			// musica			
+			// musica ------------------------------------------------------		
 			musicTimer = refreshMusic(musicTimer);
 
-			// input control
+			// input control -----------------------------------------------
 			joystick = joy_read();
 			key = whichKeyWasPressed(&joystick);
 			performMove(&player, key); // puede cambiar el menuStatus a OPEN
@@ -67,7 +64,7 @@ int main(void)
 				performMove(&player, key);
 			}
 #endif
-			// menu
+			// menu ---------------------------------------------------------
 			while (menuStatus() == OPEN) 
 			{
 #ifdef RASPI
@@ -80,7 +77,7 @@ int main(void)
 				printMenu();
 			}		
 
-			// caida libre
+			// caida libre ---------------------------------------------------
 			currentTime = getTime();
 			double elapsedTime = currentTime - startTime;
 
@@ -90,7 +87,7 @@ int main(void)
 				performMove(&player, DOWN);
 			}
 
-			// score/points & level
+			// score/points & level ------------------------------------------
 			int linesCombo = eraseLineIfFull();
 			player.lines += linesCombo;
 #ifdef RASPI
@@ -104,7 +101,7 @@ int main(void)
 #endif
 			player.score += howMuchScore(player.level, linesCombo);
 
-			// rendering
+			// rendering ------------------------------------------------------
 			updateScene(&player);
 #ifdef RASPI
 			drawInRaspberry(&player);
@@ -112,15 +109,15 @@ int main(void)
 			drawInTerminal(&player);
 #endif
 
-			// updates speed	
+			// updates speed ---------------------------------------------------
 			if (player.level < MAX_LEVEL)
 				fallInterval = getSpeed(player.level);
 		
 			// delay
 			usleep(20000); // = 0.02 seg. para que renderize suavemente
 
-		} while (!isGameOver() && menuStatus() == RESUME); // end of inner loop
-		// retry menu
+		} while (!isGameOver() && menuStatus() == RESUME); // end of inner loop-
+		// retry menu ----------------------------------------------------------
 		if (isGameOver() && menuStatus() == RESUME)
 		{
 			do
@@ -137,13 +134,13 @@ int main(void)
 			} while (key != 'Y' && key != 'y' && key != 'N' && key != 'n'); 
 			wantToRetry(key);
 		}
-	} while (menuStatus() != EXIT); // end of outer loop
+	} while (menuStatus() != EXIT); // end of outer loop ------------------------
 
-	// lista mejores puntajes
+	// lista mejores puntajes ---------------------------------------------------
 	updateTopScore("leaderboard.dat", player.score, player.name);
 	printTopScores();
 
-	// frees y finalizacioens
+	// frees y finalizacioens ---------------------------------------------------
 #ifdef RASPI
 	endSoundFX();
 	disp_clear();

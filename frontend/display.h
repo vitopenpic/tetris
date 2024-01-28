@@ -27,12 +27,6 @@ void drawTitleScreen();
 void printMenu();
 
 /**
- * @brief borra desde abajo hacia arriba el display matricial de la
- * raspberry con efecto de delay
- */
-void reverseClearDelay();
-
-/**
  * @brief imprime el juego a la terminal
  */
 void drawInTerminal(player_t *);
