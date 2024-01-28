@@ -26,7 +26,7 @@ void restoreBlockingInput()
     tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
 }
 
-int kbhit(void)
+int kbhit()
 {
     struct termios oldt, newt;
     int ch;

@@ -23,9 +23,9 @@ void enableNonBlockingInput();
 void restoreBlockingInput();
 
 /* devuelve 1 si se presiono una tecla*/
-int kbhit(void);
+int kbhit();
 
-double getTime(void);
+double getTime();
 
 char whichKeyWasPressed(joyinfo_t *);
 
