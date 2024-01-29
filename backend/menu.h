@@ -9,9 +9,15 @@
 
 #include <stdbool.h>
 
+#ifdef RASPI
+#define ENTER 'w'
+#define DOWN 's'
+#define UP 'x'
+#else
 #define ENTER 'x'
 #define DOWN 's'
 #define UP 'w'
+#endif
 
 typedef enum menu_status_t
 {
