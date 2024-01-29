@@ -41,17 +41,6 @@ void initGame(player_t *player)
 	clearScene();
 }
 
-void askForName(player_t *player)
-{
-	puts("- Heigh ho! Enter thy four character name... -");	 // cambiar
-	char name[MAX_CHAR];		
-	do 
-	{
-		enterName(name);			// from control.h (espera input)
-	} while (!confirmName(name)); 	// from control.h
-	strcpy(player->name, name);
-}
-
 void createNewTetramino(player_t *player)
 {
     // nuevo tetramino

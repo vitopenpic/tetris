@@ -15,25 +15,34 @@
 int main(void)
 {
 	// inicializaciones ---------------------------------------------------
-    srand((unsigned int)time(NULL)); // seed para rand()
+	srand((unsigned int)time(NULL)); // seed para rand()
 	player_t player;
 	char key;
 #ifdef RASPI
 	joy_init();
 	disp_init();
-    joyinfo_t joystick = {0, 0, J_NOPRESS};
-	initSoundFX(); 
-	playTitleScreenMusic();	
+	joyinfo_t joystick = {0, 0, J_NOPRESS};
+	initSoundFX();
+	playTitleScreenMusic();
 	drawTitleScreen();
 #else
 	enableNonBlockingInput(); // desactiva ICANON mode
 #endif
-	askForName(&player); // espera input del usuario
+	// espera a el nombre del jugador	
+	do 
+	{
+#ifdef RASPI
+		enterNameRasp(player.name, &joystick);
+	} while (!confirmName(player.name));
+#else
+		enterName(player.name);			//(espera input)
+	} while (!confirmName(player.name)); 
+#endif
 
 	do // outer loop -------------------------------------------------------
 	{
 		initGame(&player);
-		initMenu();		
+		initMenu();
 
 		// timer -----------------------------------------------------------
 		double fallInterval = getSpeed(0); // en seg (rapidez inicial nivel 0)
@@ -41,14 +50,14 @@ int main(void)
 		startTime = getTime();
 #ifdef RASPI
 		disp_clear();
-		double musicTimer = getTime();		
+		double musicTimer = getTime();
 		startMusic();
-#endif 
+#endif
 
 		do // inner loop ---------------------------------------------------
 		{
 #ifdef RASPI
-			// musica ------------------------------------------------------		
+			// musica ------------------------------------------------------
 			musicTimer = refreshMusic(musicTimer);
 
 			// input control -----------------------------------------------
@@ -63,24 +72,25 @@ int main(void)
 			}
 #endif
 			// menu ---------------------------------------------------------
-			while (menuStatus() == OPEN) 
+			while (menuStatus() == OPEN)
 			{
 #ifdef RASPI
-				char prev_key = key;			
+				char prev_key = key;
 				musicTimer = refreshMusic(musicTimer);
 				joystick = joy_read();
 				key = whichKeyWasPressed(&joystick);
-				if (prev_key == key) continue;
-#else							
+				if (prev_key == key)
+					continue;
+#else
 				key = getchar();
-#endif				
+#endif
 				navigateMenu(key);
 				printMenu();
 #ifdef RASPI
 				if (key == ENTER)
 					disp_clear();
 #endif
-			}		
+			}
 
 			// caida libre ---------------------------------------------------
 			currentTime = getTime();
@@ -97,7 +107,7 @@ int main(void)
 			player.lines += linesCombo;
 #ifdef RASPI
 			int previousLevel = player.level;
-#endif 
+#endif
 			player.level = player.lines / 10;
 
 #ifdef RASPI
@@ -117,7 +127,7 @@ int main(void)
 			// updates speed ---------------------------------------------------
 			if (player.level < MAX_LEVEL)
 				fallInterval = getSpeed(player.level);
-		
+
 			// delay
 			usleep(20000); // = 0.02 seg. para que renderize suavemente
 
@@ -127,19 +137,20 @@ int main(void)
 		{
 			do
 			{
-#ifdef RASPI				
+#ifdef RASPI
 				musicTimer = refreshMusic(musicTimer);
 #endif
-//#ifdef RASPI
-//				joystick = joy_read();
-//				key = whichKeyWasPressed(&joystick);
-//#else							
-				puts("\nWant to retry? [Y/N]");	
-				key = getchar();		
-				printf("%c\n", key);	
-				while(getchar() != '\n');
-//#endif				
-			} while (key != 'Y' && key != 'y' && key != 'N' && key != 'n'); 
+				// #ifdef RASPI
+				//				joystick = joy_read();
+				//				key = whichKeyWasPressed(&joystick);
+				// #else
+				puts("\nWant to retry? [Y/N]");
+				key = getchar();
+				printf("%c\n", key);
+				while (getchar() != '\n')
+					;
+				// #endif
+			} while (key != 'Y' && key != 'y' && key != 'N' && key != 'n');
 			wantToRetry(key);
 		}
 	} while (menuStatus() != EXIT); // end of outer loop ------------------------

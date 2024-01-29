@@ -110,6 +110,165 @@ static const bool aDisplayNum[10][DISPLAY_NUMY][DISPLAY_NUMX] =
 	 {0,0,1}},
 };
 
+static const bool aDisplayAlphabet[ALPHA_MAX][DISPLAY_NUMY][DISPLAY_NUMX] = 
+{
+	{{0,1,0}, // A
+	 {1,0,1},
+	 {1,1,1},
+	 {1,0,1},
+	 {1,0,1}},
+
+	{{1,1,1}, // B
+	 {1,0,1},
+	 {1,1,0},
+	 {1,0,1},
+	 {1,1,1}},
+
+	{{1,1,1}, // C
+	 {1,0,0},
+	 {1,0,0},
+	 {1,0,0},
+	 {1,1,1}},
+
+	{{1,1,0}, // D
+	 {1,0,1},
+	 {1,0,1},
+	 {1,0,1},
+	 {1,1,0}},
+	 
+	{{1,1,1}, // E
+	 {1,0,0},
+	 {1,1,0},
+	 {1,0,0},
+	 {1,1,1}},
+
+	{{1,1,1}, // F
+	 {1,0,0},
+	 {1,1,0},
+	 {1,0,0},
+	 {1,0,0}},
+
+	{{1,1,1}, // G
+	 {1,0,0},
+	 {1,0,1},
+	 {1,0,1},
+	 {1,1,1}},
+
+	{{1,0,1}, // H
+	 {1,0,1},
+	 {1,1,1},
+	 {1,0,1},
+	 {1,0,1}},
+
+	{{1,1,1}, // I
+	 {0,1,0},
+	 {0,1,0},
+	 {0,1,0},
+	 {1,1,1}},
+
+	{{0,0,1}, // J
+	 {0,0,1},
+	 {0,0,1},
+	 {1,0,1},
+	 {1,1,1}},
+
+	{{1,0,1}, // K
+	 {1,0,1},
+	 {1,1,0},
+	 {1,0,1},
+	 {1,0,1}},
+
+	{{1,0,0}, // L
+	 {1,0,0},
+	 {1,0,0},
+	 {1,0,0},
+	 {1,1,1}},
+
+	{{1,1,1}, // M
+	 {1,1,1},
+	 {1,0,1},
+	 {1,0,1},
+	 {1,0,1}},
+
+	{{1,1,1}, // N
+	 {1,0,1},
+	 {1,0,1},
+	 {1,0,1},
+	 {1,0,1}},
+
+	{{1,1,1}, // O
+	 {1,0,1},
+	 {1,0,1},
+	 {1,0,1},
+	 {1,1,1}},
+
+	{{1,1,1}, // P
+	 {1,0,1},
+	 {1,1,1},
+	 {1,0,0},
+	 {1,0,0}},
+
+	{{1,1,1}, // Q
+	 {1,0,1},
+	 {1,0,1},
+	 {1,1,1},
+	 {1,1,1}},
+
+	{{1,1,1}, // R
+	 {1,0,1},
+	 {1,1,0},
+	 {1,0,1},
+	 {1,0,1}},
+
+	{{1,1,1}, // S
+	 {1,0,0},
+	 {1,1,1},
+	 {0,0,1},
+	 {1,1,1}},
+
+	{{1,1,1}, // T
+	 {0,1,0},
+	 {0,1,0},
+	 {0,1,0},
+	 {0,1,0}},
+
+	{{1,0,1}, // U
+	 {1,0,1},
+	 {1,0,1},
+	 {1,0,1},
+	 {1,1,1}},
+
+	{{1,0,1}, // V
+	 {1,0,1},
+	 {1,0,1},
+	 {1,0,1},
+	 {0,1,0}},
+
+	{{1,0,1}, // W
+	 {1,0,1},
+	 {1,0,1},
+	 {1,1,1},
+	 {1,1,1}},
+
+	{{1,0,1}, // X
+	 {1,0,1},
+	 {0,1,0},
+	 {1,0,1},
+	 {1,0,1}},
+
+	{{1,0,1}, // Y
+	 {1,0,1},
+	 {1,1,1},
+	 {0,1,0},
+	 {0,1,0}},
+
+	{{1,1,1}, // Z
+	 {0,0,1},
+	 {0,1,0},
+	 {1,0,0},
+	 {1,1,1}},
+};
+
 const static bool mTitleScreen[DISP_MAX_X+1][DISP_MAX_Y+1] = 
 {
 	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -130,7 +289,7 @@ const static bool mTitleScreen[DISP_MAX_X+1][DISP_MAX_Y+1] =
 	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
 };
 
-const static bool mMenuScreens[3][DISP_MAX_X+1][DISP_MAX_Y+1] =
+const static bool mMenuScreens[3][DISP_MAX_Y+1][DISP_MAX_X+1] =
 {
 	{ // RESUME (RSME)
 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -187,6 +346,26 @@ const static bool mMenuScreens[3][DISP_MAX_X+1][DISP_MAX_Y+1] =
 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 	},
 };
+
+const static bool mNameScreen[DISP_MAX_Y+1][DISP_MAX_X+1] = 
+{
+	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	{0,0,1,1,1,0,0,0,1,0,0,1,1,1,0,0},
+	{0,0,0,1,0,0,0,1,0,1,0,1,1,1,0,0},
+	{0,0,0,1,0,0,0,1,1,1,0,1,0,1,0,0},
+	{0,0,0,1,0,0,0,1,0,1,0,1,0,1,0,0},
+	{0,0,1,1,1,0,0,1,0,1,0,1,0,1,0,0},
+	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	{0,1,1,1,0,1,1,1,0,1,1,1,0,1,1,1},
+	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+}
 
 #endif 
 
@@ -304,6 +483,22 @@ static void drawNumberToDisp(int x0, int y0, int num)
 		{
 			p.x = x1; p.y = y1;
 			if (aDisplayNum[num][y2][x2] == OCCUPIED)
+				disp_write(p, D_ON);
+			else 	
+				disp_write(p, D_OFF);			
+		}
+	}
+}
+
+static void drawLetterToDisp(int x0, int y0, int lett)
+{
+	dcoord_t p;	// hago esto pq no me deja pasar tipo 'disp_write({x, y}, ...)'	
+	for (int y1 = y0, y2 = 0; y2 < DISPLAY_NUMY; y1++, y2++)
+	{
+		for (int x1 = x0, x2 = 0; x2 < DISPLAY_NUMX; x1++, x2++)
+		{
+			p.x = x1; p.y = y1;
+			if (aDisplayAlphabet[lett][y2][x2] == OCCUPIED)
 				disp_write(p, D_ON);
 			else 	
 				disp_write(p, D_OFF);			
@@ -431,6 +626,48 @@ void drawTitleScreen()
         }
     }
 	reverseClearDelay();
+}
+
+void printNameScreen()
+{
+	dcoord_t p;	// hago esto pq no me deja pasar tipo 'disp_write({x, y}, ...)'	
+	for (int y = 0; y <= DISP_MAX_Y; y++)
+    {
+        for (int x = 0; x <= DISP_MAX_X; x++)
+        {
+			p.x = x; p.y = y;            
+			if (mNameScreen[y][x] == OCCUPIED)
+                disp_write(p, D_ON);
+            else
+                disp_write(p, D_OFF);
+        }
+    }
+	disp_update();
+}
+
+#define LETTER_POSY 9
+#define FIRST_L_POSX 1
+#define SECND_L_POSX 5
+#define THIRD_L_POSX 9
+#define FRTH_L_POSX 13
+
+void printIndexedLetter(int indx, int position) // position < MAX_CHAR
+{
+	switch (position)
+	{
+	case 0:
+		drawLetterToDisp(FIRST_L_POSX, LETTER_POSY, indx);
+		break;
+	case 1:
+		drawLetterToDisp(SECND_L_POSX, LETTER_POSY, indx);
+		break;
+	case 2:
+		drawLetterToDisp(THIRD_L_POSX, LETTER_POSY, indx);
+		break;
+	case 3:
+		drawLetterToDisp(FRTH_L_POSX, LETTER_POSY, indx);
+		break;
+	}
 }
 #endif
 

@@ -30,5 +30,14 @@ void printMenu();
  */
 void drawInTerminal(player_t *);
 
+/**
+ * @brief imprime la pantalla donde el jugador vera su nombre
+ */
+void printNameScreen();
+
+/**
+ * @brief imprime la letra a seleccionar
+ */
+void printIndexedLetter(int indx, int position);
 
 #endif // DISPLAY_H

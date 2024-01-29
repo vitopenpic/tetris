@@ -9,6 +9,50 @@
 #include <stdbool.h>
 #include <ctype.h>
 
+#ifdef RASPI
+#define ALPHA_MAX 26
+const static char aAlphabet[ALPHA_MAX] =
+{A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z};
+
+static int parseThroughAlphabet(joyinfo_t *js, int position)
+{
+    bool block = true;
+    static int indx;
+    char c;
+    while (block)
+    {
+        *js = joy_read();
+        c = whichKeyWasPressed(js);
+        if (c == DOWN)
+        {
+            block = false;
+            indx = 0; //empieza por la 'A'
+        }
+        if (c == MENU) // MENU = UP
+        {
+            block = false;
+            indx = ALPHA_MAX - 1; // empieza por la 'Z'
+        }
+    }
+    while(c != ROTATE) // ROTATE = CONFIRM
+    {
+        *js = joy_read();
+        c = whichKeyWasPressed(js);
+        switch (c)
+        {
+        case DOWN:
+            indx = (indx + 1) % ALPHA_MAX;
+            break;
+        case MENU:
+            indx = (indx - 1) % ALPHA_MAX;
+            break;
+        }
+        printIndexedLetter(indx, position); // from display.h
+    }
+    return indx;
+}
+#endif
+
 void enableNonBlockingInput()
 {
     struct termios oldt, newt;
@@ -94,12 +138,10 @@ char whichKeyWasPressed(joyinfo_t *coord)
         return -1;
 }
 
-void *enterName(char *name)
+void enterName(char name[])
 {	
-//#ifdef RASPI
-
-//#else
-	char c;
+    puts("- Heigh ho! Enter thy four character name... -");
+    char c;
  	for (int i = 0; i < MAX_CHAR - 1; i++) 
 	{
         while (!isalpha(c = getchar())); 
@@ -107,14 +149,10 @@ void *enterName(char *name)
     }
 	name[MAX_CHAR-1] = '\0';
 	while (getchar() != '\n');
-//#endif
-	return name;
 }
 
 bool confirmName(char name[])
 {
-//#ifdef RASPI
-//#else
 	printf("- Outlandish! Thou really goes by the name of %s? - [Y/N]\n", name);
 	char c = getchar();
 	while(getchar() != '\n');
@@ -133,6 +171,24 @@ bool confirmName(char name[])
 		puts("- Stop mumbling gibberish! Doth thou not speak english? Tell me how thou art called... -");
 		return false;
 	}
-//#endif
 }
+
+#ifdef RASPI
+void *enterNameRasp(char *name, joyinfo_t *js)
+{
+    printNameScreen();
+    for (int i = 0; i < MAX_CHAR - 1; i++) 
+	{
+        int indx = parseThroughAlphabet(js, i);
+        name[i] = aAlphabet[indx];
+    }
+	name[MAX_CHAR-1] = '\0';
+    return name;
+}
+
+/*bool confirmNameRasp(char *name, joyinfo_t *js)
+{
+
+}*/
+#endif
 

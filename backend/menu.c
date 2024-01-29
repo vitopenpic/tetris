@@ -46,9 +46,6 @@ void navigateMenu(char key)
 #endif
 		break;
 	case ENTER:
-#ifdef RASPI
-		playLineClearSound();
-#endif
 		status = abs(status_index); // status deja de valer OPEN
 		break;
 	}
