@@ -23,13 +23,10 @@ int main(void)
 	disp_init();
     joyinfo_t joystick = {0, 0, J_NOPRESS};
 	initSoundFX(); 
-#else
-	enableNonBlockingInput(); // desactiva ICANON mode
-#endif
-
-#ifdef RASPI
 	playTitleScreenMusic();	
 	drawTitleScreen();
+#else
+	enableNonBlockingInput(); // desactiva ICANON mode
 #endif
 	askForName(&player); // espera input del usuario
 
@@ -68,16 +65,15 @@ int main(void)
 			// menu ---------------------------------------------------------
 			while (menuStatus() == OPEN) 
 			{
-				char prev_key = key;
 #ifdef RASPI
+				char prev_key = key;			
 				musicTimer = refreshMusic(musicTimer);
 				joystick = joy_read();
 				key = whichKeyWasPressed(&joystick);
+				if (prev_key == key) continue;
 #else							
 				key = getchar();
 #endif				
-				if (prev_key == key)
-					continue;
 				navigateMenu(key);
 				printMenu();
 #ifdef RASPI
@@ -131,7 +127,9 @@ int main(void)
 		{
 			do
 			{
+#ifdef RASPI				
 				musicTimer = refreshMusic(musicTimer);
+#endif
 //#ifdef RASPI
 //				joystick = joy_read();
 //				key = whichKeyWasPressed(&joystick);
