@@ -1,4 +1,5 @@
 #include "control.h"
+#include "display.h"
 #include "../backend/player.h"
 #include <stdlib.h>
 #include <stdio.h>
@@ -12,17 +13,19 @@
 #ifdef RASPI
 #define ALPHA_MAX 26
 const static char aAlphabet[ALPHA_MAX] =
-{A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z};
+{'A','B','C','D','E','F','G','H','I','J','K','L','M','N',
+'O','P','Q','R','S','T','U','V','W','X','Y','Z'};
 
-static int parseThroughAlphabet(joyinfo_t *js, int position)
+static int parseThroughAlphabet(int position)
 {
+    joyinfo_t js = {0, 0, J_NOPRESS};
     bool block = true;
-    static int indx;
+    int indx;
     char c;
     while (block)
     {
-        *js = joy_read();
-        c = whichKeyWasPressed(js);
+        js = joy_read();
+        c = whichKeyWasPressed(&js);
         if (c == DOWN)
         {
             block = false;
@@ -36,8 +39,8 @@ static int parseThroughAlphabet(joyinfo_t *js, int position)
     }
     while(c != ROTATE) // ROTATE = CONFIRM
     {
-        *js = joy_read();
-        c = whichKeyWasPressed(js);
+        js = joy_read();
+        c = whichKeyWasPressed(&js);
         switch (c)
         {
         case DOWN:
@@ -140,6 +143,15 @@ char whichKeyWasPressed(joyinfo_t *coord)
 
 void enterName(char name[])
 {	
+#ifdef RASPI
+    printNameScreen();
+    for (int i = 0; i < MAX_CHAR - 1; i++) 
+    {
+        int indx = parseThroughAlphabet(i);
+        name[i] = aAlphabet[indx];
+    }
+    name[MAX_CHAR-1] = '\0';
+#else
     puts("- Heigh ho! Enter thy four character name... -");
     char c;
  	for (int i = 0; i < MAX_CHAR - 1; i++) 
@@ -149,6 +161,7 @@ void enterName(char name[])
     }
 	name[MAX_CHAR-1] = '\0';
 	while (getchar() != '\n');
+#endif
 }
 
 bool confirmName(char name[])
@@ -173,22 +186,4 @@ bool confirmName(char name[])
 	}
 }
 
-#ifdef RASPI
-void *enterNameRasp(char *name, joyinfo_t *js)
-{
-    printNameScreen();
-    for (int i = 0; i < MAX_CHAR - 1; i++) 
-	{
-        int indx = parseThroughAlphabet(js, i);
-        name[i] = aAlphabet[indx];
-    }
-	name[MAX_CHAR-1] = '\0';
-    return name;
-}
-
-/*bool confirmNameRasp(char *name, joyinfo_t *js)
-{
-
-}*/
-#endif
 

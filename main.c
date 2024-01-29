@@ -31,13 +31,9 @@ int main(void)
 	// espera a el nombre del jugador	
 	do 
 	{
-#ifdef RASPI
-		enterNameRasp(player.name, &joystick);
-	} while (!confirmName(player.name));
-#else
 		enterName(player.name);			//(espera input)
 	} while (!confirmName(player.name)); 
-#endif
+
 
 	do // outer loop -------------------------------------------------------
 	{

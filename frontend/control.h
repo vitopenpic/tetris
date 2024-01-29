@@ -41,20 +41,4 @@ void enterName(char *name);
  * @return afirmativo o negativo
  */
 bool confirmName(char *name);
-
-/**
- * @brief recibe y escribe input del usuario para el nombre del jugador
- * compatible con raspberry
- * @param name puntero a un string
- * @param js informacion sobre el input del joystick
- */
-void enterNameRasp(char *name, joyinfo_t *js);
-
-/**
- * @brief revalida el nombre recibido
- * @param string con el nombre recibido
- * @return afirmativo o negativo
- */
-// bool confirmNameRasp(char *name, joyinfo_t *js);
-
 #endif // CONTROL_H

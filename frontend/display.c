@@ -110,6 +110,7 @@ static const bool aDisplayNum[10][DISPLAY_NUMY][DISPLAY_NUMX] =
 	 {0,0,1}},
 };
 
+#define ALPHA_MAX 26
 static const bool aDisplayAlphabet[ALPHA_MAX][DISPLAY_NUMY][DISPLAY_NUMX] = 
 {
 	{{0,1,0}, // A
@@ -365,7 +366,7 @@ const static bool mNameScreen[DISP_MAX_Y+1][DISP_MAX_X+1] =
 	{0,1,1,1,0,1,1,1,0,1,1,1,0,1,1,1},
 	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-}
+};
 
 #endif 
 
