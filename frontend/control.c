@@ -1,5 +1,6 @@
 #include "control.h"
 #include "display.h"
+#include "soundFX.h"
 #include "../backend/player.h"
 #include <stdlib.h>
 #include <stdio.h>
@@ -16,9 +17,13 @@ const static char aAlphabet[ALPHA_MAX] =
 {'A','B','C','D','E','F','G','H','I','J','K','L','M','N',
 'O','P','Q','R','S','T','U','V','W','X','Y','Z'};
 
+static int modulo(int a, int b)
+{
+    return (a % b + b) % b;
+}
 static int parseThroughAlphabet(int position)
 {
-    joyinfo_t js = {0, 0, J_NOPRESS};
+    static joyinfo_t js = {0, 0, J_NOPRESS};
     bool block = true;
     int indx;
     char c;
@@ -39,19 +44,22 @@ static int parseThroughAlphabet(int position)
     }
     while(c != ROTATE) // ROTATE = CONFIRM
     {
+        char prev_c = c;
         js = joy_read();
         c = whichKeyWasPressed(&js);
+        if (prev_c == c) continue;
         switch (c)
         {
         case DOWN:
-            indx = (indx + 1) % ALPHA_MAX;
+            indx = modulo(indx + 1, ALPHA_MAX);
             break;
         case MENU:
-            indx = (indx - 1) % ALPHA_MAX;
+            indx = modulo(indx - 1, ALPHA_MAX);
             break;
         }
         printIndexedLetter(indx, position); // from display.h
     }
+    playLockSound();
     return indx;
 }
 #endif

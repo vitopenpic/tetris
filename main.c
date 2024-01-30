@@ -28,8 +28,7 @@ int main(void)
 #else
 	enableNonBlockingInput(); // desactiva ICANON mode
 #endif
-	// espera a el nombre del jugador	
-	do 
+	do // espera a el nombre del jugador	
 	{
 		enterName(player.name);			//(espera input)
 	} while (!confirmName(player.name)); 
@@ -46,6 +45,7 @@ int main(void)
 		startTime = getTime();
 #ifdef RASPI
 		disp_clear();
+		disp_update();
 		double musicTimer = getTime();
 		startMusic();
 #endif
@@ -75,8 +75,7 @@ int main(void)
 				musicTimer = refreshMusic(musicTimer);
 				joystick = joy_read();
 				key = whichKeyWasPressed(&joystick);
-				if (prev_key == key)
-					continue;
+				if (prev_key == key) continue;
 #else
 				key = getchar();
 #endif

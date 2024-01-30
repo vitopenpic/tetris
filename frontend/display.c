@@ -505,6 +505,7 @@ static void drawLetterToDisp(int x0, int y0, int lett)
 				disp_write(p, D_OFF);			
 		}
 	}
+	disp_update();
 }
 
 static void drawMenuStatus(menu_status_t status)
