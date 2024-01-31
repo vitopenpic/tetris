@@ -456,7 +456,7 @@ static void printNextPiece(player_t *plr)
 
 /* posicion con respecto al display de la raspi donde se mostrara 
 la proxima pieza */
-#define N_PIECE_DISP_POSX 10  
+#define N_PIECE_DISP_POSX 9  
 #define N_PIECE_DISP_POSY 1  
 
 /* posicion de los numeros del puntaje con respecto al display de
@@ -501,6 +501,44 @@ static void drawNextPieceRaspberry(player_t *player)
 				disp_write(p, D_OFF);
 		}	
 	}
+}
+
+#define BIT0_LVL_POSX 14
+#define BIT0_LVL_POSY 0
+
+#define BIT1_LVL_POSX 15
+#define BIT1_LVL_POSY 0
+
+#define BIT2_LVL_POSX 14
+#define BIT2_LVL_POSY 1
+
+#define BIT3_LVL_POSX 15
+#define BIT3_LVL_POSY 1
+
+#define BIT4_LVL_POSX 14
+#define BIT4_LVL_POSY 2 
+
+#define BIT5_LVL_POSX 15
+#define BIT5_LVL_POSY 2
+
+static const int aScoreBit[6][2] = {
+	{BIT0_LVL_POSX, BIT0_LVL_POSY}, {BIT1_LVL_POSX, BIT1_LVL_POSY},
+	{BIT2_LVL_POSX, BIT2_LVL_POSY}, {BIT3_LVL_POSX, BIT3_LVL_POSY}, 
+	{BIT4_LVL_POSX, BIT4_LVL_POSY}, {BIT5_LVL_POSX, BIT5_LVL_POSY}   
+};
+
+static void drawLevelRaspberry(player_t *player)
+{
+	dcoord_t p;	// hago esto pq no me deja pasar tipo 'disp_write({x, y}, ...)'
+	unsigned int mask = 0b000001;
+	for (int i = 0; i < 6; i++)
+	{
+		p.x = aScoreBit[i][0]; p.y = aScoreBit[i][1];
+		if (player->level & (mask << i)) 
+			disp_write(p, D_ON);
+		else 
+			disp_write(p, D_OFF);
+	}	
 }
 
 static void drawNumberToDisp(int x0, int y0, int num)
@@ -601,6 +639,9 @@ void drawInRaspberry(player_t *player)
 		
 	// muestra el puntaje, abajo a la derecha 
 	drawScoreRaspberry(player);
+
+	// muestra el nivel actual de forma binaria arriba al lado de nueva pieza
+	drawLevelRaspberry(player);
 }	
 
 void reverseClearDelay()
