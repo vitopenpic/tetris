@@ -43,7 +43,7 @@ enum
 /**
  * @brief qetter devuelve la rapidez de la look up table aSpeed 
  * dependiendo del nivel actual
- * (CAMBIAR PARA Q SEA MAS ROBUSTO)*/
+ */
 double getSpeed(int level);
 
 /**

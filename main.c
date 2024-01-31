@@ -65,7 +65,7 @@ int main(void)
 			if (kbhit()) // se pregunta si se presiono una tecla
 			{
 				key = getchar();
-				performMove(&player, key);
+				performMove(&player, key); // puede cambiar el menuStatus a OPEN
 			}
 #endif
 			// menu ---------------------------------------------------------
@@ -121,8 +121,7 @@ int main(void)
 #endif
 
 			// updates speed ---------------------------------------------------
-			if (player.level < MAX_LEVEL) // cambiar getSpeed() para q haga lo del if
-				fallInterval = getSpeed(player.level);
+			fallInterval = getSpeed(player.level); // MAX_LEVEL es la rapidez max
 
 			// delay
 			usleep(20000); // = 0.02 seg. para que renderize suavemente
