@@ -9,11 +9,15 @@
 #include "../backend/board.h"
 #include "../backend/menu.h"
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
-#include <stdbool.h>
 #include <unistd.h>
 
 #ifdef RASPI
+
+/*================================
+	 CONSTANTES PARA RASPI
+  ================================*/
 
 #define N_PIECE_DIMX 4
 #define N_PIECE_DIMY 2
@@ -368,6 +372,30 @@ const static bool mNameScreen[DISP_MAX_Y+1][DISP_MAX_X+1] =
 	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 };
 
+#define YES_NO_DIMX 14
+#define YES_NO_DIMY 9
+const static bool mYesOrNo[2][YES_NO_DIMY][YES_NO_DIMX] =
+{
+	{
+		{0,0,0,0,0,0,0,1,1,1,1,1,1,1},
+		{0,0,1,0,1,0,0,1,1,0,0,0,1,1},
+		{0,0,1,0,1,0,0,1,1,0,1,0,1,1},
+		{0,0,1,1,1,0,0,1,1,0,1,0,1,1},
+		{0,0,0,1,0,0,0,1,1,0,1,0,1,1},
+		{0,0,0,1,0,0,0,1,1,0,1,0,1,1},
+		{0,0,0,0,0,0,0,1,1,1,1,1,1,1}
+	},
+	{
+		{1,1,1,1,1,1,1,0,0,0,0,0,0,0},
+		{1,1,0,1,0,1,1,0,0,1,1,1,0,0},
+		{1,1,0,1,0,1,1,0,0,1,0,1,0,0},
+		{1,1,0,0,0,1,1,0,0,1,0,1,0,0},
+		{1,1,1,0,1,1,1,0,0,1,0,1,0,0},
+		{1,1,1,0,1,1,1,0,0,1,0,1,0,0},
+		{1,1,1,1,1,1,1,0,0,0,0,0,0,0}
+	}
+};
+
 #endif 
 
 /*================================
@@ -554,14 +582,14 @@ static void reverseClearDelay()
 			p.x = x; p.y = y;            
 			disp_write(p, D_OFF);
 			disp_update();
-			usleep(5000);
+			usleep(2000);
         }
     }
 }
 #endif
-/*=======================
-	FUNCIONES PUBLICAS
-  =======================*/
+/*================================
+	FUNCIONES PUBLICAS TERIMAL
+  ================================*/
 
 void drawInTerminal(player_t *player)
 {
@@ -572,6 +600,10 @@ void drawInTerminal(player_t *player)
 	drawScene();
 	clearScreen();
 }
+
+/*================================
+	 FUNCIONES PUBLICAS RASPI
+  ================================*/
 
 #ifdef RASPI
 void drawInRaspberry(player_t *player)
@@ -585,32 +617,7 @@ void drawInRaspberry(player_t *player)
 	// muestra el puntaje, abajo a la derecha 
 	drawScoreRaspberry(player);
 }	
-#endif
 
-void printMenu()
-{
-#ifdef RASPI
-	disp_clear();
-	drawMenuStatus(abs(menuIndex()));
-	disp_update();
-#else
-	clearScreen();	
-	switch (abs(menuIndex()))
-	{
-		case RESUME:
-			puts(">RESUME\n RESTART\n EXIT");
-		break;
-		case RESTART:
-			puts(" RESUME\n>RESTART\n EXIT");
-		break;
-		case EXIT:
-			puts(" RESUME\n RESTART\n>EXIT");
-		break;
-	}
-#endif
-}
-
-#ifdef RASPI
 void drawTitleScreen()
 {
 	dcoord_t p;	// hago esto pq no me deja pasar tipo 'disp_write({x, y}, ...)'	
@@ -653,24 +660,71 @@ void printNameScreen()
 #define THIRD_L_POSX 9
 #define FRTH_L_POSX 13
 
+const int letterPos[4] = {FIRST_L_POSX, SECND_L_POSX, 
+THIRD_L_POSX, FRTH_L_POSX};
+
 void printIndexedLetter(int indx, int position) // position < MAX_CHAR
 {
-	switch (position)
+	drawLetterToDisp(letterPos[position], LETTER_POSY, indx);
+}
+
+void printString2Rasp(char *string, int height)
+{
+	for(int i = 0; i < MAX_CHAR - 1; i++)
 	{
-	case 0:
-		drawLetterToDisp(FIRST_L_POSX, LETTER_POSY, indx);
+		if (string[i] == '\0') break;
+		drawLetterToDisp(letterPos[i], height, string[i] - 'A');
+	}
+	disp_update();
+}
+
+#define YES_NO_POSX 1
+#define YES_NO_POSY 7
+void printYesOrNo(bool state)
+{
+	dcoord_t p;	// hago esto pq no me deja pasar tipo 'disp_write({x, y}, ...)'	
+	for (int y1 = YES_NO_POSY, y2 = 0; y2 < YES_NO_DIMY; y1++, y2++)
+	{
+		for (int x1 = YES_NO_POSX, x2 = 0; x2 < YES_NO_DIMX; x1++, x2++)
+		{
+			p.x = x1; p.y = y1;			
+			if (mYesOrNo[state][y2][x2] == OCCUPIED)
+				disp_write(p, D_ON);
+			else
+				disp_write(p, D_OFF);
+		}	
+	}
+	disp_update();
+}
+
+#endif
+
+/*===================================================
+	 FUNCIONES PUBLICAS CON COMPILACION CONDICIONAL
+  ===================================================*/
+
+void printMenu()
+{
+#ifdef RASPI
+	disp_clear();
+	drawMenuStatus(abs(menuIndex()));
+	disp_update();
+#else
+	clearScreen();	
+	switch (abs(menuIndex()))
+	{
+		case RESUME:
+			puts(">RESUME\n RESTART\n EXIT");
 		break;
-	case 1:
-		drawLetterToDisp(SECND_L_POSX, LETTER_POSY, indx);
+		case RESTART:
+			puts(" RESUME\n>RESTART\n EXIT");
 		break;
-	case 2:
-		drawLetterToDisp(THIRD_L_POSX, LETTER_POSY, indx);
-		break;
-	case 3:
-		drawLetterToDisp(FRTH_L_POSX, LETTER_POSY, indx);
+		case EXIT:
+			puts(" RESUME\n RESTART\n>EXIT");
 		break;
 	}
-}
 #endif
+}
+
 
 

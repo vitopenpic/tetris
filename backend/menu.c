@@ -8,6 +8,11 @@ static int status_index;	 /* indice que sirve para navegar
  por el menu, una vez apretado enter se guarda su valor en status. uso int en vez de
  menu_status_t por tema de aritmetica modular en navigateMenu() */
 
+static int modulo(int a, int b)
+{
+    return (a % b + b) % b;
+}
+
 menu_status_t menuStatus()
 {
 	return status;
@@ -34,13 +39,13 @@ void navigateMenu(char key)
 	switch (key)
 	{ // OPEN no es una opcion a elegir, por eso el % 3
 	case DOWN:
-		status_index = (status_index + 1) % 3;
+		status_index = modulo(status_index + 1, 3);
 #ifdef RASPI
 		playLockSound();
 #endif
 		break;
 	case UP:
-		status_index = (status_index - 1) % 3;
+		status_index = modulo(status_index - 1, 3);
 #ifdef RASPI
 		playLockSound();
 #endif

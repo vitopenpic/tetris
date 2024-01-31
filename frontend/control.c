@@ -172,8 +172,41 @@ void enterName(char name[])
 #endif
 }
 
+#ifdef RASPI
+static bool yesOrNoRasp()
+{
+    bool state = false;
+    joyinfo_t js = {0, 0, J_NOPRESS};
+    char c;
+    do
+    {
+        char prev_c = c;
+        js = joy_read();
+        c = whichKeyWasPressed(&js);
+        if (prev_c == c) continue;
+        switch (c)
+        {
+        case LEFT:
+            state = true;
+            break;
+        case RIGHT: // MENU = UP
+            state = false;
+            break;
+        }
+        printYesOrNo(state);    // from display.h
+    } while(c != ROTATE);  // ROTATE = CONFIRM
+    playLockSound();            // from soundFX.h
+    return state;
+}
+
+#define NAME_HEIGHT 1
 bool confirmName(char name[])
 {
+    disp_clear();
+    disp_update();
+    printString2Rasp(name, NAME_HEIGHT);
+    return yesOrNoRasp();
+#else
 	printf("- Outlandish! Thou really goes by the name of %s? - [Y/N]\n", name);
 	char c = getchar();
 	while(getchar() != '\n');
@@ -192,6 +225,7 @@ bool confirmName(char name[])
 		puts("- Stop mumbling gibberish! Doth thou not speak english? Tell me how thou art called... -");
 		return false;
 	}
+#endif
 }
 
 
