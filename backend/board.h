@@ -41,11 +41,14 @@ enum
  ***********************************/
 
 /**
- * @brief devuelve la rapidez de la look up table aSpeed dependiendo
- * del nivel actual
- * */
+ * @brief qetter devuelve la rapidez de la look up table aSpeed 
+ * dependiendo del nivel actual
+ * (CAMBIAR PARA Q SEA MAS ROBUSTO)*/
 double getSpeed(int level);
 
+/**
+ * @brief getter que devuelve el contenido de la matriz de juego
+ * (CAMBIAR PARA Q SEA MAS ROBUSTO)*/ 
 bool getScene(int x, int y);
 
 /**

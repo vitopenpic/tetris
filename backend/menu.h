@@ -37,6 +37,6 @@ void setMenuStatusOpen();
 
 void navigateMenu(char key);
 
-void wantToRetry(char key);
+void wantToExit();
 
 #endif // MENU_H

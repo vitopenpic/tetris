@@ -41,4 +41,10 @@ void enterName(char *name);
  * @return afirmativo o negativo
  */
 bool confirmName(char *name);
+
+/**
+ * @brief recibe input del jugador sobre si desea reintentar
+ * @return afirmativo o negativo
+ */
+bool confirmRetry();
 #endif // CONTROL_H

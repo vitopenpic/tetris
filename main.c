@@ -33,7 +33,6 @@ int main(void)
 		enterName(player.name);			//(espera input)
 	} while (!confirmName(player.name)); 
 
-
 	do // outer loop -------------------------------------------------------
 	{
 		initGame(&player);
@@ -50,13 +49,15 @@ int main(void)
 		startMusic();
 #endif
 
-		do // inner loop ---------------------------------------------------
+		do 	// inner loop --------------------------------------------------
 		{
+			// musica ------------------------------------------------------			
 #ifdef RASPI
-			// musica ------------------------------------------------------
 			musicTimer = refreshMusic(musicTimer);
+#endif
 
 			// input control -----------------------------------------------
+#ifdef RASPI
 			joystick = joy_read();
 			key = whichKeyWasPressed(&joystick);
 			performMove(&player, key); // puede cambiar el menuStatus a OPEN
@@ -120,7 +121,7 @@ int main(void)
 #endif
 
 			// updates speed ---------------------------------------------------
-			if (player.level < MAX_LEVEL)
+			if (player.level < MAX_LEVEL) // cambiar getSpeed() para q haga lo del if
 				fallInterval = getSpeed(player.level);
 
 			// delay
@@ -128,25 +129,14 @@ int main(void)
 
 		} while (!isGameOver() && menuStatus() == RESUME); // end of inner loop-
 		// retry menu ----------------------------------------------------------
-		if (isGameOver() && menuStatus() == RESUME)
+		if (isGameOver())
 		{
-			do
-			{
 #ifdef RASPI
-				musicTimer = refreshMusic(musicTimer);
+			playGameOverSound();	
+			reverseClearDelay();		
 #endif
-				// #ifdef RASPI
-				//				joystick = joy_read();
-				//				key = whichKeyWasPressed(&joystick);
-				// #else
-				puts("\nWant to retry? [Y/N]");
-				key = getchar();
-				printf("%c\n", key);
-				while (getchar() != '\n')
-					;
-				// #endif
-			} while (key != 'Y' && key != 'y' && key != 'N' && key != 'n');
-			wantToRetry(key);
+			if(!confirmRetry())
+				wantToExit();
 		}
 	} while (menuStatus() != EXIT); // end of outer loop ------------------------
 

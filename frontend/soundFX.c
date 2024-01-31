@@ -2,6 +2,7 @@
 #include "control.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <unistd.h>
 
 #ifdef RASPI
 
@@ -13,6 +14,7 @@
 #define CLICK_FX "sounds/click1.wav"
 #define	LEVEL_UP_FX "sounds/levelUp1.wav"
 #define CLEAR_LINE_FX "sounds/lineClear1.wav"
+#define GAME_OVER_FX "sounds/gameOver.wav"
 
 #define T0_DURATION 286 // duracion del tema en segundos
 #define T1_DURATION 229
@@ -133,4 +135,10 @@ void playLineClearSound()
 	playSoundFromMemory(line_cleared_sound, SDL_MIX_MAXVOLUME);
 }
 
+void playGameOverSound()
+{
+	playSound(GAME_OVER_FX, SDL_MIX_MAXVOLUME);
+	usleep(1000000);
+	pauseAudio();
+}
 #endif

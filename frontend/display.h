@@ -30,6 +30,11 @@ void drawInTerminal(player_t *);
 void drawInRaspberry(player_t *);
 
 /**
+ * @brief borra el display con delay de arriba abajo
+ */
+void reverseClearDelay();
+
+/**
  * @brief imprime la title-screen para la raspberry
  */
 void drawTitleScreen();

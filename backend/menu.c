@@ -56,8 +56,7 @@ void navigateMenu(char key)
 	}
 }
 
-void wantToRetry(char key)
+void wantToExit()
 {
-	if (key == 'n')
-		status = EXIT;
+	status = EXIT;
 }

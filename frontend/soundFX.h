@@ -20,4 +20,6 @@ void playLevelUpSound();
 
 void playLineClearSound();
 
+void playGameOverSound();
+
 #endif // SOUNDFX_H

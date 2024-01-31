@@ -195,13 +195,14 @@ static bool yesOrNoRasp()
         }
         printYesOrNo(state);    // from display.h
     } while(c != ROTATE);  // ROTATE = CONFIRM
-    playLockSound();            // from soundFX.h
     return state;
 }
+#endif
 
 #define NAME_HEIGHT 1
 bool confirmName(char name[])
 {
+#ifdef RASPI
     disp_clear();
     disp_update();
     printString2Rasp(name, NAME_HEIGHT);
@@ -225,6 +226,39 @@ bool confirmName(char name[])
 		puts("- Stop mumbling gibberish! Doth thou not speak english? Tell me how thou art called... -");
 		return false;
 	}
+#endif
+}
+
+bool confirmRetry()
+{
+#ifdef RASPI
+    disp_clear();
+    disp_update();
+    printString2Rasp("RTRY", NAME_HEIGHT);
+    return yesOrNoRasp();
+#else
+    char input;
+    bool isValidInput = false;
+
+    while (!isValidInput) 
+    {
+        puts("\nWant to retry? [Y/N]");
+        input = getchar();
+        printf("%c\n", input);
+        while (getchar() != '\n');
+        switch (input) 
+        {
+            case 'Y':
+            case 'y':
+                return true;
+            case 'N':
+            case 'n':
+                return false;
+            default:
+                puts("Invalid input. Please enter 'Y' or 'N'");
+        }
+    }
+    return isValidInput;
 #endif
 }
 
