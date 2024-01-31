@@ -15,7 +15,7 @@
 int main(void)
 {
 	// inicializaciones ---------------------------------------------------
-	srand((unsigned int)time(NULL)); // seed para rand()
+	srand((unsigned int)time(NULL)); 	// seed para rand()
 	player_t player;
 	char key;
 #ifdef RASPI
@@ -30,7 +30,7 @@ int main(void)
 #endif
 	do // espera a el nombre del jugador	
 	{
-		enterName(player.name);			//(espera input)
+		enterName(player.name);		//(espera input)
 	} while (!confirmName(player.name)); 
 
 	do // outer loop -------------------------------------------------------
@@ -39,7 +39,8 @@ int main(void)
 		initMenu();
 
 		// timer -----------------------------------------------------------
-		double fallInterval = getSpeed(0); // en seg (rapidez inicial nivel 0)
+		double fallInterval = getSpeed(0) + SPEED_ADJUSTMENT; 
+			// en seg (rapidez inicial nivel 0)
 		double startTime, currentTime;
 		startTime = getTime();
 #ifdef RASPI
@@ -121,9 +122,10 @@ int main(void)
 #endif
 
 			// updates speed ---------------------------------------------------
-			fallInterval = getSpeed(player.level); // MAX_LEVEL es la rapidez max
+			fallInterval = getSpeed(player.level) + SPEED_ADJUSTMENT; 
+				// MAX_LEVEL es el nivel que corresponde a la rapidez max
 
-			// delay
+			// delay -----------------------------------------------------------
 			usleep(20000); // = 0.02 seg. para que renderize suavemente
 
 		} while (!isGameOver() && menuStatus() == RESUME); // end of inner loop-
