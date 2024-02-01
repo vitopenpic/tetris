@@ -5,16 +5,16 @@
 
 static struct Score defaultTopTen[MAX_SCORERS] = 
 {
-	{" ", 0},
-	{" ", 0},
-	{" ", 0},
-	{" ", 0},
-	{" ", 0},
-	{" ", 0},
-	{" ", 0},
-	{" ", 0},
-	{" ", 0},
-	{" ", 0},
+	{" ", 0, 0},
+	{" ", 0, 0},
+	{" ", 0, 0},
+	{" ", 0, 0},
+	{" ", 0, 0},
+	{" ", 0, 0},
+	{" ", 0, 0},
+	{" ", 0, 0},
+	{" ", 0, 0},
+	{" ", 0, 0}
 };
 
 static struct Score topTen[MAX_SCORERS];
@@ -83,7 +83,8 @@ static int compareScores(const void *a, const void *b)
     return ((struct Score *)b)->score - ((struct Score *)a)->score;
 }
 
-void updateTopScore(const char *filename, int currentScore, char *currentName)
+void updateTopScore(const char *filename, int currentScore, int currentLevel, 
+					char *currentName)
 {
 	readScores(filename, topTen, MAX_SCORERS);
 
@@ -93,6 +94,7 @@ void updateTopScore(const char *filename, int currentScore, char *currentName)
 		{
 			// change the current players data with the last on the top score list			
 			topTen[MAX_SCORERS - 1].score = currentScore;
+			topTen[MAX_SCORERS - 1].level = currentLevel;
 			strcpy(topTen[MAX_SCORERS - 1].name, currentName); 
 
 			// sort the top score in descending order
@@ -110,7 +112,8 @@ void printTopScores(void)
 	puts("\nThe legendary scroll of the best block stackers of all time:\n");	
 	for (int i = 0; i < MAX_SCORERS; i++)
 	{
-		printf("%d - %s %d\n", i + 1,  topTen[i].name, topTen[i].score);		
+		printf("%d - %s SCORE: %d, LVL: %d\n", i + 1,  topTen[i].name, topTen[i].score,
+			   topTen[i].level);		
 	}
 }
 

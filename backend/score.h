@@ -18,7 +18,7 @@
 struct Score
 {
 	char name[MAX_CHAR];
-	int score;
+	int score, level;
 };
 
 /***********************************
@@ -36,9 +36,11 @@ int howMuchScore(int level,  int lines);
  * @brief lee y guarda la lista puntajes maximos a disco
  * @param filename nombre del archivo local donde se guarda
  * @param currentScore puntaje del jugador
+ * @param currentLevel nivel del jugador
  * @param *currentName nombre del jugador
  */
-void updateTopScore(const char *filename, int currentScore, char *currentName);
+void updateTopScore(const char *filename, int currentScore, int currentLevel,
+					char *currentName);
 
 /**
  * @brief imprime la lista de los mejores puntajes a la terminal
