@@ -142,8 +142,8 @@ int main(void)
 	} while (menuStatus() != EXIT); // end of outer loop ------------------------
 
 	// lista mejores puntajes ---------------------------------------------------
-	updateTopScore("leaderboard.dat", player.score, player.level, player.name);
-	printTopScores();
+	updateLeaderboard("leaderboard.dat", player.score, player.level, player.name);
+	printLeaderboard();
 
 	// frees y finalizacioens ---------------------------------------------------
 #ifdef RASPI

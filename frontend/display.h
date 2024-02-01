@@ -70,8 +70,13 @@ void printYesOrNo(bool state);
  *                FUNCIONES CON COMPILACION CONDICIONAL
  **************************************************************************/
 /**
- * @brief imprime el contenido del menu a la terminal
+ * @brief imprime el contenido del menu
  */
 void printMenu();
+
+/**
+ * @brief imprime la tabla de mejores puntajes
+ */
+void printLeaderboard();
 
 #endif // DISPLAY_H

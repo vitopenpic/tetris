@@ -8,6 +8,7 @@
 #include "disdrv.h"
 #include "../backend/board.h"
 #include "../backend/menu.h"
+#include "../backend/score.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -765,6 +766,19 @@ void printMenu()
 		break;
 	}
 #endif
+}
+
+void printLeaderboard(void)
+{
+	puts("\nThe legendary scroll of the best block stackers of all time:\n");	
+	puts("   NAME  SCORE  LVL");
+	for (int i = 0; i < MAX_SCORERS; i++)
+	{
+		if (getLeaderboard(i)->name[0] == '\0') // no hay nombre
+			break;
+		printf("%d  %s  %d    %d\n", i + 1, getLeaderboard(i)->name,
+			   getLeaderboard(i)->score, getLeaderboard(i)->level);		
+	}
 }
 
 
