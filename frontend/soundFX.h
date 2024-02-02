@@ -22,4 +22,6 @@ void playLineClearSound();
 
 void playGameOverSound();
 
+void stopMusic();
+
 #endif // SOUNDFX_H

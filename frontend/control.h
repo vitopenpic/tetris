@@ -47,4 +47,10 @@ bool confirmName(char *name);
  * @return afirmativo o negativo
  */
 bool confirmRetry();
+
+/**
+ * @brief devuelve el numero del top10 que se esta mirando en la raspberry
+ * @return numero 1-10 o -1 si se el jugador cerro el juego
+ */
+int indexOfLboard(int i);
 #endif // CONTROL_H

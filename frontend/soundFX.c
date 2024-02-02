@@ -71,7 +71,7 @@ double refreshMusic(double startTime)
 	double currentTime = getTime();
 	double elapsedTime = currentTime - startTime; // en segundos
 	// duracion para cada tema
-	switch (indx)
+	switch (indx % 4)
 	{
 	case 0: // track 0 = analogue bubblebath
 		if (elapsedTime >= T0_DURATION)
@@ -139,5 +139,11 @@ void playGameOverSound()
 	playSound(GAME_OVER_FX, SDL_MIX_MAXVOLUME);
 	usleep(1000000);
 	pauseAudio();
+}
+
+void stopMusic()
+{
+	if (musicStatus() != PAUSED)
+		pauseAudio();
 }
 #endif

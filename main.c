@@ -140,6 +140,9 @@ int main(void)
 				wantToExit();
 		}
 	} while (menuStatus() != EXIT); // end of outer loop ------------------------
+#ifdef RASPI
+	stopMusic();
+#endif
 
 	// lista mejores puntajes ---------------------------------------------------
 	updateLeaderboard("leaderboard.dat", player.score, player.level, player.name);

@@ -6,6 +6,7 @@
 
 #include "display.h"
 #include "disdrv.h"
+#include "control.h"
 #include "../backend/board.h"
 #include "../backend/menu.h"
 #include "../backend/score.h"
@@ -528,14 +529,14 @@ static const int aScoreBit[6][2] = {
 	{BIT4_LVL_POSX, BIT4_LVL_POSY}, {BIT5_LVL_POSX, BIT5_LVL_POSY}   
 };
 
-static void drawLevelRaspberry(player_t *player)
+static void drawLevelRaspberry(int level)
 {
 	dcoord_t p;	// hago esto pq no me deja pasar tipo 'disp_write({x, y}, ...)'
 	unsigned int mask = 0b000001;
 	for (int i = 0; i < 6; i++)
 	{
 		p.x = aScoreBit[i][0]; p.y = aScoreBit[i][1];
-		if (player->level & (mask << i)) 
+		if (level & (mask << i)) 
 			disp_write(p, D_ON);
 		else 
 			disp_write(p, D_OFF);
@@ -610,6 +611,45 @@ static void	drawScoreRaspberry(player_t *player)
 	// muestra el millar del puntaje
 	drawNumberToDisp(SCORE_THOUSAND_X, SCORE_THOUSAND_Y, player->score % 10000 / 1000);	
 }
+
+static void drawPosition(int n)
+{
+	dcoord_t p;
+	for (int i = 1; i <= n; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			p.x = i; p.y = j;
+			disp_write(p, D_ON);
+		} 
+	}
+}
+
+static void drawLeaderboardRaspi()
+{
+	int i = 0, prev_i = 0;
+	do
+	{
+		if (getLeaderboard(prev_i)->name[0] == 0) // no hay datos cargados
+			continue;
+		i = prev_i; // se cambia el indice
+		disp_clear();
+		printString2Rasp(getLeaderboard(i)->name, 4);
+		// muestra el millar del puntaje
+		drawNumberToDisp(1, 11, getLeaderboard(i)->score % 10000 / 1000);
+		// muestra la centena del puntaje
+		drawNumberToDisp(5, 11, getLeaderboard(i)->score % 1000 / 100);
+		// muestra la decena del puntaje
+		drawNumberToDisp(9, 11, getLeaderboard(i)->score % 100 / 10);
+		// muestra la unidad del puntaje	 
+		drawNumberToDisp(13, 11, getLeaderboard(i)->score % 10);
+		
+		drawLevelRaspberry(getLeaderboard(i)->level);
+
+		drawPosition(i + 1);
+		disp_update();
+	} while ((prev_i = indexOfLboard(i)) != -1);
+}
 #endif
 /*================================
 	FUNCIONES PUBLICAS TERIMAL
@@ -642,7 +682,7 @@ void drawInRaspberry(player_t *player)
 	drawScoreRaspberry(player);
 
 	// muestra el nivel actual de forma binaria arriba al lado de nueva pieza
-	drawLevelRaspberry(player);
+	drawLevelRaspberry(player->level);
 }	
 
 void reverseClearDelay()
@@ -770,6 +810,9 @@ void printMenu()
 
 void printLeaderboard(void)
 {
+#ifdef RASPI
+	drawLeaderboardRaspi();
+#else
 	puts("\nThe legendary scroll of the best block stackers of all time:\n");	
 	puts("   NAME  SCORE  LVL");
 	for (int i = 0; i < MAX_SCORERS; i++)
@@ -779,6 +822,7 @@ void printLeaderboard(void)
 		printf("%d  %s  %d    %d\n", i + 1, getLeaderboard(i)->name,
 			   getLeaderboard(i)->score, getLeaderboard(i)->level);		
 	}
+#endif
 }
 
 
