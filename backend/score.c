@@ -3,21 +3,21 @@
 #include <string.h>
 #include <stdio.h>
 
-static struct Score defaultLeaderboard[MAX_SCORERS] = 
+static struct Score defaultTopTen[MAX_SCORERS] = 
 {
-	{" ", 0, 0},
-	{" ", 0, 0},
-	{" ", 0, 0},
-	{" ", 0, 0},
-	{" ", 0, 0},
-	{" ", 0, 0},
-	{" ", 0, 0},
-	{" ", 0, 0},
-	{" ", 0, 0},
-	{" ", 0, 0}
+	{" ", 0},
+	{" ", 0},
+	{" ", 0},
+	{" ", 0},
+	{" ", 0},
+	{" ", 0},
+	{" ", 0},
+	{" ", 0},
+	{" ", 0},
+	{" ", 0},
 };
 
-static struct Score leaderboard[MAX_SCORERS];
+static struct Score topTen[MAX_SCORERS];
 
 // https://harddrop.com/wiki/Scoring
 int howMuchScore(int level,  int lines)
@@ -63,7 +63,7 @@ static void readScores(const char *filename, struct Score *scores, size_t numSco
     if (file == NULL) 
 	{
         printf("\nLegendary scroll of all time best not found, creating new one...\n");
-		writeScores(filename, defaultLeaderboard, MAX_SCORERS);
+		writeScores(filename, defaultTopTen, MAX_SCORERS);
         return;
     }
 
@@ -83,35 +83,35 @@ static int compareScores(const void *a, const void *b)
     return ((struct Score *)b)->score - ((struct Score *)a)->score;
 }
 
-void updateLeaderboard(const char *filename, int currentScore, int currentLevel, 
-					char *currentName)
+void updateTopScore(const char *filename, int currentScore, char *currentName)
 {
-	readScores(filename, leaderboard, MAX_SCORERS);
+	readScores(filename, topTen, MAX_SCORERS);
 
 	for (int i = 0; i < MAX_SCORERS; i++)
 	{
-		if (currentScore > leaderboard[i].score)	
+		if (currentScore > topTen[i].score)	
 		{
 			// change the current players data with the last on the top score list			
-			leaderboard[MAX_SCORERS - 1].score = currentScore;
-			leaderboard[MAX_SCORERS - 1].level = currentLevel;
-			strcpy(leaderboard[MAX_SCORERS - 1].name, currentName); 
+			topTen[MAX_SCORERS - 1].score = currentScore;
+			strcpy(topTen[MAX_SCORERS - 1].name, currentName); 
 
 			// sort the top score in descending order
-			qsort(leaderboard, MAX_SCORERS, sizeof(struct Score), compareScores);
+			qsort(topTen, MAX_SCORERS, sizeof(struct Score), compareScores);
 
 			// write the updated top score list to the local file
-			writeScores(filename, leaderboard, MAX_SCORERS);
+			writeScores(filename, topTen, MAX_SCORERS);
 			return;
 		}
 	}
 }
 
-struct Score *getLeaderboard(int i)
+void printTopScores(void)
 {
-	if (i >= MAX_SCORERS)
-		fprintf(stderr, "Index in getLeaderboard out of reach.\n");
-	return &leaderboard[i];
+	puts("\nThe legendary scroll of the best block stackers of all time:\n");	
+	for (int i = 0; i < MAX_SCORERS; i++)
+	{
+		printf("%d - %s %d\n", i + 1,  topTen[i].name, topTen[i].score);		
+	}
 }
 
 

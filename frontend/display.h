@@ -9,6 +9,13 @@
 
 #include "../backend/player.h"
 #include <stdbool.h>
+#include <allegro5/allegro.h>
+#include <allegro5/allegro_primitives.h>
+#include <allegro5/allegro_image.h>
+#include <allegro5/allegro.h>
+#include <allegro5/allegro_font.h>
+
+
 
 /**************************************************************************
  *                          FUNCIONES PARA TERMINAL
@@ -67,16 +74,22 @@ void printString2Rasp(char *string, int height);
 void printYesOrNo(bool state);
 
 /**************************************************************************
+ *                       FUNCIONES PARA ALLEGRO
+ **************************************************************************/
+
+
+void dibutablero();
+void drawInAllegro(player_t *);
+void alledrawinfo (player_t player, ALLEGRO_COLOR textColor);
+void alleTextinit (ALLEGRO_COLOR textColor);
+
+void drawTitle();
+/**************************************************************************
  *                FUNCIONES CON COMPILACION CONDICIONAL
  **************************************************************************/
 /**
- * @brief imprime el contenido del menu
+ * @brief imprime el contenido del menu a la terminal
  */
 void printMenu();
-
-/**
- * @brief imprime la tabla de mejores puntajes
- */
-void printLeaderboard();
 
 #endif // DISPLAY_H

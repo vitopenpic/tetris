@@ -6,10 +6,9 @@
 
 #include "display.h"
 #include "disdrv.h"
-#include "control.h"
 #include "../backend/board.h"
 #include "../backend/menu.h"
-#include "../backend/score.h"
+#include "../backend/tetramino.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -450,6 +449,268 @@ static void printNextPiece(player_t *plr)
 	}		
 }
 
+/*==================================
+	FUNCIONES AUXILIARES ALLEGRO
+  ==================================*/
+
+#ifdef ALLEGRO
+
+#define ANCHO 800
+#define ALTO 800
+#define TAMBLOQUE 35
+#define ANCHOTABLERO 10
+#define ALTOTABLERO 20
+
+
+#define N_PIECE_DIMX 4
+#define N_PIECE_DIMY 4
+#define N_PIECE_DISP_POSX 600
+#define N_PIECE_DISP_POSY 100
+#define BLOCK_SIZE 35
+
+#define MAX_TETRAMINOS 7
+#define MAX_ROTATIONS 4
+#define TETRAMINO_DIM 4
+
+
+
+
+//score level name
+#define SCTXTX 370
+#define SCTXTY 10
+#define SCNMBX 370
+#define SCNMBY 20
+
+
+#define LVLTXTX 370
+#define LVLTXTY 30
+#define LVLNMBX 370
+#define LVLNMBY 40
+
+
+
+#define NMTXTX 370
+#define NMTXTY 50
+#define NMUSERX 370
+#define NMUSERY 60
+
+extern const bool mTetramino[MAX_TETRAMINOS][MAX_ROTATIONS][TETRAMINO_DIM][TETRAMINO_DIM];
+
+
+
+// Declaración de colores
+ALLEGRO_COLOR colors[8];
+
+
+
+/*
+static void drawNextPieceAllegro(player_t *player)
+{
+	 
+
+    int piece = player->new_tipo;
+    ALLEGRO_COLOR color;
+    switch(piece) {
+
+        case 0: color = al_map_rgb(255, 0, 0); break; // Rojo
+        case 1: color = al_map_rgb(0, 255, 0); break; // Verde
+        case 2: color = al_map_rgb(0, 0, 255); break; // Azul
+        case 3: color = al_map_rgb(255, 255, 0); break; // Amarillo
+        case 4: color = al_map_rgb(255, 0, 255); break; // Magenta
+        case 5: color = al_map_rgb(0, 255, 255); break; // Cian
+        case 6: color = al_map_rgb(255, 165, 0); break; // Naranja
+    }
+
+    // Limpiar la pieza anteriormente mostrada
+    for (int y = 0; y < N_PIECE_DIMY; y++) {
+        for (int x = 0; x < N_PIECE_DIMX; x++) {
+            if (mTetramino[piece][0][y][x]) { // Mira la rotación 0 de cada pieza
+                al_draw_filled_rectangle(N_PIECE_DISP_POSX + x * BLOCK_SIZE, 
+                                         N_PIECE_DISP_POSY + y * BLOCK_SIZE, 
+                                         N_PIECE_DISP_POSX + (x + 1) * BLOCK_SIZE, 
+                                         N_PIECE_DISP_POSY + (y + 1) * BLOCK_SIZE, 
+                                         al_map_rgb(0, 0, 0)); // Limpiar con color negro
+            }
+        }
+    }
+
+    // Dibujar la nueva pieza
+    for (int y = 0; y < N_PIECE_DIMY; y++) {
+        for (int x = 0; x < N_PIECE_DIMX; x++) {
+            if (mTetramino[piece][0][y][x]) { // Mira la rotación 0 de cada pieza
+                al_draw_filled_rectangle(N_PIECE_DISP_POSX + x * BLOCK_SIZE, 
+                                         N_PIECE_DISP_POSY + y * BLOCK_SIZE, 
+                                         N_PIECE_DISP_POSX + (x + 1) * BLOCK_SIZE, 
+                                         N_PIECE_DISP_POSY + (y + 1) * BLOCK_SIZE, 
+                                         color);
+            }
+        }
+    }
+
+	
+}
+
+*/
+void drawSceneAllegro() {
+
+	 // Definir el color del texto
+    ALLEGRO_COLOR textColor = al_map_rgb(255, 255, 255); // Por ejemplo, blanco
+
+
+    // Limpiar la pantalla con un color negro
+    al_clear_to_color(al_map_rgb(0, 0, 0));
+
+    // Dibujar la cuadrícula del tablero         (POSTERIOR A INGRESAR EL NOMBRE)
+    for (int y = 0; y < ALTOTABLERO; y++) {
+        for (int x = 0; x < ANCHOTABLERO; x++) {
+            // Dibujar un rectángulo blanco para cada celda de la cuadrícula del tablero
+            al_draw_rectangle(x * TAMBLOQUE, y * TAMBLOQUE,
+                              (x + 1) * TAMBLOQUE, (y + 1) * TAMBLOQUE,
+                              al_map_rgb(255, 255, 255), 1); // Blanco
+        }
+    }
+
+
+	//Dibujar score level name
+	alleTextinit (textColor);
+
+
+    // Dibujar los bloques ocupados en la matriz de escena
+    for (int y = 0; y < ALTOTABLERO; y++) {
+        for (int x = 0; x < ANCHOTABLERO; x++) {
+            if (getScene(x, y)) {
+                // Dibujar un rectángulo rojo en la posición (x, y)
+                al_draw_filled_rectangle(x * TAMBLOQUE, y * TAMBLOQUE,
+                                         (x + 1) * TAMBLOQUE, (y + 1) * TAMBLOQUE,
+                                         al_map_rgb(255, 0, 0)); // Rojo
+            }
+        }
+    }
+
+    // Actualizar la ventana
+    al_flip_display();
+}
+
+
+
+
+
+
+
+// Funcion para mostrar un numero en pantalla con allegro
+void drawNumber(int number, float x, float y, ALLEGRO_COLOR textColor)
+ {
+    
+    char numberString[20];
+    snprintf(numberString, sizeof(numberString), "%d", number);
+
+    
+    al_draw_text(al_create_builtin_font(), textColor, x, y, ALLEGRO_ALIGN_LEFT, numberString);
+}
+
+
+// Funcion para mostrar uun texto en pantalla con allegro
+void drawString(const char *text, float x, float y, ALLEGRO_COLOR textColor) 
+{
+    
+    al_draw_text(al_create_builtin_font(), textColor, x, y, ALLEGRO_ALIGN_LEFT, text);
+}
+
+
+
+
+void alledrawinfo (player_t player, ALLEGRO_COLOR textColor)
+{
+	
+	 drawNumber(player.score, SCNMBX, SCNMBY, textColor);
+	 drawNumber(player.level, LVLNMBX, LVLNMBY,textColor );
+	drawString(player.name, NMUSERX, NMUSERY,textColor );
+}
+
+void alleTextinit (ALLEGRO_COLOR textColor)
+{
+	
+	al_draw_text(al_create_builtin_font(), textColor, SCTXTX, SCTXTY, ALLEGRO_ALIGN_LEFT, "SCORE:");
+	al_draw_text(al_create_builtin_font(), textColor, LVLTXTX, LVLTXTY, ALLEGRO_ALIGN_LEFT, "LEVEL:");
+	al_draw_text(al_create_builtin_font(), textColor, NMTXTX, NMTXTY, ALLEGRO_ALIGN_LEFT, "NAME:");
+	
+	
+}
+	
+// Función para dibujar el título "TETRIS" centrado en la ventana
+void drawTitle() {
+    // Calcula la posición x y y para que el título esté centrado
+    int x = (ANCHO - al_get_text_width(al_create_builtin_font(), "TETRIS")) / 2;
+    int y = ALTO / 2; // Puedes ajustar esta posición según sea necesario
+
+    // Dibuja el texto "TETRIS" con el carácter "0" en la posición calculada
+    al_draw_text(al_create_builtin_font(), al_map_rgb(255,0 ,0 ), x, y, ALLEGRO_ALIGN_LEFT, "TETRIS");
+
+	 // inserte su nombre
+    al_draw_text(al_create_builtin_font(), al_map_rgb(255,255 ,255 ), x, y+20, ALLEGRO_ALIGN_LEFT, "Inserte su nombre");
+}
+
+#endif
+
+
+/*==================================
+	FUNCIONES PUBLICAS ALLEGRO
+  ==================================*/
+
+#ifdef ALLEGRO
+
+
+
+// Dibujar la cuadrícula vacía
+
+void dibutablero()
+{
+    // Dibujar la grilla del tablero
+    for (int y = 0; y < BOARD_HEIGHT; y++)
+ 	{
+        for (int x = 0; x < BOARD_WIDTH; x++)
+	 	{
+            al_draw_rectangle(x * BLOCK_SIZE, y * BLOCK_SIZE, 
+                              (x + 1) * BLOCK_SIZE, (y + 1) * BLOCK_SIZE, 
+                              al_map_rgb(255, 255, 255), 1); // Blanco
+        }
+    }
+}
+
+
+
+void drawInAllegro(player_t *player)
+{
+	// Definir el color del texto
+    ALLEGRO_COLOR textColor = al_map_rgb(255, 255, 255); // Por ejemplo, blanco
+
+
+	// tablero, en la mitad izquierda del display 
+	drawSceneAllegro();  
+
+	// proxima pieza, arriba a la derecha
+	//drawNextPieceAllegro(player);
+		
+	 alledrawinfo(*player, textColor);
+
+	// Actualizar la ventana
+    al_flip_display();
+	
+   
+}
+
+
+
+
+#endif
+
+
+
+
+
+
+
+
 /*================================
 	FUNCIONES AUXILIARES RASPi
   ================================*/
@@ -458,7 +719,7 @@ static void printNextPiece(player_t *plr)
 
 /* posicion con respecto al display de la raspi donde se mostrara 
 la proxima pieza */
-#define N_PIECE_DISP_POSX 9  
+#define N_PIECE_DISP_POSX 10  
 #define N_PIECE_DISP_POSY 1  
 
 /* posicion de los numeros del puntaje con respecto al display de
@@ -503,44 +764,6 @@ static void drawNextPieceRaspberry(player_t *player)
 				disp_write(p, D_OFF);
 		}	
 	}
-}
-
-#define BIT0_LVL_POSX 14
-#define BIT0_LVL_POSY 0
-
-#define BIT1_LVL_POSX 15
-#define BIT1_LVL_POSY 0
-
-#define BIT2_LVL_POSX 14
-#define BIT2_LVL_POSY 1
-
-#define BIT3_LVL_POSX 15
-#define BIT3_LVL_POSY 1
-
-#define BIT4_LVL_POSX 14
-#define BIT4_LVL_POSY 2 
-
-#define BIT5_LVL_POSX 15
-#define BIT5_LVL_POSY 2
-
-static const int aScoreBit[6][2] = {
-	{BIT0_LVL_POSX, BIT0_LVL_POSY}, {BIT1_LVL_POSX, BIT1_LVL_POSY},
-	{BIT2_LVL_POSX, BIT2_LVL_POSY}, {BIT3_LVL_POSX, BIT3_LVL_POSY}, 
-	{BIT4_LVL_POSX, BIT4_LVL_POSY}, {BIT5_LVL_POSX, BIT5_LVL_POSY}   
-};
-
-static void drawLevelRaspberry(int level)
-{
-	dcoord_t p;	// hago esto pq no me deja pasar tipo 'disp_write({x, y}, ...)'
-	unsigned int mask = 0b000001;
-	for (int i = 0; i < 6; i++)
-	{
-		p.x = aScoreBit[i][0]; p.y = aScoreBit[i][1];
-		if (level & (mask << i)) 
-			disp_write(p, D_ON);
-		else 
-			disp_write(p, D_OFF);
-	}	
 }
 
 static void drawNumberToDisp(int x0, int y0, int num)
@@ -611,45 +834,6 @@ static void	drawScoreRaspberry(player_t *player)
 	// muestra el millar del puntaje
 	drawNumberToDisp(SCORE_THOUSAND_X, SCORE_THOUSAND_Y, player->score % 10000 / 1000);	
 }
-
-static void drawPosition(int n)
-{
-	dcoord_t p;
-	for (int i = 1; i <= n; i++)
-	{
-		for (int j = 0; j < 3; j++)
-		{
-			p.x = i; p.y = j;
-			disp_write(p, D_ON);
-		} 
-	}
-}
-
-static void drawLeaderboardRaspi()
-{
-	int i = 0, prev_i = 0;
-	do
-	{
-		if (getLeaderboard(prev_i)->name[0] == 0) // no hay datos cargados
-			continue;
-		i = prev_i; // se cambia el indice
-		disp_clear();
-		printString2Rasp(getLeaderboard(i)->name, 4);
-		// muestra el millar del puntaje
-		drawNumberToDisp(1, 11, getLeaderboard(i)->score % 10000 / 1000);
-		// muestra la centena del puntaje
-		drawNumberToDisp(5, 11, getLeaderboard(i)->score % 1000 / 100);
-		// muestra la decena del puntaje
-		drawNumberToDisp(9, 11, getLeaderboard(i)->score % 100 / 10);
-		// muestra la unidad del puntaje	 
-		drawNumberToDisp(13, 11, getLeaderboard(i)->score % 10);
-		
-		drawLevelRaspberry(getLeaderboard(i)->level);
-
-		drawPosition(i + 1);
-		disp_update();
-	} while ((prev_i = indexOfLboard(i)) != -1);
-}
 #endif
 /*================================
 	FUNCIONES PUBLICAS TERIMAL
@@ -680,9 +864,6 @@ void drawInRaspberry(player_t *player)
 		
 	// muestra el puntaje, abajo a la derecha 
 	drawScoreRaspberry(player);
-
-	// muestra el nivel actual de forma binaria arriba al lado de nueva pieza
-	drawLevelRaspberry(player->level);
 }	
 
 void reverseClearDelay()
@@ -804,23 +985,6 @@ void printMenu()
 		case EXIT:
 			puts(" RESUME\n RESTART\n>EXIT");
 		break;
-	}
-#endif
-}
-
-void printLeaderboard(void)
-{
-#ifdef RASPI
-	drawLeaderboardRaspi();
-#else
-	puts("\nThe legendary scroll of the best block stackers of all time:\n");	
-	puts("   NAME  SCORE  LVL");
-	for (int i = 0; i < MAX_SCORERS; i++)
-	{
-		if (getLeaderboard(i)->name[0] == '\0') // no hay nombre
-			break;
-		printf("%d  %s  %d    %d\n", i + 1, getLeaderboard(i)->name,
-			   getLeaderboard(i)->score, getLeaderboard(i)->level);		
 	}
 #endif
 }

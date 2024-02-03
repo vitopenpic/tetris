@@ -17,7 +17,7 @@
 #define GAME_OVER_FX "sounds/gameOver.wav"
 
 #define T0_DURATION 286 // duracion del tema en segundos
-#define T1_DURATION 225
+#define T1_DURATION 229
 #define T2_DURATION 117
 #define T3_DURATION 287
 
@@ -70,8 +70,9 @@ double refreshMusic(double startTime)
 {
 	double currentTime = getTime();
 	double elapsedTime = currentTime - startTime; // en segundos
+
 	// duracion para cada tema
-	switch (indx % 4)
+	switch (indx)
 	{
 	case 0: // track 0 = analogue bubblebath
 		if (elapsedTime >= T0_DURATION)
@@ -139,11 +140,5 @@ void playGameOverSound()
 	playSound(GAME_OVER_FX, SDL_MIX_MAXVOLUME);
 	usleep(1000000);
 	pauseAudio();
-}
-
-void stopMusic()
-{
-	if (musicStatus() != PAUSED)
-		pauseAudio();
 }
 #endif

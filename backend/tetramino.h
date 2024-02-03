@@ -6,8 +6,9 @@
 
 #ifndef TETRAMINO_H
 #define TETRAMINO_H
-
 #include <stdbool.h>
+
+
 
 /***********************************
  *	        funciones

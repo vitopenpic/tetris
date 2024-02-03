@@ -28,11 +28,10 @@
 
 #define BLOCKS_PER_PIECE 5 // dimension de la matriz de los tetraminos
 #define MAX_LEVEL 29
+ 
 
-/* la relacion entre columnas del tablero e intervalo de rapidez inicial es
-f(x) = C / x, con C el intervalo de rapidez inicial * 10 
-SPEED_ADJUSTMENT depende de BOARD_WIDTH*/
-#define SPEED_ADJUSTMENT (((getSpeed(0) * 10) / BOARD_WIDTH) - getSpeed(0))
+
+
 
 enum
 {
@@ -53,8 +52,7 @@ double getSpeed(int level);
 
 /**
  * @brief getter que devuelve el contenido de la matriz de juego
- * @param x posicion horizontal, valores de 0 a BOARD_WIDTH-1
- * @param y posicion vertical, valores de 0 a BOARD_HEIGHT-1*/ 
+ * (CAMBIAR PARA Q SEA MAS ROBUSTO)*/ 
 bool getScene(int x, int y);
 
 /**
@@ -100,3 +98,9 @@ int eraseLineIfFull();
 bool isGameOver();
 
 #endif // BOARD_H
+
+
+
+
+
+
