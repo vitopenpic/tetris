@@ -53,12 +53,20 @@ bool isMovementLegal(int tipo, int rotacion, int x, int y)
 
 bool getScene(int x, int y)
 {
+    if (x > BOARD_WIDTH || x < 0 || y > BOARD_HEIGHT || y < 0)
+    {
+        fprintf(stderr, "getScene out of reach\n");
+        return false;
+    }
 	return mScene[y][x];
 }
 
 double getSpeed(int level)
 {
-	return aSpeed[level];
+    if (level > MAX_LEVEL)
+        return aSpeed[MAX_LEVEL];
+    else
+    	return aSpeed[level];
 }
 
 void storePieceInBoard(player_t *plr)

@@ -46,7 +46,8 @@ int main(void)
 		initMenu();
 
 		// timer -----------------------------------------------------------
-		double fallInterval = getSpeed(0); // en seg (rapidez inicial nivel 0)
+		double fallInterval = getSpeed(0) + SPEED_ADJUSTMENT; 
+			// en seg (rapidez inicial nivel 0)
 		double startTime, currentTime;
 		startTime = getTime();
 #ifdef RASPI
@@ -133,9 +134,10 @@ int main(void)
 #endif
 
 			// updates speed ---------------------------------------------------
-			fallInterval = getSpeed(player.level); // MAX_LEVEL es la rapidez max
+			fallInterval = getSpeed(player.level) + SPEED_ADJUSTMENT; 
+				// MAX_LEVEL es la rapidez max
 
-			// delay
+			// delay -----------------------------------------------------------
 			usleep(20000); // = 0.02 seg. para que renderize suavemente
 
 		} while (!isGameOver() && menuStatus() == RESUME); // end of inner loop-
@@ -150,10 +152,13 @@ int main(void)
 				wantToExit();
 		}
 	} while (menuStatus() != EXIT); // end of outer loop ------------------------
+#ifdef RASPI
+	stopMusic();
+#endif
 
 	// lista mejores puntajes ---------------------------------------------------
-	updateTopScore("leaderboard.dat", player.score, player.name);
-	printTopScores();
+	updateLeaderboard("leaderboard.dat", player.score, player.level, player.name);
+	printLeaderboard();
 
 	// frees y finalizacioens ---------------------------------------------------
 #ifdef RASPI
