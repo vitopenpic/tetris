@@ -16,13 +16,8 @@
 #include <allegro5/allegro_ttf.h>
 
 /**************************************************************************/
-
-
-
 int main(void)
 {
-
-
 	// inicializaciones ---------------------------------------------------
 	srand((unsigned int)time(NULL)); // seed para rand()
 	player_t player;
@@ -34,12 +29,9 @@ int main(void)
 	initSoundFX();
 	playTitleScreenMusic();
 	drawTitleScreen();
-#endif 
-	
-#ifdef ALLEGRO
+#elif ALLEGRO
 	initAllegro();
 	drawTitle();
-    
 #else
 	enableNonBlockingInput(); // desactiva ICANON mode
 #endif
@@ -168,7 +160,6 @@ int main(void)
 	endSoundFX();
 	disp_clear();
 	disp_update();
-
 #elif ALLEGRO
 	destroyAllegro();
 #else
