@@ -26,6 +26,7 @@ int main(void)
 	drawTitleScreen();
 #elif ALLEGRO
 	initAllegro();
+	initSoundFX();
 	drawTitle();
 #else
 	enableNonBlockingInput(); // desactiva ICANON mode
@@ -48,9 +49,10 @@ int main(void)
 #ifdef RASPI
 		disp_clear();
 		disp_update();
+#endif
 		double musicTimer = getTime();
 		startMusic();
-#endif
+
 
 		do 	// inner loop --------------------------------------------------
 		{
@@ -82,7 +84,10 @@ int main(void)
 				joystick = joy_read();
 				key = whichKeyWasPressed(&joystick);
 				if (prev_key == key) continue;
+#elif ALLEGRO
+				musicTimer = refreshMusic(musicTimer);
 #else
+				
 				key = getchar();
 #endif
 				navigateMenu(key);
@@ -106,15 +111,13 @@ int main(void)
 			// score/points & level ------------------------------------------
 			int linesCombo = eraseLineIfFull();
 			player.lines += linesCombo;
-#ifdef RASPI
 			int previousLevel = player.level;
-#endif
 			player.level = player.lines / 10;
 
-#ifdef RASPI
+
 			if (previousLevel != player.level)
 				playLevelUpSound();
-#endif
+
 			player.score += howMuchScore(player.level, linesCombo);
 
 			// rendering ------------------------------------------------------
