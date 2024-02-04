@@ -594,6 +594,7 @@ void drawSceneAllegro()
     }
 
     // Actualizar la ventana
+	al_rest(0.02);
     al_flip_display();
 }
 
@@ -656,6 +657,8 @@ void drawTitle()
 	 // inserte su nombre
     al_draw_text(al_create_builtin_font(), al_map_rgb(255,255 ,255 ), x, y+20, ALLEGRO_ALIGN_LEFT, "Inserte su nombre");
 
+
+	al_rest(0.02);
     al_flip_display();
 }
 
@@ -692,7 +695,8 @@ void drawInAllegro(player_t *player)
 {
 	// Definir el color del texto
     ALLEGRO_COLOR textColor = al_map_rgb(255, 255, 255); // Por ejemplo, blanco
-
+	
+	al_rest(0.05);
 
 	// tablero, en la mitad izquierda del display 
 	drawSceneAllegro();  
@@ -747,30 +751,42 @@ void initAllegro()
     al_set_window_title(display, "Tetris");
 }
 
-// Función para detectar y procesar los eventos del teclado
+
 void processKeyboardEvents(ALLEGRO_EVENT_QUEUE *event_queue, player_t *player)
 {
+    static double lastKeyPressTime = 0.0; // Variable para almacenar el tiempo de la última pulsación de tecla
+    double currentTime = al_get_time(); // Obtener el tiempo actual
+
     ALLEGRO_EVENT event;
     while (al_get_next_event(event_queue, &event)) 
-	{
+    {
         if (event.type == ALLEGRO_EVENT_KEY_DOWN) 
-		{
-            switch (event.keyboard.keycode) 
-			{
-                case ALLEGRO_KEY_LEFT:
-                    performMove(player, LEFT);
-                    break;
-                case ALLEGRO_KEY_RIGHT:
-                    performMove(player, RIGHT);
-                    break;
-                case ALLEGRO_KEY_DOWN:
-                    performMove(player, DOWN);
-                    break;
-                case ALLEGRO_KEY_UP:
-                    performMove(player, ROTATE);
-                    break;
-                default:
-                    break;
+        {
+            // Calcular el tiempo transcurrido desde la última pulsación
+            double elapsedTime = currentTime - lastKeyPressTime;
+
+            // Si ha pasado un tiempo suficiente desde la última pulsación, procesar la tecla actual
+            if (elapsedTime > 0.1) { // Por ejemplo, si han pasado más de 0.1 segundos
+                switch (event.keyboard.keycode) 
+                {
+                    case ALLEGRO_KEY_LEFT:
+                        performMove(player, LEFT);
+                        break;
+                    case ALLEGRO_KEY_RIGHT:
+                        performMove(player, RIGHT);
+                        break;
+                    case ALLEGRO_KEY_DOWN:
+                        performMove(player, DOWN);
+                        break;
+                    case ALLEGRO_KEY_UP:
+                        performMove(player, ROTATE);
+                        break;
+                    default:
+                        break;
+                }
+
+                // Actualizar el tiempo de la última pulsación de tecla
+                lastKeyPressTime = currentTime;
             }
         }
     }
@@ -778,13 +794,7 @@ void processKeyboardEvents(ALLEGRO_EVENT_QUEUE *event_queue, player_t *player)
 
 
 
-
 #endif
-
-
-
-
-
 
 
 
