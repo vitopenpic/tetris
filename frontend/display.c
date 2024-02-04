@@ -574,10 +574,7 @@ void drawSceneAllegro()
     }
 
 
-	//Dibujar score level name
-	alleTextinit (textColor);
-
-
+	
     // Dibujar los bloques ocupados en la matriz de escena
     for (int y = 0; y < ALTOTABLERO; y++)
 	{
@@ -605,44 +602,31 @@ void drawSceneAllegro()
 
 
 // Funcion para mostrar un numero en pantalla con allegro
-void drawNumber(int number, float x, float y, ALLEGRO_COLOR textColor)
+void drawNumber(int number, float x, float y, ALLEGRO_COLOR textColor,ALLEGRO_FONT* font)
 {
     
     char numberString[20];
     snprintf(numberString, sizeof(numberString), "%d", number);
 
     
-    al_draw_text(al_create_builtin_font(), textColor, x, y, ALLEGRO_ALIGN_LEFT, numberString);
-}
-
-
-// Funcion para mostrar uun texto en pantalla con allegro
-void drawString(const char *text, float x, float y, ALLEGRO_COLOR textColor) 
-{
-    
-    al_draw_text(al_create_builtin_font(), textColor, x, y, ALLEGRO_ALIGN_LEFT, text);
+    al_draw_text(font, textColor, x, y, ALLEGRO_ALIGN_LEFT, numberString);
 }
 
 
 
-
-void alledrawinfo (player_t player, ALLEGRO_COLOR textColor)
-{
+void alledrawinfo (player_t player, ALLEGRO_COLOR textColor){
 	
-	 drawNumber(player.score, SCNMBX, SCNMBY, textColor);
-	 drawNumber(player.level, LVLNMBX, LVLNMBY,textColor );
-	drawString(player.name, NMUSERX, NMUSERY,textColor );
+	ALLEGRO_FONT *font = al_create_builtin_font();
+	al_draw_text(font, textColor, SCTXTX, SCTXTY, ALLEGRO_ALIGN_LEFT, "SCORE:");
+	drawNumber(player.score, SCNMBX, SCNMBY, textColor,font);
+	al_draw_text(font, textColor, LVLTXTX, LVLTXTY, ALLEGRO_ALIGN_LEFT, "LEVEL:");
+	drawNumber(player.level, LVLNMBX, LVLNMBY,textColor,font);
+	al_draw_text(font, textColor, NMTXTX, NMTXTY, ALLEGRO_ALIGN_LEFT, "NAME:");
+	al_draw_text(font, textColor, NMUSERX, NMUSERY, ALLEGRO_ALIGN_LEFT, player.name);
+	al_destroy_font(font);
+	return;
 }
 
-void alleTextinit (ALLEGRO_COLOR textColor)
-{
-	
-	al_draw_text(al_create_builtin_font(), textColor, SCTXTX, SCTXTY, ALLEGRO_ALIGN_LEFT, "SCORE:");
-	al_draw_text(al_create_builtin_font(), textColor, LVLTXTX, LVLTXTY, ALLEGRO_ALIGN_LEFT, "LEVEL:");
-	al_draw_text(al_create_builtin_font(), textColor, NMTXTX, NMTXTY, ALLEGRO_ALIGN_LEFT, "NAME:");
-	
-	
-}
 	
 // Función para dibujar el título "TETRIS" centrado en la ventana
 void drawTitle() 
@@ -696,7 +680,7 @@ void drawInAllegro(player_t *player)
 	// Definir el color del texto
     ALLEGRO_COLOR textColor = al_map_rgb(255, 255, 255); // Por ejemplo, blanco
 	
-	al_rest(0.05);
+	al_rest(0.016);
 
 	// tablero, en la mitad izquierda del display 
 	drawSceneAllegro();  
@@ -707,7 +691,7 @@ void drawInAllegro(player_t *player)
 	 alledrawinfo(*player, textColor);
 
 	// Actualizar la ventana
-    al_flip_display();
+  	  al_flip_display();
 	
    
 }

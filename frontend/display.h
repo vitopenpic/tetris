@@ -84,7 +84,7 @@ ALLEGRO_COLOR colors[8];
 void dibutablero();
 void drawInAllegro(player_t *);
 void alledrawinfo (player_t player, ALLEGRO_COLOR textColor);
-void alleTextinit (ALLEGRO_COLOR textColor);
+void drawNumber(int number, float x, float y, ALLEGRO_COLOR textColor,ALLEGRO_FONT* font);
 void processKeyboardEvents(ALLEGRO_EVENT_QUEUE *event_queue, player_t *player);
 
 
