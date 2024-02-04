@@ -11,6 +11,10 @@
 #include <stdbool.h>
 #include <ctype.h>
 
+/**************************************************************************
+ *                          FUNCIONES AUX RASPBERRY
+ **************************************************************************/
+
 #ifdef RASPI
 #define ALPHA_MAX 26
 const static char aAlphabet[ALPHA_MAX] =
@@ -62,7 +66,34 @@ static int parseThroughAlphabet(int position)
     playLockSound();
     return indx;
 }
+
+static bool yesOrNoRasp()
+{
+    bool state = false;
+    joyinfo_t js = {0, 0, J_NOPRESS};
+    char c;
+    do
+    {
+        js = joy_read();
+        c = whichKeyWasPressed(&js);
+        switch (c)
+        {
+        case LEFT:
+            state = true;
+            break;
+        case RIGHT: // MENU = UP
+            state = false;
+            break;
+        }
+        printYesOrNo(state);    // from display.h
+    } while(c != ROTATE);  // ROTATE = CONFIRM
+    return state;
+}
 #endif
+
+/**************************************************************************
+ *                          FUNCIONES PARA TERMINAL
+ **************************************************************************/
 
 void enableNonBlockingInput()
 {
@@ -107,15 +138,11 @@ int kbhit()
     return 0;
 }
 
-double getTime()
-{
-    struct timespec now;
-    clock_gettime(CLOCK_MONOTONIC, &now);
-    return now.tv_sec + now.tv_nsec / 1.0e9; // en segundos
-}
-
+/**************************************************************************
+ *                          FUNCIONES PARA RASPBERRY
+ **************************************************************************/
+#ifdef RASPI
 #define THRESHOLD 75
-
 char whichKeyWasPressed(joyinfo_t *coord)
 {
 	usleep(70000); // un poco de delay pq si no responde mal
@@ -149,6 +176,44 @@ char whichKeyWasPressed(joyinfo_t *coord)
         return -1;
 }
 
+int indexOfLboard(int i)
+{
+    int prev_i = i;
+    static joyinfo_t js = {0, 0, J_NOPRESS};
+    static char key = 0;
+    do
+    {
+        char prev_key = key;
+        js = joy_read();
+        key = whichKeyWasPressed(&js);
+        if (prev_key == key) continue;
+        switch (key)
+        {
+        case MENU: // MENU = UP
+            i = modulo(i - 1, 10);
+            break;
+        case DOWN:
+            i = modulo(i + 1, 10);
+            break;
+        case ROTATE:
+            i = -1;
+            break;
+        }
+    } while(prev_i == i);
+    return i;
+}
+#endif
+/**************************************************************************
+ *                          FUNCIONES EN COMUN
+ **************************************************************************/
+
+double getTime()
+{
+    struct timespec now;
+    clock_gettime(CLOCK_MONOTONIC, &now);
+    return now.tv_sec + now.tv_nsec / 1.0e9; // en segundos
+}
+
 void enterName(char name[])
 {	
 #ifdef RASPI
@@ -171,33 +236,6 @@ void enterName(char name[])
 	while (getchar() != '\n');
 #endif
 }
-
-#ifdef RASPI
-static bool yesOrNoRasp()
-{
-    bool state = false;
-    joyinfo_t js = {0, 0, J_NOPRESS};
-    char c;
-    do
-    {
-        char prev_c = c;
-        js = joy_read();
-        c = whichKeyWasPressed(&js);
-        if (prev_c == c) continue;
-        switch (c)
-        {
-        case LEFT:
-            state = true;
-            break;
-        case RIGHT: // MENU = UP
-            state = false;
-            break;
-        }
-        printYesOrNo(state);    // from display.h
-    } while(c != ROTATE);  // ROTATE = CONFIRM
-    return state;
-}
-#endif
 
 #define NAME_HEIGHT 1
 bool confirmName(char name[])
