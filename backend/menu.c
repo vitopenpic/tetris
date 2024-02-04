@@ -37,7 +37,7 @@ void setMenuStatusOpen()
 void navigateMenu(char key)
 {
 	switch (key)
-	{ // OPEN no es una opcion a elegir, por eso el % 3
+	{ // OPEN no es una opcion a elegir, por eso el mod 3
 	case DOWN:
 		status_index = modulo(status_index + 1, 3);
 #ifdef RASPI

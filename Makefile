@@ -21,6 +21,11 @@ OBJ = main.o ${BACKEND_OBJ} ${FRONTEND_OBJ}
 tetris: ${OBJ}
 	gcc ${OPTIONS} ${OBJ} -o tetris
 
+# Compile for Allegro
+allegro: OPTIONS += -D ALLEGRO
+allegro: ${OBJ}
+	gcc ${OPTIONS} ${OBJ} -o tetris $(shell pkg-config --libs allegro-5 allegro_primitives-5 allegro_image-5 allegro_font-5 allegro_ttf-5)
+
 # Compile for Raspberry Pi
 raspi: OPTIONS += -D RASPI
 raspi: ${OBJ} frontend/disdrv.o frontend/joydrv.o frontend/libAudioSDL2.o

@@ -10,12 +10,16 @@
 #include <unistd.h>
 #include <time.h>
 
-/**************************************************************************/
+#include <allegro5/allegro.h>
+#include <allegro5/allegro_primitives.h>
+#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_ttf.h>
 
+/**************************************************************************/
 int main(void)
 {
 	// inicializaciones ---------------------------------------------------
-	srand((unsigned int)time(NULL)); 	// seed para rand()
+	srand((unsigned int)time(NULL)); // seed para rand()
 	player_t player;
 	char key;
 #ifdef RASPI
@@ -25,12 +29,15 @@ int main(void)
 	initSoundFX();
 	playTitleScreenMusic();
 	drawTitleScreen();
+#elif ALLEGRO
+	initAllegro();
+	drawTitle();
 #else
 	enableNonBlockingInput(); // desactiva ICANON mode
 #endif
 	do // espera a el nombre del jugador	
 	{
-		enterName(player.name);		//(espera input)
+		enterName(player.name);			//(espera input)
 	} while (!confirmName(player.name)); 
 
 	do // outer loop -------------------------------------------------------
@@ -39,8 +46,7 @@ int main(void)
 		initMenu();
 
 		// timer -----------------------------------------------------------
-		double fallInterval = getSpeed(0) + SPEED_ADJUSTMENT; 
-			// en seg (rapidez inicial nivel 0)
+		double fallInterval = getSpeed(0); // en seg (rapidez inicial nivel 0)
 		double startTime, currentTime;
 		startTime = getTime();
 #ifdef RASPI
@@ -62,6 +68,8 @@ int main(void)
 			joystick = joy_read();
 			key = whichKeyWasPressed(&joystick);
 			performMove(&player, key); // puede cambiar el menuStatus a OPEN
+#elif ALLEGRO 
+		    processKeyboardEvents(&player);
 #else
 			if (kbhit()) // se pregunta si se presiono una tecla
 			{
@@ -117,15 +125,17 @@ int main(void)
 			updateScene(&player);
 #ifdef RASPI
 			drawInRaspberry(&player);
-#else
+#elif ALLEGRO
+			drawInAllegro(&player);	
+			//}		
+#else		
 			drawInTerminal(&player);
 #endif
 
 			// updates speed ---------------------------------------------------
-			fallInterval = getSpeed(player.level) + SPEED_ADJUSTMENT; 
-				// MAX_LEVEL es el nivel que corresponde a la rapidez max
+			fallInterval = getSpeed(player.level); // MAX_LEVEL es la rapidez max
 
-			// delay -----------------------------------------------------------
+			// delay
 			usleep(20000); // = 0.02 seg. para que renderize suavemente
 
 		} while (!isGameOver() && menuStatus() == RESUME); // end of inner loop-
@@ -140,19 +150,18 @@ int main(void)
 				wantToExit();
 		}
 	} while (menuStatus() != EXIT); // end of outer loop ------------------------
-#ifdef RASPI
-	stopMusic();
-#endif
 
 	// lista mejores puntajes ---------------------------------------------------
-	updateLeaderboard("leaderboard.dat", player.score, player.level, player.name);
-	printLeaderboard();
+	updateTopScore("leaderboard.dat", player.score, player.name);
+	printTopScores();
 
 	// frees y finalizacioens ---------------------------------------------------
 #ifdef RASPI
 	endSoundFX();
 	disp_clear();
 	disp_update();
+#elif ALLEGRO
+	destroyAllegro();
 #else
 	restoreBlockingInput(); /* si al correr el codigo no se llega
 	hasta aca, escribir 'stty sane' en la terminal para reestablecer
