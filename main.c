@@ -77,16 +77,8 @@ int main(void)
 			key = whichKeyWasPressed(&joystick);
 			performMove(&player, key); // puede cambiar el menuStatus a OPEN
 #elif ALLEGRO 
-
-  // Bucle principal
-    while (!isGameOver()) {
-        // Procesar eventos del teclado solo si el juego está en progreso
-        if (menuStatus() == RESUME) {
-            processKeyboardEvents(event_queue, &player);
-        }
-
-
-else
+		    processKeyboardEvents(&player);
+#else
 			if (kbhit()) // se pregunta si se presiono una tecla
 			{
 				key = getchar();
@@ -143,7 +135,7 @@ else
 			drawInRaspberry(&player);
 #elif ALLEGRO
 			drawInAllegro(&player);	
-			}		
+			//}		
 #else		
 			drawInTerminal(&player);
 #endif
@@ -178,10 +170,7 @@ else
 	disp_update();
 
 #elif ALLEGRO
-	// Finalizar y liberar recursos
-    al_destroy_display(display);
-    al_destroy_event_queue(event_queue);
-
+	destroyAllegro();
 #else
 	restoreBlockingInput(); /* si al correr el codigo no se llega
 	hasta aca, escribir 'stty sane' en la terminal para reestablecer

@@ -14,6 +14,12 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+#ifdef ALLEGRO
+static ALLEGRO_EVENT_QUEUE *event_queue;
+static ALLEGRO_DISPLAY *display;
+static ALLEGRO_COLOR colors[8];
+#endif
+
 #ifdef RASPI
 
 /*================================
@@ -494,13 +500,8 @@ static void printNextPiece(player_t *plr)
 #define NMUSERX 370
 #define NMUSERY 60
 
+// sacar
 extern const bool mTetramino[MAX_TETRAMINOS][MAX_ROTATIONS][TETRAMINO_DIM][TETRAMINO_DIM];
-
-
-
-// Declaración de colores
-ALLEGRO_COLOR colors[8];
-
 
 
 /*
@@ -551,7 +552,7 @@ static void drawNextPieceAllegro(player_t *player)
 }
 
 */
-void drawSceneAllegro()
+static void drawSceneAllegro()
 {
 
 	 // Definir el color del texto
@@ -602,7 +603,7 @@ void drawSceneAllegro()
 
 
 // Funcion para mostrar un numero en pantalla con allegro
-void drawNumber(int number, float x, float y, ALLEGRO_COLOR textColor,ALLEGRO_FONT* font)
+static void drawNumber(int number, float x, float y, ALLEGRO_COLOR textColor,ALLEGRO_FONT* font)
 {
     
     char numberString[20];
@@ -614,7 +615,7 @@ void drawNumber(int number, float x, float y, ALLEGRO_COLOR textColor,ALLEGRO_FO
 
 
 
-void alledrawinfo (player_t player, ALLEGRO_COLOR textColor){
+static void alledrawinfo (player_t player, ALLEGRO_COLOR textColor){
 	
 	ALLEGRO_FONT *font = al_create_builtin_font();
 	al_draw_text(font, textColor, SCTXTX, SCTXTY, ALLEGRO_ALIGN_LEFT, "SCORE:");
@@ -626,26 +627,6 @@ void alledrawinfo (player_t player, ALLEGRO_COLOR textColor){
 	al_destroy_font(font);
 	return;
 }
-
-	
-// Función para dibujar el título "TETRIS" centrado en la ventana
-void drawTitle() 
-{
-    // Calcula la posición x y y para que el título esté centrado
-    int x = (ANCHO - al_get_text_width(al_create_builtin_font(), "TETRIS")) / 2;
-    int y = ALTO / 2; // Puedes ajustar esta posición según sea necesario
-
-    // Dibuja el texto "TETRIS" con el carácter "0" en la posición calculada
-    al_draw_text(al_create_builtin_font(), al_map_rgb(255,0 ,0 ), x, y, ALLEGRO_ALIGN_LEFT, "TETRIS");
-
-	 // inserte su nombre
-    al_draw_text(al_create_builtin_font(), al_map_rgb(255,255 ,255 ), x, y+20, ALLEGRO_ALIGN_LEFT, "Inserte su nombre");
-
-
-	al_rest(0.02);
-    al_flip_display();
-}
-
 #endif
 
 
@@ -659,7 +640,7 @@ void drawTitle()
 
 // Dibujar la cuadrícula vacía
 
-void dibutablero()
+void dibuTablero()
 {
     // Dibujar la grilla del tablero
     for (int y = 0; y < BOARD_HEIGHT; y++)
@@ -691,9 +672,7 @@ void drawInAllegro(player_t *player)
 	 alledrawinfo(*player, textColor);
 
 	// Actualizar la ventana
-  	  al_flip_display();
-	
-   
+  	 al_flip_display();
 }
 
 void initAllegro() 
@@ -708,19 +687,10 @@ void initAllegro()
     al_init_image_addon();
     al_install_keyboard();
 
-    // Crear la cola de eventos (TECLADO)
-	extern ALLEGRO_EVENT_QUEUE *event_queue;
-	extern ALLEGRO_DISPLAY *display;
-	
-
-	
-
     event_queue = al_create_event_queue();
     al_register_event_source(event_queue, al_get_keyboard_event_source());
 
-	
     // Inicializar colores
-	extern ALLEGRO_COLOR colors[];
     colors[0] = al_map_rgb(0, 0, 0);      // Negro
     colors[1] = al_map_rgb(255, 0, 0);    // Rojo
     colors[2] = al_map_rgb(0, 255, 0);    // Verde
@@ -736,7 +706,7 @@ void initAllegro()
 }
 
 
-void processKeyboardEvents(ALLEGRO_EVENT_QUEUE *event_queue, player_t *player)
+void processKeyboardEvents(player_t *player)
 {
     static double lastKeyPressTime = 0.0; // Variable para almacenar el tiempo de la última pulsación de tecla
     double currentTime = al_get_time(); // Obtener el tiempo actual
@@ -776,11 +746,32 @@ void processKeyboardEvents(ALLEGRO_EVENT_QUEUE *event_queue, player_t *player)
     }
 }
 
+// Función para dibujar el título "TETRIS" centrado en la ventana
+void drawTitle() 
+{
+    // Calcula la posición x y y para que el título esté centrado
+    int x = (ANCHO - al_get_text_width(al_create_builtin_font(), "TETRIS")) / 2;
+    int y = ALTO / 2; // Puedes ajustar esta posición según sea necesario
 
+    // Dibuja el texto "TETRIS" con el carácter "0" en la posición calculada
+    al_draw_text(al_create_builtin_font(), al_map_rgb(255,0 ,0 ), x, y, ALLEGRO_ALIGN_LEFT, "TETRIS");
+
+	 // inserte su nombre
+    al_draw_text(al_create_builtin_font(), al_map_rgb(255,255 ,255 ), x, y+20, ALLEGRO_ALIGN_LEFT, "Inserte su nombre");
+
+
+	al_rest(0.02);
+    al_flip_display();
+}
+
+void destroyAllegro()
+{
+	// Finalizar y liberar recursos
+    al_destroy_display(display);
+    al_destroy_event_queue(event_queue);
+}
 
 #endif
-
-
 
 /*================================
 	FUNCIONES AUXILIARES RASPi
