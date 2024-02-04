@@ -9,12 +9,13 @@
 
 #include "../backend/player.h"
 #include <stdbool.h>
+#ifdef ALLEGRO
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_font.h>
-
+#endif
 /**************************************************************************
  *                          FUNCIONES PARA TERMINAL
  **************************************************************************/
