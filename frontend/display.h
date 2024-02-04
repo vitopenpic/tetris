@@ -76,13 +76,19 @@ void printYesOrNo(bool state);
 /**************************************************************************
  *                       FUNCIONES PARA ALLEGRO
  **************************************************************************/
+ALLEGRO_EVENT_QUEUE *event_queue;
+ALLEGRO_DISPLAY *display;
+ALLEGRO_COLOR colors[8];
 
 
 void dibutablero();
 void drawInAllegro(player_t *);
 void alledrawinfo (player_t player, ALLEGRO_COLOR textColor);
 void alleTextinit (ALLEGRO_COLOR textColor);
+void processKeyboardEvents(ALLEGRO_EVENT_QUEUE *event_queue, player_t *player);
 
+
+void initAllegro();
 void drawTitle();
 /**************************************************************************
  *                FUNCIONES CON COMPILACION CONDICIONAL

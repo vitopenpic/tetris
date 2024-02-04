@@ -17,14 +17,10 @@
 
 /**************************************************************************/
 
-// Declaración de colores
-ALLEGRO_COLOR colors[8];
+
 
 int main(void)
 {
-
-
-
 
 
 	// inicializaciones ---------------------------------------------------
@@ -38,86 +34,12 @@ int main(void)
 	initSoundFX();
 	playTitleScreenMusic();
 	drawTitleScreen();
-#elif ALLEGRO
-	// Inicializar Allegro		
-   	if (!al_init()) 
-	{
-		fprintf(stderr, "Failed to initialize Allegro!\n");
-		return -1;
-	}
-    al_init_primitives_addon();
-    al_init_image_addon();
-	al_install_keyboard();
-
-
-
-
+#endif 
+	
 #ifdef ALLEGRO
-
-  // Crear la cola de eventos						TECLADO
-    ALLEGRO_EVENT_QUEUE *event_queue = al_create_event_queue();
-    al_register_event_source(event_queue, al_get_keyboard_event_source());
-
-
-
-// Función para detectar y procesar los eventos del teclado
-void processKeyboardEvents(ALLEGRO_EVENT_QUEUE *event_queue, player_t *player) {
-    ALLEGRO_EVENT event;
-    while (al_get_next_event(event_queue, &event)) {
-        if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
-            switch (event.keyboard.keycode) {
-                case ALLEGRO_KEY_LEFT:
-                    performMove(player, LEFT);
-                    break;
-                case ALLEGRO_KEY_RIGHT:
-                    performMove(player, RIGHT);
-                    break;
-                case ALLEGRO_KEY_DOWN:
-                    performMove(player, DOWN);
-                    break;
-                case ALLEGRO_KEY_UP:
-                    performMove(player, ROTATE);
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-}
-#endif
-	// Inicializar colores
-	colors[0] = al_map_rgb(0, 0, 0);      // Negro
-	colors[1] = al_map_rgb(255, 0, 0);    // Rojo
-    colors[2] = al_map_rgb(0, 255, 0);    // Verde
-    colors[3] = al_map_rgb(0, 0, 255);    // Azul
-    colors[4] = al_map_rgb(255, 255, 0);  // Amarillo
-    colors[5] = al_map_rgb(255, 165, 0);  // Naranja
-    colors[6] = al_map_rgb(128, 0, 128);  // Morado
-    colors[7] = al_map_rgb(0, 255, 255);  // Cyan
-
-
-	
-
-    // Crear la ventana  
-    ALLEGRO_DISPLAY *display = al_create_display(800, 800);
-    al_set_window_title(display, "Tetris");
-
-	 
-
-  // Inicializar otras variables y estructuras de datos
-   
-    initGame(&player);
-
-  
-	
-
-    // Dibujar el tablero
-	//dibutablero(display);
+	initAllegro();
 	drawTitle();
-
-
-    // Refrescar la pantalla
-    al_flip_display();
+    
 #else
 	enableNonBlockingInput(); // desactiva ICANON mode
 #endif

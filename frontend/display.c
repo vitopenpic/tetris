@@ -551,7 +551,8 @@ static void drawNextPieceAllegro(player_t *player)
 }
 
 */
-void drawSceneAllegro() {
+void drawSceneAllegro()
+{
 
 	 // Definir el color del texto
     ALLEGRO_COLOR textColor = al_map_rgb(255, 255, 255); // Por ejemplo, blanco
@@ -561,8 +562,10 @@ void drawSceneAllegro() {
     al_clear_to_color(al_map_rgb(0, 0, 0));
 
     // Dibujar la cuadrícula del tablero         (POSTERIOR A INGRESAR EL NOMBRE)
-    for (int y = 0; y < ALTOTABLERO; y++) {
-        for (int x = 0; x < ANCHOTABLERO; x++) {
+    for (int y = 0; y < ALTOTABLERO; y++)
+	{
+        for (int x = 0; x < ANCHOTABLERO; x++)
+		{
             // Dibujar un rectángulo blanco para cada celda de la cuadrícula del tablero
             al_draw_rectangle(x * TAMBLOQUE, y * TAMBLOQUE,
                               (x + 1) * TAMBLOQUE, (y + 1) * TAMBLOQUE,
@@ -576,9 +579,12 @@ void drawSceneAllegro() {
 
 
     // Dibujar los bloques ocupados en la matriz de escena
-    for (int y = 0; y < ALTOTABLERO; y++) {
-        for (int x = 0; x < ANCHOTABLERO; x++) {
-            if (getScene(x, y)) {
+    for (int y = 0; y < ALTOTABLERO; y++)
+	{
+        for (int x = 0; x < ANCHOTABLERO; x++)
+		{
+            if (getScene(x, y)) 
+			{
                 // Dibujar un rectángulo rojo en la posición (x, y)
                 al_draw_filled_rectangle(x * TAMBLOQUE, y * TAMBLOQUE,
                                          (x + 1) * TAMBLOQUE, (y + 1) * TAMBLOQUE,
@@ -599,7 +605,7 @@ void drawSceneAllegro() {
 
 // Funcion para mostrar un numero en pantalla con allegro
 void drawNumber(int number, float x, float y, ALLEGRO_COLOR textColor)
- {
+{
     
     char numberString[20];
     snprintf(numberString, sizeof(numberString), "%d", number);
@@ -638,7 +644,8 @@ void alleTextinit (ALLEGRO_COLOR textColor)
 }
 	
 // Función para dibujar el título "TETRIS" centrado en la ventana
-void drawTitle() {
+void drawTitle() 
+{
     // Calcula la posición x y y para que el título esté centrado
     int x = (ANCHO - al_get_text_width(al_create_builtin_font(), "TETRIS")) / 2;
     int y = ALTO / 2; // Puedes ajustar esta posición según sea necesario
@@ -648,6 +655,8 @@ void drawTitle() {
 
 	 // inserte su nombre
     al_draw_text(al_create_builtin_font(), al_map_rgb(255,255 ,255 ), x, y+20, ALLEGRO_ALIGN_LEFT, "Inserte su nombre");
+
+    al_flip_display();
 }
 
 #endif
@@ -697,6 +706,74 @@ void drawInAllegro(player_t *player)
     al_flip_display();
 	
    
+}
+
+void initAllegro() 
+{
+    // Inicializa Allegro		
+    if (!al_init()) 
+	{
+    	fprintf(stderr, "Failed to initialize Allegro!\n");
+        exit(-1);
+    }
+    al_init_primitives_addon();
+    al_init_image_addon();
+    al_install_keyboard();
+
+    // Crear la cola de eventos (TECLADO)
+	extern ALLEGRO_EVENT_QUEUE *event_queue;
+	extern ALLEGRO_DISPLAY *display;
+	
+
+	
+
+    event_queue = al_create_event_queue();
+    al_register_event_source(event_queue, al_get_keyboard_event_source());
+
+	
+    // Inicializar colores
+	extern ALLEGRO_COLOR colors[];
+    colors[0] = al_map_rgb(0, 0, 0);      // Negro
+    colors[1] = al_map_rgb(255, 0, 0);    // Rojo
+    colors[2] = al_map_rgb(0, 255, 0);    // Verde
+    colors[3] = al_map_rgb(0, 0, 255);    // Azul
+    colors[4] = al_map_rgb(255, 255, 0);  // Amarillo
+    colors[5] = al_map_rgb(255, 165, 0);  // Naranja
+    colors[6] = al_map_rgb(128, 0, 128);  // Morado
+    colors[7] = al_map_rgb(0, 255, 255);  // Cyan
+
+    // Crea la ventana  
+    display = al_create_display(800, 800);
+    al_set_window_title(display, "Tetris");
+}
+
+// Función para detectar y procesar los eventos del teclado
+void processKeyboardEvents(ALLEGRO_EVENT_QUEUE *event_queue, player_t *player)
+{
+    ALLEGRO_EVENT event;
+    while (al_get_next_event(event_queue, &event)) 
+	{
+        if (event.type == ALLEGRO_EVENT_KEY_DOWN) 
+		{
+            switch (event.keyboard.keycode) 
+			{
+                case ALLEGRO_KEY_LEFT:
+                    performMove(player, LEFT);
+                    break;
+                case ALLEGRO_KEY_RIGHT:
+                    performMove(player, RIGHT);
+                    break;
+                case ALLEGRO_KEY_DOWN:
+                    performMove(player, DOWN);
+                    break;
+                case ALLEGRO_KEY_UP:
+                    performMove(player, ROTATE);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 }
 
 
