@@ -728,6 +728,41 @@ void drawTitle()
 	al_flip_display();
 }
 
+static void dibuToplayer (char name[5]  , int score , int lvl, int position,ALLEGRO_COLOR textColor,ALLEGRO_FONT *font){
+	
+	
+	float altura = PRIMERLINEA + ESPACIADO*(position+2);
+	al_draw_text(font, textColor, SANGRIA ,altura , ALLEGRO_ALIGN_LEFT, name);
+	drawNumber(score, COLSC, altura,  textColor,font);
+	drawNumber(lvl, COLLVL, altura,  textColor,font);
+	return;	
+}
+ 
+
+void dibuTop10 (){
+	
+	ALLEGRO_FONT *font = al_create_builtin_font();
+	
+    
+    float reference = PRIMERLINEA + ESPACIADO;
+    
+	al_draw_text(font, colors[2], SANGRIA , PRIMERLINEA  , ALLEGRO_ALIGN_LEFT, "THE LEGENDARY SCROLL OF THE BEST BLOCK STACKERS OF AL TIME");
+	al_draw_text(font, colors[5], SANGRIA , reference , ALLEGRO_ALIGN_LEFT,"NAME" );
+	al_draw_text(font, colors[5], COLSC, reference , ALLEGRO_ALIGN_LEFT, "SCORE");
+	al_draw_text(font, colors[5], COLLVL, reference , ALLEGRO_ALIGN_LEFT, "LVL");
+	
+	for(int i = 0; i < MAX_SCORERS; i++){
+		if (getLeaderboard(i)->name[0] == '\0'){ // no hay nombre
+			break;
+			}
+		int randcolor = (rand() % 7)+1;
+		dibuToplayer (getLeaderboard(i)->name  , getLeaderboard(i)->score , getLeaderboard(i)->level, i,colors[randcolor],font);
+	}
+	al_destroy_font(font);
+	return;
+}
+
+
 void destroyAllegro()
 {
 	// Finalizar y liberar recursos
