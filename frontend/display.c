@@ -505,7 +505,8 @@ static void printNextPiece(player_t *plr)
 
 // sacar luego
 extern const bool mTetramino[MAX_TETRAMINOS][MAX_ROTATIONS][TETRAMINO_DIM][TETRAMINO_DIM];
-static void drawNextPieceAllegro(player_t *player,ALLEGRO_COLOR color)
+
+static void drawNextPieceAllegro(player_t *player,int color)
 {
 
 	int startX=500;
