@@ -747,7 +747,7 @@ void drawTitle()
 
 void dibuToplayer (char name[5]  , int score , int lvl, int position,ALLEGRO_COLOR textColor,ALLEGRO_FONT *font);
 
- /*
+ 
 static void dibuToplayer (char name[5]  , int score , int lvl, int position,ALLEGRO_COLOR textColor,ALLEGRO_FONT *font){
 	
 	
