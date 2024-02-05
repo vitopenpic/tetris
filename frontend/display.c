@@ -22,6 +22,7 @@
 static ALLEGRO_EVENT_QUEUE *event_queue;
 static ALLEGRO_DISPLAY *display;
 static ALLEGRO_COLOR colors[8];
+ALLEGRO_FONT *font;
 #endif
 
 #ifdef RASPI
@@ -492,6 +493,10 @@ static void printNextPiece(player_t *plr)
 #define NMUSERX 370
 #define NMUSERY 60
 
+#define RESUMEY 100
+#define RESTARTY 150
+#define EXITY 200
+
 // sacar luego
 extern const bool mTetramino[MAX_TETRAMINOS][MAX_ROTATIONS][TETRAMINO_DIM][TETRAMINO_DIM];
 /*
@@ -590,14 +595,14 @@ static void drawNumber(int number, float x, float y, ALLEGRO_COLOR textColor, AL
 
 static void alledrawinfo(player_t player, ALLEGRO_COLOR textColor)
 {
-	ALLEGRO_FONT *font = al_create_builtin_font();
+	
 	al_draw_text(font, textColor, SCTXTX, SCTXTY, ALLEGRO_ALIGN_LEFT, "SCORE:");
 	drawNumber(player.score, SCNMBX, SCNMBY, textColor, font);
 	al_draw_text(font, textColor, LVLTXTX, LVLTXTY, ALLEGRO_ALIGN_LEFT, "LEVEL:");
 	drawNumber(player.level, LVLNMBX, LVLNMBY, textColor, font);
 	al_draw_text(font, textColor, NMTXTX, NMTXTY, ALLEGRO_ALIGN_LEFT, "NAME:");
 	al_draw_text(font, textColor, NMUSERX, NMUSERY, ALLEGRO_ALIGN_LEFT, player.name);
-	al_destroy_font(font);
+	
 	return;
 }
 #endif
@@ -669,6 +674,7 @@ void initAllegro()
 	// Crea la ventana
 	display = al_create_display(800, 800);
 	al_set_window_title(display, "Tetris");
+	font = al_create_builtin_font();
 }
 
 void processKeyboardEvents(player_t *player)
@@ -741,9 +747,7 @@ static void dibuToplayer (char name[5]  , int score , int lvl, int position,ALLE
 
 void dibuTop10 (){
 	
-	ALLEGRO_FONT *font = al_create_builtin_font();
-	
-    
+
     float reference = PRIMERLINEA + ESPACIADO;
     
 	al_draw_text(font, colors[2], SANGRIA , PRIMERLINEA  , ALLEGRO_ALIGN_LEFT, "THE LEGENDARY SCROLL OF THE BEST BLOCK STACKERS OF AL TIME");
@@ -762,10 +766,29 @@ void dibuTop10 (){
 	return;
 }
 
-
+void allemenu(int status){
+	switch(status){
+		case RESUME:
+		al_draw_text(font, colors[2], SANGRIA ,RESUMEY  , ALLEGRO_ALIGN_LEFT,"RESUME" );
+		al_draw_text(font, colors[1], SANGRIA , RESTARTY , ALLEGRO_ALIGN_LEFT,"RESTART" );
+		al_draw_text(font, colors[1], SANGRIA , EXITY , ALLEGRO_ALIGN_LEFT,"EXIT" );
+		break;
+		case RESTART:
+		al_draw_text(font, colors[1], SANGRIA , RESUMEY , ALLEGRO_ALIGN_LEFT,"RESUME" );
+		al_draw_text(font, colors[2], SANGRIA ,  RESTARTY, ALLEGRO_ALIGN_LEFT,"RESTART" );
+		al_draw_text(font, colors[1], SANGRIA , EXITY , ALLEGRO_ALIGN_LEFT,"EXIT" );
+		break;
+		case EXIT:
+		al_draw_text(font, colors[1], SANGRIA ,RESUMEY  , ALLEGRO_ALIGN_LEFT,"RESUME" );
+		al_draw_text(font, colors[1], SANGRIA , RESTARTY , ALLEGRO_ALIGN_LEFT,"RESTART" );
+		al_draw_text(font, colors[2], SANGRIA , EXITY , ALLEGRO_ALIGN_LEFT,"EXIT" );
+		break;
+	}
+}
 void destroyAllegro()
 {
 	// Finalizar y liberar recursos
+	al_destroy_font(font);
 	al_destroy_display(display);
 	al_destroy_event_queue(event_queue);
 }
@@ -1113,6 +1136,10 @@ void printMenu()
 	disp_clear();
 	drawMenuStatus(abs(menuIndex()));
 	disp_update();
+#elif ALLEGRO
+	al_clear_to_color(colors[0]);
+	allemenu(menuIndex());
+	al_flip_display();
 #else
 	clearScreen();	
 	switch (abs(menuIndex()))
