@@ -82,8 +82,7 @@ int main(void)
 				joystick = joy_read();
 				key = whichKeyWasPressed(&joystick);
 				if (prev_key == key) continue;
-#elif ALLEGRO
-				key = mapArrowKey();
+
 #else
 				key = getchar();
 #endif
@@ -125,7 +124,7 @@ int main(void)
 			drawInRaspberry(&player);
 #elif ALLEGRO
 			drawInAllegro(&player);	
-			//}		
+				
 #else		
 			drawInTerminal(&player);
 #endif
