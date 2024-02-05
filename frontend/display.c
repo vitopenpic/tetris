@@ -735,6 +735,7 @@ void processKeyboardEvents(player_t *player)
 
 char mapArrowKey() 
 {
+	ALLEGRO_EVENT event;
 	while (al_get_next_event(event_queue, &event))
 	{
 		if (event.type == ALLEGRO_EVENT_KEY_DOWN) 
