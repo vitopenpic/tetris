@@ -122,7 +122,7 @@ int main(void)
 #ifdef ALLEGRO
 			if (previousLevel != player.level)
 			{
-				if((player.level % 4) == 3)
+				if((player.level % 4) == 3) //is an easteregg level
 				{
 					pieceColor = 0;
 				}
