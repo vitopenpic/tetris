@@ -40,7 +40,7 @@ int howMuchScore(int level,  int lines)
 		default:
 			points = 0;
 	}
-	if ((level % 3) == 0) // easter egg
+	if ((level % 4) == 3) // easter egg
 		return points + points;
 	else 
 		return points;
