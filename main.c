@@ -122,7 +122,7 @@ int main(void)
 #ifdef ALLEGRO
 			if (previousLevel != player.level)
 			{
-				if(player.level)
+				if((player.level % 4) == 3)
 				{
 					pieceColor = 0;
 				}
