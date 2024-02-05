@@ -76,18 +76,36 @@ void printYesOrNo(bool state);
 /**************************************************************************
  *                       FUNCIONES PARA ALLEGRO
  **************************************************************************/
-// faltan comentarios
+/**
+ * @brief imprime la grilla del tablero en allegro
+ */
 void dibuTablero();
+/**
+ * @brief dibuja el juego en allegro
+ */
 void drawInAllegro(player_t *,int);
+/**
+ * @brief inicializa allegro. llamar solo una vez
+ */
 void initAllegro();
-void processKeyboardEvents(player_t *);
+/**
+ * @brief dibuja el title screen
+ */
 void drawTitle();
+/**
+ * @brief imprime el menu
+ */
 void allemenu(int );
-/*
- 	@brief 	funcion para imprimir la lista de los mejores jugadores historicos
-*/
-void dibuTop10 ();
+/**
+ * @brief imprime el leaderboard
+ */
+void dibuTop10();
+/**
+ * @brief libera memoria dinamica de allegro. llamar solo una vez luego de 
+ * initAllegro()
+ */
 void destroyAllegro();
+void processKeyboardEvents(player_t *);
 
 /**************************************************************************
  *                FUNCIONES CON COMPILACION CONDICIONAL
