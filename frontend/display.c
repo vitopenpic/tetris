@@ -726,7 +726,7 @@ void processKeyboardEvents(player_t *player)
 	}
 }
 
-char mapArrowKey(ALLEGRO_EVENT event) 
+char mapArrowKey(ALLEGRO_EVENT event) {
 	if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
 		switch (event.keyboard.keycode) {
             		case ALLEGRO_KEY_UP:
@@ -742,6 +742,7 @@ char mapArrowKey(ALLEGRO_EVENT event)
 	
         }
     }
+}
 // Función para dibujar el título "TETRIS" centrado en la ventana
 void drawTitle()
 {
