@@ -652,7 +652,9 @@ void initAllegro()
 	al_init_primitives_addon();
 	al_init_image_addon();
 	al_install_keyboard();
-
+	al_init_acodec_addon();
+	al_install_audio();
+	
 	event_queue = al_create_event_queue();
 	al_register_event_source(event_queue, al_get_keyboard_event_source());
 
@@ -733,6 +735,8 @@ void destroyAllegro()
 	// Finalizar y liberar recursos
 	al_destroy_display(display);
 	al_destroy_event_queue(event_queue);
+	al_uninstall_audio();
+	al_uninstall_acodec();
 }
 
 #endif
