@@ -505,54 +505,61 @@ static void printNextPiece(player_t *plr)
 
 // sacar luego
 extern const bool mTetramino[MAX_TETRAMINOS][MAX_ROTATIONS][TETRAMINO_DIM][TETRAMINO_DIM];
-/*
-static void drawNextPieceAllegro(player_t *player)
+static void drawNextPieceAllegro(player_t *player,ALLEGRO_COLOR color)
 {
 
-
+	int startX=500;
+	int startY=500;
 	int piece = player->new_tipo;
-	ALLEGRO_COLOR color;
-	switch(piece) {
+	
+	switch(player->new_tipo) 
+	{
+		case 0: 
+			//cuadrado
+			al_draw_filled_rectangle(startX, startY, startX + BLOCK_SIZE * 2, startY + BLOCK_SIZE * 2, colors[color]);
+			break;
 
-		case 0: color = al_map_rgb(255, 0, 0); break; // Rojo
-		case 1: color = al_map_rgb(0, 255, 0); break; // Verde
-		case 2: color = al_map_rgb(0, 0, 255); break; // Azul
-		case 3: color = al_map_rgb(255, 255, 0); break; // Amarillo
-		case 4: color = al_map_rgb(255, 0, 255); break; // Magenta
-		case 5: color = al_map_rgb(0, 255, 255); break; // Cian
-		case 6: color = al_map_rgb(255, 165, 0); break; // Naranja
+    		case 1:
+			//barra		
+			al_draw_filled_rectangle(startX, startY, startX + BLOCK_SIZE * 4, startY + BLOCK_SIZE, colors[color]);
+			break;
+
+		case 2:
+			// Dibujar tetramino tipo L
+			al_draw_filled_rectangle(startX, startY + BLOCK_SIZE, startX + BLOCK_SIZE, startY + BLOCK_SIZE * 2, colors[color]);
+        		al_draw_filled_rectangle(startX, startY, startX + BLOCK_SIZE * 3, startY + BLOCK_SIZE, colors[color]);
+			break;
+
+
+   		 case 3:
+			// Dibujar tetramino tipo J
+  			al_draw_filled_rectangle(startX + BLOCK_SIZE, startY, startX + BLOCK_SIZE * 3, startY + BLOCK_SIZE, colors[color]);
+       			al_draw_filled_rectangle(startX + BLOCK_SIZE * 2, startY + BLOCK_SIZE, startX + BLOCK_SIZE * 3, startY + BLOCK_SIZE * 3, colors[color]);
+			break;
+
+    
+    	case 4:
+			// Dibujar tetramino tipo Z
+			al_draw_filled_rectangle(startX, startY, startX + BLOCK_SIZE * 2, startY + BLOCK_SIZE, colors[color]);
+        	al_draw_filled_rectangle(startX + BLOCK_SIZE, startY + BLOCK_SIZE, startX + BLOCK_SIZE * 3, startY + BLOCK_SIZE * 2, colors[color]);
+			break;
+
+    	case 5:
+			// Dibujar tetramino tipo S		  
+			al_draw_filled_rectangle(startX + BLOCK_SIZE, startY, startX + BLOCK_SIZE * 3, startY + BLOCK_SIZE, colors[color]);
+			al_draw_filled_rectangle(startX, startY + BLOCK_SIZE, startX + BLOCK_SIZE, startY + BLOCK_SIZE * 2, colors[color]);
+			break;
+
+    	case 6:
+		// Dibujar tetramino tipo T
+			al_draw_filled_rectangle(startX, startY, startX + BLOCK_SIZE * 3, startY + BLOCK_SIZE, colors[color]);
+           	al_draw_filled_rectangle(startX + BLOCK_SIZE, startY + BLOCK_SIZE, startX + BLOCK_SIZE * 2, startY + BLOCK_SIZE * 2,colors[color]);
+			break;
+		
 	}
-
-	// Limpiar la pieza anteriormente mostrada
-	for (int y = 0; y < N_PIECE_DIMY; y++) {
-		for (int x = 0; x < N_PIECE_DIMX; x++) {
-			if (mTetramino[piece][0][y][x]) { // Mira la rotación 0 de cada pieza
-				al_draw_filled_rectangle(N_PIECE_DISP_POSX + x * BLOCK_SIZE,
-										 N_PIECE_DISP_POSY + y * BLOCK_SIZE,
-										 N_PIECE_DISP_POSX + (x + 1) * BLOCK_SIZE,
-										 N_PIECE_DISP_POSY + (y + 1) * BLOCK_SIZE,
-										 al_map_rgb(0, 0, 0)); // Limpiar con color negro
-			}
-		}
-	}
-
-	// Dibujar la nueva pieza
-	for (int y = 0; y < N_PIECE_DIMY; y++) {
-		for (int x = 0; x < N_PIECE_DIMX; x++) {
-			if (mTetramino[piece][0][y][x]) { // Mira la rotación 0 de cada pieza
-				al_draw_filled_rectangle(N_PIECE_DISP_POSX + x * BLOCK_SIZE,
-										 N_PIECE_DISP_POSY + y * BLOCK_SIZE,
-										 N_PIECE_DISP_POSX + (x + 1) * BLOCK_SIZE,
-										 N_PIECE_DISP_POSY + (y + 1) * BLOCK_SIZE,
-										 color);
-			}
-		}
-	}
-
 
 }
 
-*/
 static void drawSceneAllegro(int pieceColor)
 {
     
@@ -660,7 +667,7 @@ void drawInAllegro(player_t *player,int pieceColor)
 	drawSceneAllegro(pieceColor);
 
 	// proxima pieza, arriba a la derecha
-	// drawNextPieceAllegro(player);
+	drawNextPieceAllegro(player,pieceColor);
 	alledrawinfo(*player, textColor);
 
 	// Actualizar la ventana
