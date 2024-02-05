@@ -139,7 +139,7 @@ int main(void)
 #ifdef RASPI
 			drawInRaspberry(&player);
 #elif ALLEGRO
-			drawInAllegro(&player);					
+			drawInAllegro(&player,pieceColor);					
 #else		
 			drawInTerminal(&player);
 #endif
