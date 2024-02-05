@@ -556,16 +556,25 @@ static void drawNextPieceAllegro(player_t *player)
 static void drawSceneAllegro(int pieceColor)
 {
     
-
-    // Limpiar la pantalla con un color negro
-    al_clear_to_color(al_map_rgb(0, 0, 0));
-
+	
+		
+    
+	if(pieceColor != 0)
+	{
+		// Limpiar la pantalla con un color negro
+    		al_clear_to_color(al_map_rgb(0, 0, 0));	
+	}
+	else 
+	{
+		// Limpiar la pantalla con un color blanco
+    		al_clear_to_color(al_map_rgb(255, 255, 255));	
+	}
     // Dibujar la cuadrícula del tablero         (POSTERIOR A INGRESAR EL NOMBRE)
-    for (int y = 0; y < ALTOTABLERO; y++)
+	for (int y = 0; y < ALTOTABLERO; y++)
     {
         for (int x = 0; x < ANCHOTABLERO; x++)
         {
-            // Dibujar un rectángulo negro para cada celda de la cuadrícula del tablero
+            // Dibujar un rectángulo blanco para cada celda de la cuadrícula del tablero
             al_draw_rectangle(x * TAMBLOQUE, y * TAMBLOQUE,
                               (x + 1) * TAMBLOQUE, (y + 1) * TAMBLOQUE,
                               al_map_rgb(255, 255, 255), 1); // Blanco
@@ -582,9 +591,9 @@ static void drawSceneAllegro(int pieceColor)
                 // Dibujar un rectángulo rojo en la posición (x, y)
                 al_draw_filled_rectangle(x * TAMBLOQUE, y * TAMBLOQUE,
                                          (x + 1) * TAMBLOQUE, (y + 1) * TAMBLOQUE,
-                                         colors[1]); // Rojo
+                                         colors[pieceColor]); // Color aleatorio obtenido
 
-                // Dibujar un rectángulo blanco alrededor del rectángulo rojo para formar el borde
+                // Dibujar un rectángulo negro alrededor del rectángulo rojo para formar el borde
                 al_draw_rectangle(x * TAMBLOQUE, y * TAMBLOQUE,
                                   (x + 1) * TAMBLOQUE, (y + 1) * TAMBLOQUE,
                                   colors[0], 1); // negro
@@ -640,7 +649,7 @@ void dibuTablero()
 	}
 }
 
-void drawInAllegro(player_t *player)
+void drawInAllegro(player_t *player,int pieceColor)
 {
 	// Definir el color del texto
 	ALLEGRO_COLOR textColor = al_map_rgb(255, 255, 255); // Por ejemplo, blanco
@@ -648,7 +657,7 @@ void drawInAllegro(player_t *player)
 	al_rest(0.016);
 
 	// tablero, en la mitad izquierda del display
-	drawSceneAllegro(1);
+	drawSceneAllegro(pieceColor);
 
 	// proxima pieza, arriba a la derecha
 	// drawNextPieceAllegro(player);
