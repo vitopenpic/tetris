@@ -27,6 +27,8 @@ int main(void)
 	drawTitleScreen();
 #elif ALLEGRO
 	initAllegro();
+	int pieceColor;
+	pieceColor = rand()%7+1;
 	drawTitle();
 #else
 	enableNonBlockingInput(); // desactiva ICANON mode
@@ -108,14 +110,27 @@ int main(void)
 			// score/points & level ------------------------------------------
 			int linesCombo = eraseLineIfFull();
 			player.lines += linesCombo;
-#ifdef RASPI
+
 			int previousLevel = player.level;
-#endif
+
 			player.level = player.lines / 10;
 
 #ifdef RASPI
 			if (previousLevel != player.level)
 				playLevelUpSound();
+#endif
+#ifdef ALLEGRO
+			if (previousLevel != player.level)
+			{
+				if(player.level)
+				{
+					pieceColor = 0;
+				}
+				else
+				{
+					pieceColor = rand()%7+1;
+				}
+			}
 #endif
 			player.score += howMuchScore(player.level, linesCombo);
 
