@@ -771,10 +771,10 @@ void dibuTop10 (){
 	al_clear_to_color(al_map_rgb(0, 0, 0));
     float reference = PRIMERLINEA + ESPACIADO;
     
-	al_draw_text(font, colors[2], SANGRIA , PRIMERLINEA  , ALLEGRO_ALIGN_LEFT, "THE LEGENDARY SCROLL OF THE BEST BLOCK STACKERS OF AL TIME");
-	al_draw_text(font, colors[5], SANGRIA , reference , ALLEGRO_ALIGN_LEFT,"NAME" );
-	al_draw_text(font, colors[5], COLSC, reference , ALLEGRO_ALIGN_LEFT, "SCORE");
-	al_draw_text(font, colors[5], COLLVL, reference , ALLEGRO_ALIGN_LEFT, "LVL");
+	al_draw_text(font, colors[3], SANGRIA , PRIMERLINEA  , ALLEGRO_ALIGN_LEFT, "THE LEGENDARY SCROLL OF THE BEST BLOCK STACKERS OF AL TIME");
+	al_draw_text(font, colors[4], SANGRIA , reference , ALLEGRO_ALIGN_LEFT,"NAME" );
+	al_draw_text(font, colors[4], COLSC, reference , ALLEGRO_ALIGN_LEFT, "SCORE");
+	al_draw_text(font, colors[4], COLLVL, reference , ALLEGRO_ALIGN_LEFT, "LVL");
 	
 	for(int i = 0; i < MAX_SCORERS; i++){
 		if (getLeaderboard(i)->name[0] == '\0'){ // no hay nombre
@@ -1185,7 +1185,7 @@ void printLeaderboard(void)
 	drawLeaderboardRaspi();
 #elif ALLEGRO
 	dibuTop10 ();
-	while(getchar != '\n');
+	while(getchar() != '\n');
 #else
 	puts("\nThe legendary scroll of the best block stackers of all time:\n");	
 	puts("   NAME  SCORE  LVL");
