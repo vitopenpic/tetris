@@ -744,15 +744,7 @@ void drawTitle()
 }
 
 
- /*
- 	@brief 	funcion para imprimir la informacion de un jugador del top historico
- 	@param 	name, string de 4 caracteres mas terminador con el nombre del jugador
- 			score int con el puntaje
- 			lvl int con el nivel alcanzado
- 			position en que posicion se encuentra para calcular a que altura escribirlo
- 			textColor color en el que debe imprimir
- 			font para el texto
-*/
+
 void dibuToplayer (char name[5]  , int score , int lvl, int position,ALLEGRO_COLOR textColor,ALLEGRO_FONT *font);
 
  /*
