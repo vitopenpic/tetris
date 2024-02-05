@@ -755,18 +755,18 @@ char mapArrowKey()
 // Función para dibujar el título "TETRIS" centrado en la ventana
 void drawTitle()
 {
-	// Calcula la posición x y y para que el título esté centrado
-	int x = (ANCHO - al_get_text_width(al_create_builtin_font(), "TETRIS")) / 2;
-	int y = ALTO / 2; // Puedes ajustar esta posición según sea necesario
+	#define WIDTH 800
+	#define HEIGHT 800
+	ALLEGRO_BITMAP *image = NULL;
 
-	// Dibuja el texto "TETRIS" con el carácter "0" en la posición calculada
-	al_draw_text(al_create_builtin_font(), al_map_rgb(255, 0, 0), x, y, ALLEGRO_ALIGN_LEFT, "TETRIS");
+	image = al_load_bitmap("frontend/portada.jpeg");
 
-	// inserte su nombre
-	al_draw_text(al_create_builtin_font(), al_map_rgb(255, 255, 255), x, y + 20, ALLEGRO_ALIGN_LEFT, "Inserte su nombre");
+	al_draw_bitmap(image, 0, 0, 0); // Dibujar la imagen en la posición (0,0)
 
-	al_rest(0.02);
+	
 	al_flip_display();
+	al_destroy_bitmap(image);
+
 }
 
 
