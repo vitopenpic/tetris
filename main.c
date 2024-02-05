@@ -26,7 +26,6 @@ int main(void)
 	drawTitleScreen();
 #elif ALLEGRO
 	initAllegro();
-	int pieceColor;
 	drawTitle();
 #else
 	enableNonBlockingInput(); // desactiva ICANON mode
@@ -83,6 +82,7 @@ int main(void)
 				joystick = joy_read();
 				key = whichKeyWasPressed(&joystick);
 				if (prev_key == key) continue;
+
 #else
 				key = getchar();
 #endif
@@ -123,9 +123,7 @@ int main(void)
 #ifdef RASPI
 			drawInRaspberry(&player);
 #elif ALLEGRO
-			pieceColor= rand()%7+1;
-			drawInAllegro(&player,pieceColor);	
-				
+			drawInAllegro(&player);					
 #else		
 			drawInTerminal(&player);
 #endif

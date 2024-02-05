@@ -10,6 +10,7 @@
 #include "../backend/player.h"
 #include <stdbool.h>
 #ifdef ALLEGRO
+#include "../backend/menu.h"
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_image.h>
@@ -81,6 +82,11 @@ void drawInAllegro(player_t *);
 void initAllegro();
 void processKeyboardEvents(player_t *);
 void drawTitle();
+void allemenu(int status);
+/*
+ 	@brief 	funcion para imprimir la lista de los mejores jugadores historicos
+*/
+void dibuTop10 ();
 void destroyAllegro();
 
 /**************************************************************************

@@ -22,6 +22,7 @@
 static ALLEGRO_EVENT_QUEUE *event_queue;
 static ALLEGRO_DISPLAY *display;
 static ALLEGRO_COLOR colors[8];
+ALLEGRO_FONT *font;
 #endif
 
 #ifdef RASPI
@@ -492,6 +493,16 @@ static void printNextPiece(player_t *plr)
 #define NMUSERX 370
 #define NMUSERY 60
 
+#define RESUMEY 100
+#define RESTARTY 150
+#define EXITY 200
+
+#define SANGRIA 200
+#define COLSC 400
+#define COLLVL 600
+#define ESPACIADO 50
+#define PRIMERLINEA 100
+
 // sacar luego
 extern const bool mTetramino[MAX_TETRAMINOS][MAX_ROTATIONS][TETRAMINO_DIM][TETRAMINO_DIM];
 /*
@@ -571,7 +582,7 @@ static void drawSceneAllegro(int pieceColor)
                 // Dibujar un rectángulo rojo en la posición (x, y)
                 al_draw_filled_rectangle(x * TAMBLOQUE, y * TAMBLOQUE,
                                          (x + 1) * TAMBLOQUE, (y + 1) * TAMBLOQUE,
-                                         colors[pieceColor]); // Rojo
+                                         colors[1]); // Rojo
 
                 // Dibujar un rectángulo blanco alrededor del rectángulo rojo para formar el borde
                 al_draw_rectangle(x * TAMBLOQUE, y * TAMBLOQUE,
@@ -581,6 +592,10 @@ static void drawSceneAllegro(int pieceColor)
         }
     }
 
+    // Actualizar la ventana
+    al_rest(0.02);
+    al_flip_display();
+}
 
 // Funcion para mostrar un numero en pantalla con allegro
 static void drawNumber(int number, float x, float y, ALLEGRO_COLOR textColor, ALLEGRO_FONT *font)
@@ -592,14 +607,14 @@ static void drawNumber(int number, float x, float y, ALLEGRO_COLOR textColor, AL
 
 static void alledrawinfo(player_t player, ALLEGRO_COLOR textColor)
 {
-	ALLEGRO_FONT *font = al_create_builtin_font();
+	
 	al_draw_text(font, textColor, SCTXTX, SCTXTY, ALLEGRO_ALIGN_LEFT, "SCORE:");
 	drawNumber(player.score, SCNMBX, SCNMBY, textColor, font);
 	al_draw_text(font, textColor, LVLTXTX, LVLTXTY, ALLEGRO_ALIGN_LEFT, "LEVEL:");
 	drawNumber(player.level, LVLNMBX, LVLNMBY, textColor, font);
 	al_draw_text(font, textColor, NMTXTX, NMTXTY, ALLEGRO_ALIGN_LEFT, "NAME:");
 	al_draw_text(font, textColor, NMUSERX, NMUSERY, ALLEGRO_ALIGN_LEFT, player.name);
-	al_destroy_font(font);
+	
 	return;
 }
 #endif
@@ -625,7 +640,7 @@ void dibuTablero()
 	}
 }
 
-void drawInAllegro(player_t *player,int pieceColor)
+void drawInAllegro(player_t *player)
 {
 	// Definir el color del texto
 	ALLEGRO_COLOR textColor = al_map_rgb(255, 255, 255); // Por ejemplo, blanco
@@ -633,7 +648,7 @@ void drawInAllegro(player_t *player,int pieceColor)
 	al_rest(0.016);
 
 	// tablero, en la mitad izquierda del display
-	drawSceneAllegro(pieceColor);
+	drawSceneAllegro(1);
 
 	// proxima pieza, arriba a la derecha
 	// drawNextPieceAllegro(player);
@@ -671,6 +686,7 @@ void initAllegro()
 	// Crea la ventana
 	display = al_create_display(800, 800);
 	al_set_window_title(display, "Tetris");
+	font = al_create_builtin_font();
 }
 
 void processKeyboardEvents(player_t *player)
@@ -691,17 +707,20 @@ void processKeyboardEvents(player_t *player)
 			{ // Por ejemplo, si han pasado más de 0.1 segundos
 				switch (event.keyboard.keycode)
 				{
-				case ALLEGRO_KEY_LEFT:
+				case ALLEGRO_KEY_A:
 					performMove(player, LEFT);
 					break;
-				case ALLEGRO_KEY_RIGHT:
+				case ALLEGRO_KEY_D:
 					performMove(player, RIGHT);
 					break;
-				case ALLEGRO_KEY_DOWN:
+				case ALLEGRO_KEY_S:
 					performMove(player, DOWN);
 					break;
-				case ALLEGRO_KEY_UP:
+				case ALLEGRO_KEY_W:
 					performMove(player, ROTATE);
+					break;
+				case ALLEGRO_KEY_X:
+					setMenuStatusOpen();
 					break;
 				default:
 					break;
@@ -713,26 +732,86 @@ void processKeyboardEvents(player_t *player)
 	}
 }
 
+
 // Función para dibujar el título "TETRIS" centrado en la ventana
 void drawTitle()
 {
-	// Calcula la posición x y y para que el título esté centrado
-	int x = (ANCHO - al_get_text_width(al_create_builtin_font(), "TETRIS")) / 2;
-	int y = ALTO / 2; // Puedes ajustar esta posición según sea necesario
+	#define WIDTH 800
+	#define HEIGHT 800
+	ALLEGRO_BITMAP *image = NULL;
 
-	// Dibuja el texto "TETRIS" con el carácter "0" en la posición calculada
-	al_draw_text(al_create_builtin_font(), al_map_rgb(255, 0, 0), x, y, ALLEGRO_ALIGN_LEFT, "TETRIS");
+	image = al_load_bitmap("frontend/portada.jpeg");
 
-	// inserte su nombre
-	al_draw_text(al_create_builtin_font(), al_map_rgb(255, 255, 255), x, y + 20, ALLEGRO_ALIGN_LEFT, "Inserte su nombre");
+	al_draw_bitmap(image, 0, 0, 0); // Dibujar la imagen en la posición (0,0)
 
-	al_rest(0.02);
+	
 	al_flip_display();
+	al_destroy_bitmap(image);
+
 }
 
+
+
+
+
+ 
+static void dibuToplayer (char name[5]  , int score , int lvl, int position,ALLEGRO_COLOR textColor,ALLEGRO_FONT *font){
+	
+	
+	float altura = PRIMERLINEA + ESPACIADO*(position+2);
+	al_draw_text(font, textColor, SANGRIA ,altura , ALLEGRO_ALIGN_LEFT, name);
+	drawNumber(score, COLSC, altura,  textColor,font);
+	drawNumber(lvl, COLLVL, altura,  textColor,font);
+	return;	
+}
+ 
+
+void dibuTop10 (){
+
+	al_clear_to_color(al_map_rgb(0, 0, 0));
+    float reference = PRIMERLINEA + ESPACIADO;
+    
+	al_draw_text(font, colors[3], SANGRIA , PRIMERLINEA  , ALLEGRO_ALIGN_LEFT, "THE LEGENDARY SCROLL OF THE BEST BLOCK STACKERS OF AL TIME");
+	al_draw_text(font, colors[4], SANGRIA , reference , ALLEGRO_ALIGN_LEFT,"NAME" );
+	al_draw_text(font, colors[4], COLSC, reference , ALLEGRO_ALIGN_LEFT, "SCORE");
+	al_draw_text(font, colors[4], COLLVL, reference , ALLEGRO_ALIGN_LEFT, "LVL");
+	
+	for(int i = 0; i < MAX_SCORERS; i++){
+		if (getLeaderboard(i)->name[0] == 32 || getLeaderboard(i)->name[0] == '\0') { 
+		// no hay nombre
+			break;
+			}
+		int randcolor = (rand() % 7)+1;
+		dibuToplayer (getLeaderboard(i)->name  , getLeaderboard(i)->score , getLeaderboard(i)->level, i,colors[randcolor],font);
+	}
+	al_flip_display();
+	return;
+}
+
+void allemenu(int status){
+	switch(status){
+		case RESUME:
+		al_draw_text(font, colors[2], SANGRIA ,RESUMEY  , ALLEGRO_ALIGN_LEFT,"RESUME" );
+		al_draw_text(font, colors[1], SANGRIA , RESTARTY , ALLEGRO_ALIGN_LEFT,"RESTART" );
+		al_draw_text(font, colors[1], SANGRIA , EXITY , ALLEGRO_ALIGN_LEFT,"EXIT" );
+		break;
+		case RESTART:
+		al_draw_text(font, colors[1], SANGRIA , RESUMEY , ALLEGRO_ALIGN_LEFT,"RESUME" );
+		al_draw_text(font, colors[2], SANGRIA ,  RESTARTY, ALLEGRO_ALIGN_LEFT,"RESTART" );
+		al_draw_text(font, colors[1], SANGRIA , EXITY , ALLEGRO_ALIGN_LEFT,"EXIT" );
+		break;
+		case EXIT:
+		al_draw_text(font, colors[1], SANGRIA ,RESUMEY  , ALLEGRO_ALIGN_LEFT,"RESUME" );
+		al_draw_text(font, colors[1], SANGRIA , RESTARTY , ALLEGRO_ALIGN_LEFT,"RESTART" );
+		al_draw_text(font, colors[2], SANGRIA , EXITY , ALLEGRO_ALIGN_LEFT,"EXIT" );
+		break;
+	}
+	
+}
 void destroyAllegro()
 {
 	// Finalizar y liberar recursos
+	al_destroy_font(font);
 	al_destroy_display(display);
 	al_destroy_event_queue(event_queue);
 }
@@ -1080,6 +1159,10 @@ void printMenu()
 	disp_clear();
 	drawMenuStatus(abs(menuIndex()));
 	disp_update();
+#elif ALLEGRO
+	al_clear_to_color(colors[0]);
+	allemenu(menuIndex());
+	al_flip_display();
 #else
 	clearScreen();	
 	switch (abs(menuIndex()))
@@ -1101,6 +1184,9 @@ void printLeaderboard(void)
 {
 #ifdef RASPI
 	drawLeaderboardRaspi();
+#elif ALLEGRO
+	dibuTop10 ();
+	while(getchar() != '\n');
 #else
 	puts("\nThe legendary scroll of the best block stackers of all time:\n");	
 	puts("   NAME  SCORE  LVL");
