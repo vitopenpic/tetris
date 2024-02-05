@@ -83,7 +83,7 @@ void initAllegro();
 void processKeyboardEvents(player_t *);
 void drawTitle();
 void allemenu(int status);
-
+/*
  	@brief 	funcion para imprimir la lista de los mejores jugadores historicos
 */
 void dibuTop10 ();
