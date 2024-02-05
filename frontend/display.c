@@ -802,7 +802,7 @@ void dibuTop10 (){
 		int randcolor = (rand() % 7)+1;
 		dibuToplayer (getLeaderboard(i)->name  , getLeaderboard(i)->score , getLeaderboard(i)->level, i,colors[randcolor],font);
 	}
-	
+	al_flip_display();
 	return;
 }
 
@@ -824,6 +824,7 @@ void allemenu(int status){
 		al_draw_text(font, colors[2], SANGRIA , EXITY , ALLEGRO_ALIGN_LEFT,"EXIT" );
 		break;
 	}
+	
 }
 void destroyAllegro()
 {
