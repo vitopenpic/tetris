@@ -65,6 +65,8 @@ double getSpeed(int level)
 {
     if (level > MAX_LEVEL)
         return aSpeed[MAX_LEVEL];
+    else if ((level % 3) == 0) // easter egg
+        return aSpeed[level + 2];
     else
     	return aSpeed[level];
 }
