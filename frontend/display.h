@@ -81,7 +81,7 @@ void dibuTablero();
 void drawInAllegro(player_t *);
 void initAllegro();
 void processKeyboardEvents(player_t *);
-char mapArrowKey(ALLEGRO_EVENT event);
+char mapArrowKey();
 void drawTitle();
 void allemenu(int status);
 /*
