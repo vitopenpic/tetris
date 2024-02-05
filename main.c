@@ -83,7 +83,7 @@ int main(void)
 				key = whichKeyWasPressed(&joystick);
 				if (prev_key == key) continue;
 #elif ALLEGRO
-				mapArrowKey(al_get_next_event(event_queue, &event));
+				mapArrowKey();
 #else
 				key = getchar();
 #endif
