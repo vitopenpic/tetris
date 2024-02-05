@@ -26,6 +26,7 @@ int main(void)
 	drawTitleScreen();
 #elif ALLEGRO
 	initAllegro();
+	int pieceColor;
 	drawTitle();
 #else
 	enableNonBlockingInput(); // desactiva ICANON mode
@@ -122,8 +123,9 @@ int main(void)
 #ifdef RASPI
 			drawInRaspberry(&player);
 #elif ALLEGRO
-			drawInAllegro(&player);	
-			//}		
+			pieceColor= rand()%7+1;
+			drawInAllegro(&player,pieceColor);	
+				
 #else		
 			drawInTerminal(&player);
 #endif
