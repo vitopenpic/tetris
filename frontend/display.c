@@ -742,15 +742,11 @@ char mapArrowKey()
 			switch (event.keyboard.keycode) 
 			{
             			case ALLEGRO_KEY_UP:
-               			return 'W';
+               			return 'UP';
             			case ALLEGRO_KEY_DOWN:
-                		return 'S';
-            			case ALLEGRO_KEY_LEFT:
-                		return 'A';
-            			case ALLEGRO_KEY_RIGHT:
-                		return 'D';
+                		return 'DOWN';
 				case ALLEGRO_KEY_SPACE:
-  		              	return 'X';
+  		              	return 'ENTER';
 	
  	       		}
 	   	}
