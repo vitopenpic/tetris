@@ -719,7 +719,7 @@ void processKeyboardEvents(player_t *player)
 				case ALLEGRO_KEY_W:
 					performMove(player, ROTATE);
 					break;
-				case ALLEGRO_KEY_SPACE:
+				case ALLEGRO_KEY_X:
 					setMenuStatusOpen();
 					break;
 				default:
