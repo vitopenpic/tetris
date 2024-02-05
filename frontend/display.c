@@ -776,7 +776,7 @@ void dibuTop10 (){
 		int randcolor = (rand() % 7)+1;
 		dibuToplayer (getLeaderboard(i)->name  , getLeaderboard(i)->score , getLeaderboard(i)->level, i,colors[randcolor],font);
 	}
-	al_destroy_font(font);
+	
 	return;
 }
 
