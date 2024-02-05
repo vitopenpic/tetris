@@ -707,16 +707,16 @@ void processKeyboardEvents(player_t *player)
 			{ // Por ejemplo, si han pasado más de 0.1 segundos
 				switch (event.keyboard.keycode)
 				{
-				case ALLEGRO_KEY_LEFT:
+				case ALLEGRO_KEY_A:
 					performMove(player, LEFT);
 					break;
-				case ALLEGRO_KEY_RIGHT:
+				case ALLEGRO_KEY_D:
 					performMove(player, RIGHT);
 					break;
-				case ALLEGRO_KEY_DOWN:
+				case ALLEGRO_KEY_S:
 					performMove(player, DOWN);
 					break;
-				case ALLEGRO_KEY_UP:
+				case ALLEGRO_KEY_W:
 					performMove(player, ROTATE);
 					break;
 				case ALLEGRO_KEY_SPACE:
@@ -732,26 +732,7 @@ void processKeyboardEvents(player_t *player)
 	}
 }
 
-char mapArrowKey() 
-{
-	ALLEGRO_EVENT event;
-	while (al_get_next_event(event_queue, &event))
-	{
-		if (event.type == ALLEGRO_EVENT_KEY_DOWN) 
-		{
-			switch (event.keyboard.keycode) 
-			{
-            			case ALLEGRO_KEY_UP:
-               			return 'UP';
-            			case ALLEGRO_KEY_DOWN:
-                		return 'DOWN';
-				case ALLEGRO_KEY_SPACE:
-  		              	return 'ENTER';
-	
- 	       		}
-	   	}
-	}
-}
+
 // Función para dibujar el título "TETRIS" centrado en la ventana
 void drawTitle()
 {
