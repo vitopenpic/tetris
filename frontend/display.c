@@ -1203,6 +1203,7 @@ void printLeaderboard(void)
 	drawLeaderboardRaspi();
 #elif ALLEGRO
 	dibuTop10 ();
+	while(getchar != '\n');
 #else
 	puts("\nThe legendary scroll of the best block stackers of all time:\n");	
 	puts("   NAME  SCORE  LVL");
