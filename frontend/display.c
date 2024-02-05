@@ -713,7 +713,7 @@ void processKeyboardEvents(player_t *player)
 				case ALLEGRO_KEY_UP:
 					performMove(player, ROTATE);
 					break;
-				case ALLEGRO_KEY_ENTER:
+				case ALLEGRO_KEY_SPACE:
 					setMenuStatusOpen();
 					break;
 				default:
@@ -726,6 +726,22 @@ void processKeyboardEvents(player_t *player)
 	}
 }
 
+char mapArrowKey(ALLEGRO_EVENT event) 
+	if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
+		switch (event.keyboard.keycode) {
+            		case ALLEGRO_KEY_UP:
+               		return 'W';
+            		case ALLEGRO_KEY_DOWN:
+                	return 'S';
+            		case ALLEGRO_KEY_LEFT:
+                	return 'A';
+            		case ALLEGRO_KEY_RIGHT:
+                	return 'D';
+			case ALLEGRO_KEY_SPACE:
+                	return 'X';
+	
+        }
+    }
 // Función para dibujar el título "TETRIS" centrado en la ventana
 void drawTitle()
 {
