@@ -24,7 +24,7 @@ tetris: ${OBJ}
 # Compile for Allegro
 allegro: OPTIONS += -D ALLEGRO
 allegro: ${OBJ}
-	gcc ${OPTIONS} ${OBJ} -o tetris $(shell pkg-config --libs allegro-5 allegro_primitives-5 allegro_image-5 allegro_font-5 allegro_ttf-5)
+	gcc ${OPTIONS} ${OBJ} -o tetris $(shell pkg-config --libs --cflags allegro-5 allegro_primitives-5 allegro_image-5 allegro_font-5 allegro_ttf-5 allegro_audio-5 allegro_acodec-5)
 
 # Compile for Raspberry Pi
 raspi: OPTIONS += -D RASPI

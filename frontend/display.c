@@ -777,7 +777,8 @@ void dibuTop10 (){
 	al_draw_text(font, colors[4], COLLVL, reference , ALLEGRO_ALIGN_LEFT, "LVL");
 	
 	for(int i = 0; i < MAX_SCORERS; i++){
-		if (getLeaderboard(i)->name[0] == '\0'){ // no hay nombre
+		if (getLeaderboard(i)->name[0] == 32 || getLeaderboard(i)->name[0] == '\0') { 
+		// no hay nombre
 			break;
 			}
 		int randcolor = (rand() % 7)+1;
