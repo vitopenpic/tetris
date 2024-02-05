@@ -511,7 +511,7 @@ static void drawNextPieceAllegro(player_t *player,int color)
 
 	int startX=500;
 	int startY=500;
-	int piece = player->new_tipo;
+	
 	
 	switch(player->new_tipo) 
 	{
