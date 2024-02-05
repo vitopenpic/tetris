@@ -78,11 +78,11 @@ void printYesOrNo(bool state);
  **************************************************************************/
 // faltan comentarios
 void dibuTablero();
-void drawInAllegro(player_t *);
+void drawInAllegro(player_t *,int);
 void initAllegro();
 void processKeyboardEvents(player_t *);
 void drawTitle();
-void allemenu(int status);
+void allemenu(int );
 /*
  	@brief 	funcion para imprimir la lista de los mejores jugadores historicos
 */
