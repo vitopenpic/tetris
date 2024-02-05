@@ -569,7 +569,7 @@ static void drawSceneAllegro()
             // Dibujar un rectángulo negro para cada celda de la cuadrícula del tablero
             al_draw_rectangle(x * TAMBLOQUE, y * TAMBLOQUE,
                               (x + 1) * TAMBLOQUE, (y + 1) * TAMBLOQUE,
-                              colors[0], 1); // Blanco
+                              al_map_rgb(255, 255, 255), 1); // Blanco
         }
     }
 
@@ -583,12 +583,12 @@ static void drawSceneAllegro()
                 // Dibujar un rectángulo rojo en la posición (x, y)
                 al_draw_filled_rectangle(x * TAMBLOQUE, y * TAMBLOQUE,
                                          (x + 1) * TAMBLOQUE, (y + 1) * TAMBLOQUE,
-                                         al_map_rgb(255, 0, 0)); // Rojo
+                                         colors[0]); // Rojo
 
                 // Dibujar un rectángulo blanco alrededor del rectángulo rojo para formar el borde
                 al_draw_rectangle(x * TAMBLOQUE, y * TAMBLOQUE,
                                   (x + 1) * TAMBLOQUE, (y + 1) * TAMBLOQUE,
-                                  al_map_rgb(255, 255, 255), 1); // Blanco
+                                  colors[0], 1); // negro
             }
         }
     }
