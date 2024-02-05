@@ -767,8 +767,8 @@ static void dibuToplayer (char name[5]  , int score , int lvl, int position,ALLE
  
 
 void dibuTop10 (){
-	
 
+	al_clear_to_color(al_map_rgb(0, 0, 0));
     float reference = PRIMERLINEA + ESPACIADO;
     
 	al_draw_text(font, colors[2], SANGRIA , PRIMERLINEA  , ALLEGRO_ALIGN_LEFT, "THE LEGENDARY SCROLL OF THE BEST BLOCK STACKERS OF AL TIME");
