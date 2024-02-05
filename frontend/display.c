@@ -555,8 +555,7 @@ static void drawNextPieceAllegro(player_t *player)
 */
 static void drawSceneAllegro()
 {
-    // Definir el color del texto
-    ALLEGRO_COLOR textColor = al_map_rgb(255, 255, 255); // Por ejemplo, blanco
+    
 
     // Limpiar la pantalla con un color negro
     al_clear_to_color(al_map_rgb(0, 0, 0));
@@ -583,7 +582,7 @@ static void drawSceneAllegro()
                 // Dibujar un rectángulo rojo en la posición (x, y)
                 al_draw_filled_rectangle(x * TAMBLOQUE, y * TAMBLOQUE,
                                          (x + 1) * TAMBLOQUE, (y + 1) * TAMBLOQUE,
-                                         colors[0]); // Rojo
+                                         colors[1]); // Rojo
 
                 // Dibujar un rectángulo blanco alrededor del rectángulo rojo para formar el borde
                 al_draw_rectangle(x * TAMBLOQUE, y * TAMBLOQUE,
